@@ -1,0 +1,23 @@
+"use script";
+
+describe("forms",function(){
+    it("render-form",function(done){
+        var formInfo={
+            fields:[
+                {name: 'issue'      },
+                {name: 'subject'    },
+                {name: 'description'},
+            ]
+        }
+        var medium={superId:['issues', 'new', 1], record:{}, 'new':true};
+        var form=Tedede.createForm(formInfo, medium);
+        expect(form).to.be.an(Tedede.Form);
+        expect(form.medium).to.be(medium);
+        form.render(document.body).then(function(){
+            expect(form.dom).to.be.an(Element);
+            expect(form.dom.id).to.be(JSON.stringify(medium.superId));
+            expect(medium.forms).to.eql([form]);
+            done();
+        }).catch(done);
+    });
+});
