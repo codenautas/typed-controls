@@ -28,3 +28,8 @@ eliminar registro   | debe poder eliminar un registro
 maestro detalle     | debe permitir el esquema de maestro detalle
 opciones a la vista | debe mostrar las opciones (para los conjuntos cerrados de opciones)
 
+## implementación
+
+### adapter
+
+Los elementos van a tener un adaptador que sabe hacer get y set
