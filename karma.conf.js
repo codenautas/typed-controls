@@ -16,9 +16,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'node_modules/es6-promise/dist/es6-promise.min.js',
+      'node_modules/best-globals/best-globals.js',
       'node_modules/js-to-html/js-to-html.js',
       'node_modules/ajax-best-promise/bin/ajax-best-promise.js',
-      'bin/*.js',
+      'lib/*.js',
       'test/*.js'
     ],
 
@@ -31,7 +32,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'bin/*.js': ['coverage']
+      'lib/*.js': ['coverage']
     },
     coverageReporter: process.env.TRAVIS||true?{type:'lcov'}:{
       type : 'html',
