@@ -31,5 +31,23 @@ describe("adapter",function(){
             expect(divElement.textContent).to.be('');
             expect(divElement.getTypedValue()).to.be(null);
         });
+        it("reject invalid value",function(){
+            divElement.setTypedValue('untouch');
+            sinon.stub(divElement,'validateTypedData', function(data){
+                expect(data).to.be('alfa');
+                throw new Error('invalid data "alfa"');
+            });
+            expect(function(){
+                divElement.setTypedValue('alfa');
+            }).to.throwError(/invalid data "alfa"/);
+            expect(divElement.getTypedValue()).to.be('untouch');
+        });
+        it("reject empty value",function(){
+            divElement.setTypedValue('untouched');
+            expect(function(){
+                divElement.setTypedValue('');
+            }).to.throwError(/text cannot be empty/);
+            expect(divElement.getTypedValue()).to.be('untouched');
+        });
     });
 });
