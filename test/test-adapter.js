@@ -62,7 +62,7 @@ describe("adapter",function(){
                 Tedede.adaptElement(theElement,'number');
                 done();
             });
-            it("sets and get normal string in div",function(){
+            it("sets and get normal number in div",function(){
                 theElement.setTypedValue(42);
                 expect(theElement.textContent||theElement.value).to.be('42');
                 expect(theElement.getTypedValue()).to.be(42);
@@ -103,6 +103,46 @@ describe("adapter",function(){
                     expect('No value in textContent or value').to.be.false();
                 }
                 expect(theElement.getTypedValue()).to.be(Number(x));
+            });
+        });
+    });
+    describe("for boolean type",function(){
+        [
+            {tagName:'div'  , type:''        , html:true , show:true }, 
+            {tagName:'input', type:'text'    , html:false, show:true }, 
+            {tagName:'input', type:'checkbox', html:false, show:false}
+        ].forEach(function(def){
+            var theElement;
+            beforeEach(function(done){
+                theElement = html[def.tagName]({type:def.type}).create();
+                Tedede.adaptElement(theElement,'boolean');
+                done();
+            });
+            [
+                {value:true , display:'Sí', htmlDisplay:'<span class="bool_true">Sí</span>' },
+                {value:false, display:'no', htmlDisplay:'<span class="bool_false">no</span>'},
+                {value:null , display:''  , htmlDisplay:''},
+            ].map(function(data){
+                it("sets and get "+data.value+" in div",function(){
+                    theElement.setTypedValue(data.value);
+                    if(def.show){
+                        expect(coalesce(theElement.textContent,theElement.value)).to.be(data.display);
+                    }else{
+                        expect(theElement.checked).to.be(data.display);
+                    }
+                    if(def.html){
+                        expect(theElement.innerHTML).to.be(data.htmlDisplay);
+                    }
+                    expect(theElement.getTypedValue()).to.be(data.value);
+                });
+            });
+            it("reject invalid value",function(){
+                var UNTOUCH = true;
+                theElement.setTypedValue(UNTOUCH);
+                expect(function(){
+                    theElement.setTypedValue('sarasa');
+                }).to.throwError(/Not a boolean in input/);
+                expect(theElement.getTypedValue()).to.be(UNTOUCH);
             });
         });
     });
