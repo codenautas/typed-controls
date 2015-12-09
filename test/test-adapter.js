@@ -50,4 +50,60 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
+    describe("for number type",function(){
+        [
+            {tagName:'div', type:''}, 
+            {tagName:'input', type:'text'}, 
+            {tagName:'input', type:'number'}
+        ].forEach(function(def){
+            var theElement;
+            beforeEach(function(done){
+                theElement = html[def.tagName]({type:def.type}).create();
+                Tedede.adaptElement(theElement,'number');
+                done();
+            });
+            it("sets and get normal string in div",function(){
+                theElement.setTypedValue(42);
+                expect(theElement.textContent||theElement.value).to.be('42');
+                expect(theElement.getTypedValue()).to.be(42);
+            });
+            it("set and gets null in div",function(){
+                theElement.setTypedValue(null);
+                expect(coalesce(theElement.textContent,theElement.value)).to.be('');
+                expect(theElement.getTypedValue()).to.be(null);
+            });
+            it("set and gets 0 in div",function(){
+                theElement.setTypedValue(0);
+                expect(theElement.textContent||theElement.value).to.be('0');
+                expect(theElement.getTypedValue()).to.be(0);
+            });
+            it("reject invalid value",function(){
+                var UNTOUCH = Math.random();
+                theElement.setTypedValue(UNTOUCH);
+                expect(function(){
+                    theElement.setTypedValue('sarasa');
+                }).to.throwError(/Not a Number in input/);
+                expect(theElement.getTypedValue()).to.be(UNTOUCH);
+            });
+            it("set pretty value",function(){
+                var x = '12345.125';
+                theElement.setTypedValue(x);
+                expect(theElement.textContent||theElement.value).to.be(x);
+                if(theElement.value){
+                    expect(theElement.value).to.be(x);
+                }else if(theElement.textContent){
+                    expect(theElement.textContent).to.be(x);
+                    expect(theElement.innerHTML).to.be(
+                        '<span class="number_miles">12</span>'+
+                        '<span class="number_miles">345</span>'+
+                        '<span class="number_dot">.</span>'+
+                        '<span class="number_decimals">125</span>'
+                    );
+                }else{
+                    expect('No value in textContent or value').to.be.false();
+                }
+                expect(theElement.getTypedValue()).to.be(Number(x));
+            });
+        });
+    });
 });
