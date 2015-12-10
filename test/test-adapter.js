@@ -126,9 +126,10 @@ describe("adapter",function(){
                 it("sets and get "+data.value+" in div",function(){
                     theElement.setTypedValue(data.value);
                     if(def.show){
-                        expect(coalesce(theElement.textContent,theElement.value)).to.be(data.display);
+                        expect(coalesce(theElement.value, theElement.textContent)).to.be(data.display);
                     }else{
-                        expect(theElement.checked).to.be(data.display);
+                        expect(theElement.indeterminate).to.be(data.value===null);
+                        expect(theElement.checked).to.be(data.value===true);
                     }
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
