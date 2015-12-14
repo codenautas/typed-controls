@@ -32,4 +32,5 @@ opciones a la vista | debe mostrar las opciones (para los conjuntos cerrados de 
 
 ### adapter
 
-Los elementos van a tener un adaptador que sabe hacer get y set
+Los elementos van a tener un adaptador que sabe hacer get y set. 
+Las funciones públicas de un elemento adaptado son: `setTypedValue` y `getTypedValue`. 
