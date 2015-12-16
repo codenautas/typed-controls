@@ -50,3 +50,5 @@ función                  | pub. | fijo | uso
   * púb: función pública, que se usa desde fuera del elemento del DOM. O sea es su interface con el mundo exterior al elemento
   * fijo: función que siempre es igual
   * dep: función que su implementación depende del tipo (son las que hay que programar o revisar en cada tipo)
+
+![imagen](codenautas tedede adaptador.svg)
