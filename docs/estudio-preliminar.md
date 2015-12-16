@@ -32,5 +32,21 @@ opciones a la vista | debe mostrar las opciones (para los conjuntos cerrados de 
 
 ### adapter
 
-Los elementos van a tener un adaptador que sabe hacer get y set. 
-Las funciones públicas de un elemento adaptado son: `setTypedValue` y `getTypedValue`. 
+Los elementos (del DOM) van a tener un adaptador que sabe hacer get y set. 
+Las funciones públicas de un elemento adaptado son: `setTypedValue` y `getTypedValue`. La implementación de esas funciones incluye:
+
+función                  | pub. | fijo | uso
+-------------------------|------|------|-----------------
+`setTypedValue`          | púb  | fijo | manda a validar y luego a establecer el valor del elemento
+`validateTypedData`      | priv | var  | determina si el valor pasado como parámetro es válido para el tipo (no se trata del texto ingresado sino del valor interno del programa)
+`setValidatedTypedValue` | priv | var  | establece el valor del elemento de modo de estar listo para mostrarse bonito y útil
+`setPlainValue`          | priv | fijo | para los elementos que se forman con un único valor de string (ej: `INPUT[type=text]` o `DIV`) asigna el valor que ya fue pasado a texto al atributo correspondiente (ej: `value` o `textContent`)
+`getTypedValue`          | pub  | var  | obtiene el valor tipado del elemento a partir de su contenido interno
+`getPlainValue`          | priv | fijo | obtiene el valor de texto del elemento (cuando tiene un único valor interno ej: `INPUT[type=text]` o `DIV`) basado en el atributo correspondiente (ej: `value` o `textContent`)
+
+
+
+**Notas:** 
+  * púb: función pública, que se usa desde fuera del elemento del DOM. O sea es su interface con el mundo exterior al elemento
+  * fijo: función que siempre es igual
+  * dep: función que su implementación depende del tipo (son las que hay que programar o revisar en cada tipo)
