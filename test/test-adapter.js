@@ -185,10 +185,10 @@ describe("adapter",function(){
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
-                    expect(theElement.getTypedValue()).to.be(data.value);
+                    expect(theElement.getTypedValue()).to.eql(data.value);
                 });
             });
-            [
+           [
                 {value:true},
                 {value:'sarasa'},
                 {value:0},
