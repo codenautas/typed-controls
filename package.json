@@ -13,7 +13,6 @@
     "fs-promise": "0.3.1",
     "js-yaml": "3.4.6",
     "lodash": "3.10.1",
-    "moment": "2.10.6",
 
     "ajax-best-promise": "0.0.7",    
     "best-globals": "0.1.2",
