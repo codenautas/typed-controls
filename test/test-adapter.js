@@ -148,7 +148,7 @@ describe("adapter",function(){
             });
         });
     });
-    describe.skip("for date type",function(){
+    describe("for date type",function(){
         [
             {tagName:'div'  , type:''        , html:true , show:true }, 
             {tagName:'input', type:'text'    , html:false, show:true }, 
@@ -169,7 +169,7 @@ describe("adapter",function(){
             });
             [
                 {value:null                 , display:''  , htmlDisplay:''},
-                {value:new Date(2015,12,31) , display:'31/12/2015'  , htmlDisplay:
+                {value:moment({year: 2015,month: 12, day: 31}) , display:'31/12/2015'  , htmlDisplay:
                     '<span class=date_day>31</span>'+
                     '<span class=date_sep>/</span>'+
                     '<span class=date_month>12</span>'+

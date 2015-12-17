@@ -20,6 +20,7 @@ module.exports = function(config) {
       'node_modules/best-globals/best-globals.js',
       'node_modules/js-to-html/js-to-html.js',
       'node_modules/ajax-best-promise/bin/ajax-best-promise.js',
+      'node_modules/moment/min/moment-with-locales.js',
       'lib/*.js',
       'test/*.js'
     ],
