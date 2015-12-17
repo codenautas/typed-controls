@@ -148,7 +148,7 @@ describe("adapter",function(){
             });
         });
     });
-    describe.skip("for date type",function(){
+    describe("for date type",function(){
         [
             {tagName:'div'  , type:''        , html:true , show:true }, 
             {tagName:'input', type:'text'    , html:false, show:true }, 
@@ -169,21 +169,26 @@ describe("adapter",function(){
             });
             [
                 {value:null                 , display:''  , htmlDisplay:''},
-                {value:new Date(2015,12,31) , display:'31/12/2015'  , htmlDisplay:
-                    '<span class=date_day>31</span>'+
-                    '<span class=date_sep>/</span>'+
-                    '<span class=date_month>12</span>'+
-                    '<span class=date_sep>/</span>'+
-                    '<span class=date_year>2015</span>'
+                {value:new Date(2015,12-1,31) , display:'31/12/2015'  , htmlDisplay:
+                    '<span class="date_day">31</span>'+
+                    '<span class="date_sep">/</span>'+
+                    '<span class="date_month">12</span>'+
+                    '<span class="date_sep">/</span>'+
+                    '<span class="date_year">2015</span>'
                 },
             ].map(function(data){
                 it("sets and get "+data.value+" in div",function(){
                     theElement.setTypedValue(data.value);
-                    if(def.show){
-                        expect(coalesce(theElement.value, theElement.textContent)).to.be(data.display);
-                    }
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
+                    }
+                    if(def.show){
+                        console.log('-----------------',theElement.value, theElement.textContent);
+                        if(coalesce(theElement.value, theElement.textContent)!=data.display){
+                            console.log('####################################');
+                            console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
+                        }
+                        expect(coalesce(theElement.value, theElement.textContent)).to.eql(data.display);
                     }
                     expect(theElement.getTypedValue()).to.eql(data.value);
                 });
@@ -198,12 +203,12 @@ describe("adapter",function(){
                 {value:/regexp/},
             ].forEach(function(def){
                 it("reject invalid value "+def.value,function(){
-                    var UNTOUCH = new Date();
+                    var UNTOUCH = new Date(2001,12-1,20);
                     theElement.setTypedValue(UNTOUCH);
                     expect(function(){
                         theElement.setTypedValue(def.value);
                     }).to.throwError(/Not a date in input/);
-                    expect(theElement.getTypedValue()).to.be(UNTOUCH);
+                    expect(theElement.getTypedValue()).to.eql(UNTOUCH);
                 });
             });
         });
