@@ -175,7 +175,8 @@ describe("adapter",function(){
                     '<span class="date_sep">/</span>'+
                     '<span class="date_month">12</span>'+
                     '<span class="date_sep">/</span>'+
-                    '<span class="date_year">2015</span>'
+                    '<span class="date_year">2015</span>',
+                    valueISO: '2015-12-31'
                 },
             ].map(function(data){
                 it("sets and get "+data.value+" in div",function(){
@@ -193,7 +194,7 @@ describe("adapter",function(){
                         }
                         if(def.type==='date' && data.value!=null){
                             console.log("THE ELEMENTO.VALUE = " + theElement.value);
-                            expect(theElement.value).to.eql(data.value.toISOString().substr(0,10));
+                            expect(theElement.value).to.eql(data.valueISO);
                         }else{
                             expect(coalesce(theElement.value, theElement.textContent)).to.eql(data.display);
                         }
