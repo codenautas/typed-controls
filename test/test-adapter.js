@@ -158,6 +158,7 @@ describe("adapter",function(){
             beforeEach(function(done){
                 theElement = html[def.tagName]({type:def.type}).create();
                 Tedede.adaptElement(theElement,'date');
+                //console.log("theElement &&&&&&&&&&&& = "+ theElement);
                 /*
                 var theBox = html.div({style:'border: 1px solid green;'},[
                     html.span({style:'font-size:80%; color:#DDD;'},JSON.stringify(def))                    
@@ -179,16 +180,23 @@ describe("adapter",function(){
             ].map(function(data){
                 it("sets and get "+data.value+" in div",function(){
                     theElement.setTypedValue(data.value);
+                    //for(var a in theElement){console.log("AAAAAAAA = " + a);}
+                    //console.log('def.tagName = ' + def.tagName + " /theElement.value = " +theElement.value+ " /theElement.textContent = " + theElement.textContent + " /data.display = " + data.display);
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(def.show){
-                        console.log('-----------------',theElement.value, theElement.textContent);
+                        
                         if(coalesce(theElement.value, theElement.textContent)!=data.display){
-                            console.log('####################################');
-                            console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
+                           // console.log('####################################');
+                           // console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
                         }
-                        expect(coalesce(theElement.value, theElement.textContent)).to.eql(data.display);
+                        if(def.type==='date' && data.value!=null){
+                            console.log("THE ELEMENTO.VALUE = " + theElement.value);
+                            expect(theElement.value).to.eql(data.value.toISOString().substr(0,10));
+                        }else{
+                            expect(coalesce(theElement.value, theElement.textContent)).to.eql(data.display);
+                        }
                     }
                     expect(theElement.getTypedValue()).to.eql(data.value);
                 });
