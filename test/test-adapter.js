@@ -136,6 +136,12 @@ describe("adapter",function(){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     expect(theElement.getTypedValue()).to.be(data.value);
+                    if(data.type==='checkbox') {
+                        theElement.click();
+                        expect(theElement.getTypedValue()).to.be(! data.value);
+                        theElement.click();
+                        expect(theElement.getTypedValue()).to.be(data.value);
+                    }
                 });
             });
             it("reject invalid value",function(){
