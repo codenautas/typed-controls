@@ -198,7 +198,12 @@ describe("adapter",function(){
                            // console.log('####################################');
                            // console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
                         }
-                        if(def.type==='date' && data.value!=null){
+                        // corrijo esto que parece ser una condición de carrera:
+                        // la siguiente ascerción falla en multicores
+                        // expect(def.type).to.eql(theElement.type);
+                        // por lo tanto utilizo theELement.type en lugar de def.type en la condición
+                        // if(def.type==='date' && data.value!=null){
+                        if(theElement.type==='date' && data.value!=null){
                             console.log("THE ELEMENTO.VALUE = " + theElement.value);
                             expect(theElement.value).to.eql(data.valueISO);
                         }else{
