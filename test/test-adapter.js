@@ -136,12 +136,6 @@ describe("adapter",function(){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     expect(theElement.getTypedValue()).to.be(data.value);
-                    if(data.type==='checkbox') {
-                        theElement.click();
-                        expect(theElement.getTypedValue()).to.be(! data.value);
-                        theElement.click();
-                        expect(theElement.getTypedValue()).to.be(data.value);
-                    }
                 });
             });
             it("reject invalid value",function(){
@@ -198,12 +192,7 @@ describe("adapter",function(){
                            // console.log('####################################');
                            // console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
                         }
-                        // corrijo esto que parece ser una condición de carrera:
-                        // la siguiente ascerción falla en multicores
-                        // expect(def.type).to.eql(theElement.type);
-                        // por lo tanto utilizo theELement.type en lugar de def.type en la condición
-                        // if(def.type==='date' && data.value!=null){
-                        if(theElement.type==='date' && data.value!=null){
+                        if(def.type==='date' && data.value!=null){
                             console.log("THE ELEMENTO.VALUE = " + theElement.value);
                             expect(theElement.value).to.eql(data.valueISO);
                         }else{
@@ -231,6 +220,28 @@ describe("adapter",function(){
                     expect(theElement.getTypedValue()).to.eql(UNTOUCH);
                 });
             });
+        });
+    });
+    describe.skip("events", function(){
+        function addEventToElem(elem) {
+            elem.addEventListener('customClick', function(e) {
+            });
+        }
+        function sendClickTo(elem) {
+            elem.click();
+        }
+        it("must receive click and change the internal typed value", function(done){
+            var theElement = html.input({type:"checkbox"}).create();
+            Tedede.adaptElement(theElement,'boolean');
+            theElement.setTypedValue(false);
+            expect(theElement.getTypedValue()).to.be(null);
+            sendClickTo(theElement);
+            expect(theElement.getTypedValue()).to.be(true);
+            sendClickTo(theElement);
+            expect(theElement.getTypedValue()).to.be(false);
+            sendClickTo(theElement);
+            expect(theElement.getTypedValue()).to.be(true);
+            done();
         });
     });
 });
