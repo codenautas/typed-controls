@@ -1,4 +1,4 @@
-"use script";
+"use strict";
 
 describe("adapter",function(){
     describe("for text without empty strings",function(){
