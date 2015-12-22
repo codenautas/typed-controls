@@ -1,4 +1,4 @@
-"use script";
+"use strict";
 
 describe("adapter",function(){
     describe("for text without empty strings",function(){
@@ -220,28 +220,6 @@ describe("adapter",function(){
                     expect(theElement.getTypedValue()).to.eql(UNTOUCH);
                 });
             });
-        });
-    });
-    describe.skip("events", function(){
-        function addEventToElem(elem) {
-            elem.addEventListener('customClick', function(e) {
-            });
-        }
-        function sendClickTo(elem) {
-            elem.click();
-        }
-        it("must receive click and change the internal typed value", function(done){
-            var theElement = html.input({type:"checkbox"}).create();
-            Tedede.adaptElement(theElement,'boolean');
-            theElement.setTypedValue(false);
-            expect(theElement.getTypedValue()).to.be(null);
-            sendClickTo(theElement);
-            expect(theElement.getTypedValue()).to.be(true);
-            sendClickTo(theElement);
-            expect(theElement.getTypedValue()).to.be(false);
-            sendClickTo(theElement);
-            expect(theElement.getTypedValue()).to.be(true);
-            done();
         });
     });
 });

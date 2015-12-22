@@ -1,4 +1,4 @@
-"use script";
+"use strict";
 
 describe("connector",function(){
     describe("plain text conection without empty strings",function(){
