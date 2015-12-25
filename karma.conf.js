@@ -20,7 +20,8 @@ module.exports = function(config) {
       'node_modules/best-globals/best-globals.js',
       'node_modules/js-to-html/js-to-html.js',
       'node_modules/ajax-best-promise/bin/ajax-best-promise.js',
-      'node_modules/useragent-parser-js/src/useragent-parser.js',
+      // 'node_modules/useragent-parser-js/src/useragent-parser.js',
+      'node_modules/express-useragent/lib/express-useragent.js',
       'lib/*.js',
       'test/*.js'
     ],
@@ -68,6 +69,7 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome','Safari','IE'])),
     // browsers:['Chrome'],
+    // browsers:['PhantomJS'],
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: !!process.env.TRAVIS || !!process.env.SINGLE_RUN

@@ -1,34 +1,34 @@
 "use strict";
 
-var agentInfo;
-
 function parseAgent(userAgent){
-    agentInfo=userAgentParser.parse(userAgent);
+    var agentInfo=new UserAgent().parse(userAgent);
     var phantom = userAgent.match(/PhantomJS\/[0-9.]+/);
     if(phantom){
-        return phantom[0].replace('/',' ');
+        agentInfo.brief=phantom[0].replace('/',' ');
+    }else{
+        agentInfo.brief=agentInfo.browser+' '+agentInfo.version;
     }
-    return agentInfo.browser+' '+agentInfo.version;
+    return agentInfo;
 }
 
-var agentName=parseAgent(window.navigator.userAgent);
+var agentInfo=parseAgent(window.navigator.userAgent);
 
-console.log('**** starting',agentName,'in',agentInfo.os,window.navigator.userAgent)
+console.log('**** starting',agentInfo.brief,'in',agentInfo.os,window.navigator.userAgent)
 
 
 function SKIP_BECAUSE_NOT_SUPPORTED(precondition, poscondition, description, agentNameList){
     var skip=precondition && !poscondition;
-    var isInList=agentNameList.indexOf(agentName)>=0;
+    var isInList=agentNameList.indexOf(agentInfo.brief)>=0;
     if(skip){
-        console.log('SKIP_BECAUSE_NOT_SUPPORTED!!!!!');
-        console.log(description,'in',agentName);
         if(!isInList){
+            console.log('SKIP_BECAUSE_NOT_SUPPORTED!!!!!');
+            console.log(description,'in',agentInfo.brief);
             console.log('NOT CONTEMPLED!!!!!');
             throw new Error('NOT_SUPPORTED NOT_CONTEMPLED');
         }
     }else if(precondition){
         if(isInList){
-            console.log(description,'in',agentName);
+            console.log(description,'in',agentInfo.brief);
             console.log('¡¡¡¡¡¡¡¡¡NOW SUPPORTED!!!!!!!!');
             throw new Error('SUPPORTED NOT_CONTEMPLED');
         }
@@ -191,9 +191,15 @@ describe("adapter",function(){
             {tagName:'input', type:'date'    , html:false, show:true }
         ].forEach(function(def){
             var theElement;
+            var skip;
             beforeEach(function(done){
-                theElement = html[def.tagName]({type:def.type}).create();
-                Tedede.adaptElement(theElement,'date');
+                var theElementErr=null;
+                try{
+                    theElement = html[def.tagName]({type:def.type}).create();
+                }catch(err){
+                    theElement = null;
+                    theElementErr = err;
+                }
                 /*
                 var theBox = html.div({style:'border: 1px solid green;'},[
                     html.span({style:'font-size:80%; color:#DDD;'},JSON.stringify(def))                    
@@ -201,6 +207,16 @@ describe("adapter",function(){
                 theBox.appendChild(theElement);
                 document.body.appendChild(theBox); 
                 */
+                skip = SKIP_BECAUSE_NOT_SUPPORTED(
+                    def.type==='date',
+                    theElement && theElement.type==='date',
+                    'input of type date',
+                    'Firefox 43.0, IE 11.0'.split(', '),
+                    theElementErr
+                );
+                if(!skip){
+                    Tedede.adaptElement(theElement,'date');
+                }
                 done();
             });
             [
@@ -215,12 +231,7 @@ describe("adapter",function(){
                 },
             ].map(function(data){
                 it("sets and get "+data.value+" in div",function(){
-                    return SKIP_BECAUSE_NOT_SUPPORTED(
-                        def.type==='date',
-                        theElement.type==='date',
-                        'input of type date',
-                        'Firefox 43.0, Safari undefined'.split(', ')
-                    );
+                    if(skip) return;
                     theElement.setTypedValue(data.value);
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
@@ -245,6 +256,7 @@ describe("adapter",function(){
                 {value:/regexp/},
             ].forEach(function(def){
                 it("reject invalid value "+def.value,function(){
+                    if(skip) return;
                     var UNTOUCH = new Date(2001,12-1,20);
                     theElement.setTypedValue(UNTOUCH);
                     expect(function(){

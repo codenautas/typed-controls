@@ -26,6 +26,7 @@
     "expect.js": "0.3.1",
     "express": "4.13.3",
     "express-session": "1.12.1",
+    "express-useragent": "0.2.4",
     "istanbul": "0.4.1",
     "karma-chrome-launcher": "0.2.2",
     "karma-coverage": "0.5.3",
@@ -39,7 +40,6 @@
     "mocha": "2.3.4",
     "read-yaml-promise": "1.0.2",
     "sinon": "1.17.2",
-    "useragent-parser-js": "1.0.3",
     
     "extension-serve-static": "0.1.6"
   },
