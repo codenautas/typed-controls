@@ -22,10 +22,11 @@
                 function showResult(testName, fn){
                     try{
                         var result = fn();
+                        var inList = expectFailIn.split(', ').indexOf(browserName)>=0;
                         addLine(
                             testName + ': ' + 
-                            (result?'\u2713 ok':'\u2717 grr!')+
-                            ' / '+(result?'':(expectFailIn.split(', ').indexOf(browserName)>=0?'\u263a contempled':'\u2639 UNEXPECTED'))
+                            (result?'\u2713 ok':'\u2717 fail')+
+                            ' '+(result?(inList?'\u2603 NOW WORKS!':''):(inList?'\u263a but contempled':'\u2639 UNEXPECTED'))
                         );
                     }catch(err){
                         addLine(testName + ': \u2623 '+err);
@@ -40,9 +41,9 @@
                 document.body.appendChild(script);
             }
             window.addEventListener('load', function(){
-                testFeature('support input type unsoportable','IE 11.0');
-                testFeature('support input type date','IE 11.0');
-                testFeature('click changes checkbox checked', 'IE 11.0');
+                testFeature('support input type unsoportable','Chrome 47.0.2526.106, IE 11.0, Firefox 43.0, Safari 5.1.7');
+                testFeature('support input type date','IE 11.0, Firefox 43.0');
+                testFeature('click changes checkbox checked', '');
             });
         </script>
         <script src=support-input-type-date.js></script>

@@ -1,7 +1,10 @@
 function clickChangesCheckboxChecked(){
     var elem = document.createElement('input');
     elem.type = 'checkbox';
+    document.body.appendChild(elem);
     elem.checked = false;
     elem.click();
-    return !!elem.checked;
+    var result = !!elem.checked;
+    document.body.removeChild(elem);
+    return result;
 }
