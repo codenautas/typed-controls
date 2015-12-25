@@ -1,5 +1,41 @@
 "use strict";
 
+var agentInfo;
+
+function parseAgent(userAgent){
+    agentInfo=userAgentParser.parse(userAgent);
+    var phantom = userAgent.match(/PhantomJS\/[0-9.]+/);
+    if(phantom){
+        return phantom[0].replace('/',' ');
+    }
+    return agentInfo.browser+' '+agentInfo.version;
+}
+
+var agentName=parseAgent(window.navigator.userAgent);
+
+console.log('**** starting',agentName,'in',agentInfo.os,window.navigator.userAgent)
+
+
+function SKIP_BECAUSE_NOT_SUPPORTED(precondition, poscondition, description, agentNameList){
+    var skip=precondition && !poscondition;
+    var isInList=agentNameList.indexOf(agentName)>=0;
+    if(skip){
+        console.log('SKIP_BECAUSE_NOT_SUPPORTED!!!!!');
+        console.log(description,'in',agentName);
+        if(!isInList){
+            console.log('NOT CONTEMPLED!!!!!');
+            throw new Error('NOT_SUPPORTED NOT_CONTEMPLED');
+        }
+    }else if(precondition){
+        if(isInList){
+            console.log(description,'in',agentName);
+            console.log('¡¡¡¡¡¡¡¡¡NOW SUPPORTED!!!!!!!!');
+            throw new Error('SUPPORTED NOT_CONTEMPLED');
+        }
+    }
+    return skip;
+}
+
 describe("adapter",function(){
     describe("for text without empty strings",function(){
         var inputElement;
@@ -158,7 +194,6 @@ describe("adapter",function(){
             beforeEach(function(done){
                 theElement = html[def.tagName]({type:def.type}).create();
                 Tedede.adaptElement(theElement,'date');
-                //console.log("theElement &&&&&&&&&&&& = "+ theElement);
                 /*
                 var theBox = html.div({style:'border: 1px solid green;'},[
                     html.span({style:'font-size:80%; color:#DDD;'},JSON.stringify(def))                    
@@ -180,20 +215,18 @@ describe("adapter",function(){
                 },
             ].map(function(data){
                 it("sets and get "+data.value+" in div",function(){
+                    return SKIP_BECAUSE_NOT_SUPPORTED(
+                        def.type==='date',
+                        theElement.type==='date',
+                        'input of type date',
+                        'Firefox 43.0, Safari undefined'.split(', ')
+                    );
                     theElement.setTypedValue(data.value);
-                    //for(var a in theElement){console.log("AAAAAAAA = " + a);}
-                    //console.log('def.tagName = ' + def.tagName + " /theElement.value = " +theElement.value+ " /theElement.textContent = " + theElement.textContent + " /data.display = " + data.display);
                     if(def.html){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(def.show){
-                        
-                        if(coalesce(theElement.value, theElement.textContent)!=data.display){
-                           // console.log('####################################');
-                           // console.log('###',theElement.value, theElement.textContent, theElement.innerHTML, data.display, data.value);
-                        }
                         if(def.type==='date' && data.value!=null){
-                            console.log("THE ELEMENTO.VALUE = " + theElement.value);
                             expect(theElement.value).to.eql(data.valueISO);
                         }else{
                             expect(coalesce(theElement.value, theElement.textContent)).to.eql(data.display);
