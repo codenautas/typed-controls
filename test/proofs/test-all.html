@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h1>Testing all... <span id=theTitle></span></h1>
+        <script src="../../node_modules/express-useragent/lib/express-useragent.js"></script>
+        <script>
+            var browserInfo = new UserAgent().parse(window.navigator.userAgent);
+            var browserName = browserInfo.browser + ' ' + browserInfo.version;
+            theTitle.textContent = browserName;
+            function testFeature(testName, expectFailIn){
+                var functionName=testName.replace(/ (\w)/g,function(match,letter){ return letter.toUpperCase(); });
+                var fileName=testName.replace(/ /g,'-')+'.js';
+                var script = document.createElement('script');
+                script.src = fileName;
+                function addLine(line){
+                    var p=document.createElement('p');
+                    p.textContent = line;
+                    document.body.appendChild(p);
+                }
+                function showResult(testName, fn){
+                    try{
+                        var result = fn();
+                        addLine(
+                            testName + ': ' + 
+                            (result?'\u2713 ok':'\u2717 grr!')+
+                            ' / '+(result?'':(expectFailIn.split(', ').indexOf(browserName)>=0?'\u263a contempled':'\u2639 UNEXPECTED'))
+                        );
+                    }catch(err){
+                        addLine(testName + ': \u2623 '+err);
+                    }
+                }
+                script.addEventListener('load', function(){
+                    showResult(testName, window[functionName]);
+                });
+                script.addEventListener('error', function(){
+                    addLine(testName + ': \u2620 not found!');
+                });
+                document.body.appendChild(script);
+            }
+            window.addEventListener('load', function(){
+                testFeature('support input type unsoportable','IE 11.0');
+                testFeature('support input type date','IE 11.0');
+                testFeature('click changes checkbox checked', 'IE 11.0');
+            });
+        </script>
+        <script src=support-input-type-date.js></script>
+        <script>
+    </body>
+</html>

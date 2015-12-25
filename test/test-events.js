@@ -1,30 +1,65 @@
 "use strict";
 
-describe.skip("events", function(){
+describe("events", function(){
     function sendClickTo(elem) {
-        if(/Firefox|Chrome/.test(window.navigator.userAgent)) {
-            var e = document.createEvent("MouseEvent");
-            e.initMouseEvent( "click",
-                             true /* bubble */, true /* cancelable */,
-                             window, null, 0, 0, 0, 0, /* coordinates */
-                             false, false, false, false, /* modifier keys */
-                             0 /*left*/, null )
+        var e;
+        try{
+            e = new MouseEvent('click', {
+                'view': window,
+                'bubbles': true,
+                'cancelable': true
+            });
+        }catch(err){
+            NOT_SUPPORTED_SITUATION({
+                must: !err,
+                description: 'error in creating MouseEvent: '+err,
+                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
+            });
+        }
+        try{
+            if(!e){
+                e = document.createEvent('click');
+            }
+        }catch(err){
+            NOT_SUPPORTED_SITUATION({
+                must: !err,
+                description: 'error in creating MouseEvent: '+err,
+                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
+            });
+            /*
+            if(agentInfo.brief==='IE 11.0'){
+                elem.fireEvent('click');
+            }else{
+                elem.click();
+            }
+            */
+        }
+        if(e){
             elem.dispatchEvent(e);
-        } else {
+        }else{
+            NOT_SUPPORTED_SITUATION({
+                must: !!e,
+                description: 'no event created',
+                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
+            });
             elem.click();
         }
     }
-    it("must receive click and change the internal typed value", function(done){
+    it("must receive click and change the internal typed value of null to a boolean value", function(done){
         var theElement = html.input({type:"checkbox"}).create();
         Tedede.adaptElement(theElement,'boolean');
-        theElement.setTypedValue(null);
-        expect(theElement.getTypedValue()).to.be(null);
+        document.body.appendChild(theElement);
+        theElement.setTypedValue(null); 
+        expect(theElement.getTypedValue()).to.be(null); 
         sendClickTo(theElement);
-        expect(theElement.getTypedValue()).to.be(true);
+        var firstValue=theElement.getTypedValue();
+        expect(firstValue===true || firstValue==false).to.ok();
         sendClickTo(theElement);
-        expect(theElement.getTypedValue()).to.be(false);
+        expect(theElement.getTypedValue()).to.be(!firstValue);
         sendClickTo(theElement);
-        expect(theElement.getTypedValue()).to.be(true);
+        expect(theElement.getTypedValue()).to.be(!!firstValue);
+        sendClickTo(theElement);
+        expect(theElement.getTypedValue()).to.be(!!!firstValue);
         done();
     });
     function sendSpaceTo(elem) {
@@ -49,7 +84,7 @@ describe.skip("events", function(){
         }
     }
     
-    it("must receive click and change the internal typed value", function(done){
+    it.skip("must receive click and change the internal typed value", function(done){
         var theElement = html.input({type:"checkbox", name:'cajita'}).create();
         Tedede.adaptElement(theElement,'boolean');
         theElement.focus = function() { console.log("foco en ", this.name); }

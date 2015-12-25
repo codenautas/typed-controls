@@ -1,41 +1,5 @@
 "use strict";
 
-function parseAgent(userAgent){
-    var agentInfo=new UserAgent().parse(userAgent);
-    var phantom = userAgent.match(/PhantomJS\/[0-9.]+/);
-    if(phantom){
-        agentInfo.brief=phantom[0].replace('/',' ');
-    }else{
-        agentInfo.brief=agentInfo.browser+' '+agentInfo.version;
-    }
-    return agentInfo;
-}
-
-var agentInfo=parseAgent(window.navigator.userAgent);
-
-console.log('**** starting',agentInfo.brief,'in',agentInfo.os,window.navigator.userAgent)
-
-
-function SKIP_BECAUSE_NOT_SUPPORTED(precondition, poscondition, description, agentNameList){
-    var skip=precondition && !poscondition;
-    var isInList=agentNameList.indexOf(agentInfo.brief)>=0;
-    if(skip){
-        if(!isInList){
-            console.log('SKIP_BECAUSE_NOT_SUPPORTED!!!!!');
-            console.log(description,'in',agentInfo.brief);
-            console.log('NOT CONTEMPLED!!!!!');
-            throw new Error('NOT_SUPPORTED NOT_CONTEMPLED');
-        }
-    }else if(precondition){
-        if(isInList){
-            console.log(description,'in',agentInfo.brief);
-            console.log('¡¡¡¡¡¡¡¡¡NOW SUPPORTED!!!!!!!!');
-            throw new Error('SUPPORTED NOT_CONTEMPLED');
-        }
-    }
-    return skip;
-}
-
 describe("adapter",function(){
     describe("for text without empty strings",function(){
         var inputElement;
@@ -207,13 +171,13 @@ describe("adapter",function(){
                 theBox.appendChild(theElement);
                 document.body.appendChild(theBox); 
                 */
-                skip = SKIP_BECAUSE_NOT_SUPPORTED(
-                    def.type==='date',
-                    theElement && theElement.type==='date',
-                    'input of type date',
-                    'Firefox 43.0, IE 11.0'.split(', '),
-                    theElementErr
-                );
+                skip = NOT_SUPPORTED_SITUATION({
+                    when: def.type==='date',
+                    must: theElement && theElement.type==='date',
+                    description: 'input of type date',
+                    excluding: 'Firefox 43.0, IE 11.0'.split(', '),
+                    context: theElementErr
+                });
                 if(!skip){
                     Tedede.adaptElement(theElement,'date');
                 }
