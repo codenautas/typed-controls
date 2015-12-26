@@ -3,14 +3,8 @@ function supportNewKeyboardEvent(){
     try{
         var charA = 65;
         e = new KeyboardEvent('keypress', {
-            keyCode: charA,
-            charCode: charA,
-            which: charA,
             key: 'A',
-            "char": 'A',
-            code: charA,
-            bubbles : true, 
-            cancelable : true
+            code: 'KeyA',
         });
         newElement.focus();
         newElement.dispatchEvent(e);
