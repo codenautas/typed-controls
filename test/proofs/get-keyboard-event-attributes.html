@@ -1,3 +1,4 @@
+<h1>testing events</h1>
 <script>
 function interceptEvent(eventName){
     document.body.addEventListener(eventName, function(event){
@@ -7,6 +8,7 @@ function interceptEvent(eventName){
             rta+=attr+': '+event[attr]+' - ';
         }
         document.body.innerHTML+=rta;
+        event.preventDefault();
     });
 }
 

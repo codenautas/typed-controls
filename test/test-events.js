@@ -51,42 +51,54 @@ describe("events", function(){
         expect(theElement.getTypedValue()).to.be(!!!firstValue);
         done();
     });
-    function sendSpaceTo(elem) {
-        try {
-            var keyboardEvent = document.createEvent("KeyboardEvent");
-            var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-            keyboardEvent[initMethod](
-                       "keypress", // event type : keydown, keyup, keypress
-                        true, // bubbles
-                        true, // cancelable
-                        window, // viewArg: should be window
-                        false, // ctrlKeyArg
-                        false, // altKeyArg
-                        false, // shiftKeyArg
-                        false, // metaKeyArg
-                        0, // keyCodeArg : unsigned long the virtual key code, else 0
-                        " ".charCodeAt(0) // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
-            );
-            elem.dispatchEvent(keyboardEvent);            
-        } catch (e) {
-            console.log("sendSpaceTo() error: ", e)
+    function sendKeyTo(elem, keyCode, eventName) {
+        // based in https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
+        eventName = eventName || 'keypress';
+        var oEvent = document.createEvent('KeyboardEvent');
+        try{
+            Object.defineProperty(oEvent, 'keyCode', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+            });     
+            Object.defineProperty(oEvent, 'which', {
+                get : function() {
+                    return this.keyCodeVal;
+                }
+            });
+            if (oEvent.initKeyboardEvent) {
+                oEvent.initKeyboardEvent(eventName, true, true, document.defaultView, keyCode, keyCode, "", "", false, "");
+            } else {
+                oEvent.initKeyEvent(eventName, true, true, document.defaultView, false, false, false, false, 0, keyCode);
+            }
+            oEvent.keyCodeVal = keyCode;
+        }catch(err){
+            NOT_SUPPORTED_SITUATION({
+                must: !err,
+                description: "setting keyCode and which when emulating event",
+                excluding: ['Safari 5.1.7', 'PhantomJS 1.9.8'],
+                context: err
+            });
+            oEvent = document.createEvent('Events');
+            oEvent.initEvent(eventName, true, true);
+            oEvent.keyCode = keyCode;
+            oEvent.which = keyCode;
         }
+        if (oEvent.keyCode !== keyCode) {
+            throw new Error("INTERNAL keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+        }
+        elem.dispatchEvent(oEvent);
     }
-    
-    it.skip("must receive click and change the internal typed value", function(done){
-        var theElement = html.input({type:"checkbox", name:'cajita'}).create();
+    it("must receive del or backspace key and change the internal typed value to null", function(done){
+        var theElement = html.input({type:"checkbox"}).create();
         Tedede.adaptElement(theElement,'boolean');
-        theElement.focus = function() { console.log("foco en ", this.name); }
-        theElement.change = function() { console.log("change en ", this.name); }
-        theElement.setTypedValue(null);
-        theElement.focus();
+        document.body.appendChild(theElement);
+        theElement.setTypedValue(true);
+        sendKeyTo(theElement, 8 , 'keydown');
         expect(theElement.getTypedValue()).to.be(null);
-        sendSpaceTo(theElement);
-        expect(theElement.getTypedValue()).to.be(true);
-        sendSpaceTo(theElement);
-        expect(theElement.getTypedValue()).to.be(false);
-        sendSpaceTo(theElement);
-        expect(theElement.getTypedValue()).to.be(true);
+        theElement.setTypedValue(false);
+        sendKeyTo(theElement, 46, 'keydown');
+        expect(theElement.getTypedValue()).to.be(null);
         done();
     });
 });
