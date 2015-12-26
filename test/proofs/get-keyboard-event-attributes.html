@@ -1,0 +1,23 @@
+<script>
+function interceptEvent(eventName){
+    document.body.addEventListener(eventName, function(event){
+        document.body.innerHTML+='<br><b>'+eventName+'</b>: ';
+        var rta='';
+        for(var attr in event){
+            rta+=attr+': '+event[attr]+' - ';
+        }
+        document.body.innerHTML+=rta;
+    });
+}
+
+window.addEventListener('load', function(){
+    interceptEvent('click');
+    interceptEvent('dblclick');
+    interceptEvent('mousedown');
+    interceptEvent('mouseup');
+    interceptEvent('keypress');
+    interceptEvent('keyup');
+    interceptEvent('keydown');
+    interceptEvent('input');
+});
+</script>
