@@ -46,19 +46,34 @@ describe("events", function(){
         }
     }
     it("must receive click and change the internal typed value of null to a boolean value", function(done){
-        var theElement = html.input({type:"checkbox"}).create();
+        var id = 'id' + Math.random();
+        var theElement = html.input({type:"checkbox", id:id}).create();
         Tedede.adaptElement(theElement,'boolean');
+        var theLabel = html.label({"for": id}, "the text for this tri-state checkbox").create();
         document.body.appendChild(theElement);
+        document.body.appendChild(theLabel);
         theElement.setTypedValue(null); 
+        expect(theElement.indeterminate).to.be(true); 
         expect(theElement.getTypedValue()).to.be(null); 
         sendClickTo(theElement);
+        expect(theElement.indeterminate).to.be(false); 
         var firstValue=theElement.getTypedValue();
         expect(firstValue===true || firstValue==false).to.ok();
         sendClickTo(theElement);
         expect(theElement.getTypedValue()).to.be(!firstValue);
-        sendClickTo(theElement);
+        var elementToClick;
+        if(NOT_SUPPORTED_SITUATION({
+            must: 'click' in theLabel && typeof theLabel.click === 'function',
+            description: "could'nt emulate label click'",
+            excluding: ['Safari 5.1.7', 'PhantomJS 1.9.8']
+        })){
+            elementToClick = theElement;
+        }else{
+            elementToClick = theLabel;
+        }
+        sendClickTo(elementToClick);
         expect(theElement.getTypedValue()).to.be(!!firstValue);
-        sendClickTo(theElement);
+        sendClickTo(elementToClick);
         expect(theElement.getTypedValue()).to.be(!!!firstValue);
         done();
     });
@@ -101,3 +116,4 @@ describe("events", function(){
         done();
     });
 });
+ 
