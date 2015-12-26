@@ -9,37 +9,11 @@ describe("events", function(){
                 'bubbles': true,
                 'cancelable': true
             });
-        }catch(err){
-            NOT_SUPPORTED_SITUATION({
-                must: !err,
-                description: 'error in creating MouseEvent: '+err,
-                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
-            });
-        }
-        try{
-            if(!e){
-                e = document.createEvent('click');
-            }
-        }catch(err){
-            NOT_SUPPORTED_SITUATION({
-                must: !err,
-                description: 'error in creating MouseEvent: '+err,
-                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
-            });
-            /*
-            if(agentInfo.brief==='IE 11.0'){
-                elem.fireEvent('click');
-            }else{
-                elem.click();
-            }
-            */
-        }
-        if(e){
             elem.dispatchEvent(e);
-        }else{
+        }catch(err){
             NOT_SUPPORTED_SITUATION({
-                must: !!e,
-                description: 'no event created',
+                must: !err,
+                description: 'error in creating MouseEvent: '+err,
                 excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
             });
             elem.click();
