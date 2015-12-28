@@ -111,6 +111,7 @@ describe("events", function(){
         ].forEach(function(def){
             try{
                 theElement = html[def.tagName]({type:def.type}).create();
+                Tedede.adaptElement(theElement,'date');
             }catch(err){
                 theElement = null;
                 theElementErr = err;
@@ -124,7 +125,6 @@ describe("events", function(){
             });
             if(! skip) {
                 // console.log("-----------", def.tagName, def.type, agentInfo.brief);
-                Tedede.adaptElement(theElement,'date');
                 document.body.appendChild(theElement);
                 expect(theElement.getTypedValue()).to.be(null);
                 theElement.focus();
@@ -133,6 +133,9 @@ describe("events", function(){
                 expect(obtD.getFullYear()).to.eql(expD.getFullYear());
                 expect(obtD.getMonth()).to.eql(expD.getMonth());
                 expect(obtD.getDay()).to.eql(expD.getDay());
+                expect(obtD.getHours()).to.eql(0);
+                expect(obtD.getMinutes()).to.eql(0);
+                expect(obtD.getSeconds()).to.eql(0);
             }
             done();
         });
