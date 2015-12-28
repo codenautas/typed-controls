@@ -4,34 +4,25 @@
     </head>
     <body>
         <h1>Testing all... <span id=theTitle></span></h1>
-        <script src="semver.browser.js"></script>
-        <script src="brow.js"></script>
         <script src="../../node_modules/express-useragent/lib/express-useragent.js"></script>
         <script>
             var browserInfo = new UserAgent().parse(window.navigator.userAgent);
             var browserName = browserInfo.browser + ' ' + browserInfo.version;
             theTitle.textContent = browserName;
-            function addLine(line){
-                var p=document.createElement('p');
-                p.textContent = line;
-                document.body.appendChild(p);
-            }
             function testFeature(testName, expectFailIn){
                 var functionName=testName.replace(/ (\w)/g,function(match,letter){ return letter.toUpperCase(); });
                 var fileName=testName.replace(/ /g,'-')+'.js';
                 var script = document.createElement('script');
                 script.src = fileName;
-                
+                function addLine(line){
+                    var p=document.createElement('p');
+                    p.textContent = line;
+                    document.body.appendChild(p);
+                }
                 function showResult(testName, fn){
                     try{
                         var result = fn();
-                        //var inList = expectFailIn.split(', ').indexOf(browserName)>=0;
-                        var bActual = new Brow(browserInfo.browser, browserInfo.version);
-                        var inList = expectFailIn.filter(function(br) {
-                            // ATENCIÓN: usando eq() se otbienen exactamente los resultados anteriores, con gte() es compatible hacia adelante
-                            //return semver.eq(bActual.ver, br.ver);
-                            return semver.gte(bActual.ver, br.ver);
-                        })[0];
+                        var inList = expectFailIn.split(', ').indexOf(browserName)>=0;
                         addLine(
                             testName + ': ' + 
                             (result?'\u2713 ok':'\u2717 fail')+
@@ -50,17 +41,13 @@
                 document.body.appendChild(script);
             }
             window.addEventListener('load', function(){
-                var bCHR = new Brow('Chrome 47.0.2526.106'),
-                    bFF = new Brow('Firefox 43.0'),
-                    bIE = new Brow('IE 11.0'),
-                    bSAF = new Brow('Safari 5.1.7');
-                testFeature('support input type unsoportable',[bCHR, bIE, bFF, bSAF]);
-                testFeature('support input type date',[bIE, bFF]);
-                testFeature('click changes checkbox checked', []);
-                testFeature('click label changes checkbox checked', [bSAF]);
-                testFeature('support new keyboard event',[bCHR, bIE, bFF, bSAF]);
-                testFeature('support new keyboard event captured',[bCHR, bIE, bFF, bSAF]);
-                testFeature('simulate keypress by ejoubaud',[bSAF]);
+                testFeature('support input type unsoportable','Chrome 47.0.2526.106, IE 11.0, Firefox 43.0, Safari 5.1.7');
+                testFeature('support input type date','IE 11.0, Firefox 43.0');
+                testFeature('click changes checkbox checked', '');
+                testFeature('click label changes checkbox checked', 'Safari 5.1.7');
+                testFeature('support new keyboard event','Chrome 47.0.2526.106, IE 11.0, Firefox 43.0, Safari 5.1.7');
+                testFeature('support new keyboard event captured','Chrome 47.0.2526.106, IE 11.0, Firefox 43.0, Safari 5.1.7');
+                testFeature('simulate keypress by ejoubaud','Safari 5.1.7');
             });
         </script>
     </body>
