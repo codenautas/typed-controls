@@ -104,7 +104,6 @@ describe("events", function(){
     it("must recieve key 'h' and change the internal typed value to current date", function(done){
         var theElement;
         var theElementErr=null;
-        var nt=0;
         [
             {tagName:'div'  , type:''     },
             {tagName:'input', type:'text' }, 
