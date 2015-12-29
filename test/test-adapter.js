@@ -51,6 +51,65 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
+    [
+        {tagName:'div'     , html:true      , inspect:'textContent'}, 
+        {tagName:'td'      , html:true      , inspect:'textContent'}, 
+        {tagName:'textarea', multiline:true , inspect:'value'      }, 
+        {tagName:'input'   , type:'text'    , inspect:'value'      }, 
+    ].forEach(function(def){
+        describe("for text with empty strings",function(){
+            var theElement;
+            var skip;
+            beforeEach(function(done){
+                var htmlTagAttr=[html];
+                if(def.type){
+                    htmlTagAttr.push({type:def.type});
+                }
+                theElement = html[def.tagName].apply(htmlTagAttr).create();
+                Tedede.adaptElement(theElement,'text');
+                document.body.appendChild(theElement);
+                done();
+            });
+            [
+                {value:null        , display:''          , valueEmpty:false, htmlDisplay: ''         },
+                {value:'hello'     , display:'hello'     , valueEmpty:false, htmlDisplay: 'hello'    },
+                {value:'hi\nWorld' , display:'hi\nWorld' , valueEmpty:false, htmlDisplay: 'hi\nWorld', multiline:true},
+                {value:''          , display:''          , valueEmpty:true , htmlDisplay: ''         }
+            ].map(function(data){
+                it("sets and get "+data.value+" in "+def.tagName,function(){
+                    if(skip) return;
+                    theElement.setTypedValue(data.value);
+                    if(def.html){
+                        expect(theElement.innerHTML).to.be(data.htmlDisplay);
+                    }
+                    if(!data.multiline){
+                        expect(theElement[def.inspect]).to.eql(data.value||'');
+                    }
+                    expect(theElement.getTypedValue()).to.eql(data.value);
+                    expect(theElement.valueEmpty).to.eql(data.valueEmpty);
+                });
+            });
+           [
+                {value:true},
+                {value:new Date()},
+                {value:0},
+                {value:32},
+                {value:{}},
+                {value:[]},
+                {value:/regexp/},
+            ].forEach(function(def){
+                it("reject invalid value "+def.value,function(){
+                    if(skip) return;
+                    var UNTOUCH = 'untouch';
+                    theElement.setTypedValue(UNTOUCH);
+                    expect(function(){
+                        theElement.setTypedValue(def.value);
+                    }).to.throwError(/Not a string value/);
+                    expect(theElement.getTypedValue()).to.eql(UNTOUCH);
+                });
+            });
+        });
+    });
     describe("for number type",function(){
         [
             {tagName:'div', type:''}, 
