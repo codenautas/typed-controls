@@ -114,5 +114,45 @@ describe.skip("events", function(){
         expect(theElement.placeholder).to.be('null');
         done();
     });
+    it("must recieve key 'h' and change the internal typed value to current date", function(done){
+        var theElement;
+        var theElementErr=null;
+        [
+            {tagName:'div'  , type:''     },
+            {tagName:'input', type:'text' }, 
+            {tagName:'input', type:'date' }
+        ].forEach(function(def){
+            try{
+                theElement = html[def.tagName]({type:def.type}).create();
+                Tedede.adaptElement(theElement,'date');
+            }catch(err){
+                theElement = null;
+                theElementErr = err;
+            }
+            var skip = NOT_SUPPORTED_SITUATION({
+                when: def.type === 'date',
+                must: theElement && theElement.type==='date',
+                description: 'input of type date',
+                excluding: 'IE 11.0, Firefox 34.0, Firefox 43.0'.split(', '),
+                context: theElementErr
+            });
+            if(! skip) {
+                // console.log("-----------", def.tagName, def.type, agentInfo.brief);
+                document.body.appendChild(theElement);
+                expect(theElement.getTypedValue()).to.be(null);
+                theElement.focus();
+                sendKeyTo(theElement, 72 , 'keydown');
+                var obtD = theElement.getTypedValue(), expD=new Date(Date.now());
+                expect(obtD.getFullYear()).to.eql(expD.getFullYear());
+                expect(obtD.getMonth()).to.eql(expD.getMonth());
+                expect(obtD.getDay()).to.eql(expD.getDay());
+                expect(obtD.getHours()).to.eql(0);
+                expect(obtD.getMinutes()).to.eql(0);
+                expect(obtD.getSeconds()).to.eql(0);
+            }
+            done();
+        });
+
+    });
 });
  
