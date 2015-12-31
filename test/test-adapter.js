@@ -51,12 +51,7 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
-    [
-        {tagName:'div'     , html:true      , inspect:'textContent'}, 
-        {tagName:'td'      , html:true      , inspect:'textContent'}, 
-        {tagName:'textarea', multiline:true , inspect:'value'      }, 
-        {tagName:'input'   , type:'text'    , inspect:'value'      }, 
-    ].forEach(function(def){
+    BestTypes["text"].domFixtures.forEach(function(def){
         describe("for text with empty strings",function(){
             var theElement;
             var skip;
@@ -83,7 +78,8 @@ describe("adapter",function(){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(!data.multiline){
-                        expect(theElement[def.inspect]).to.eql(data.value||'');
+                        var inspect = def.tagName==='input' || def.tagName==='textarea'?'value':'textContent';
+                        expect(theElement[inspect]).to.eql(data.value||'');
                     }
                     expect(theElement.getTypedValue()).to.eql(data.value);
                     expect(theElement.valueEmpty).to.eql(data.valueEmpty);
