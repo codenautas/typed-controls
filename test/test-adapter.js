@@ -1,5 +1,63 @@
 "use strict";
 
+var toTest = {
+    "text": {
+        validData:[
+            {value:null        , display:''          , valueEmpty:false, htmlDisplay: ''         },
+            {value:'hello'     , display:'hello'     , valueEmpty:false, htmlDisplay: 'hello'    },
+            {value:'hi\nWorld' , display:'hi\nWorld' , valueEmpty:false, htmlDisplay: 'hi\nWorld', multiline:true},
+            {value:''          , display:''          , valueEmpty:true , htmlDisplay: ''         }
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:0},
+            {value:32},
+            {value:{}},
+            {value:[]},
+            {value:/regexp/},
+        ]
+    }, 
+    "number": {
+        validData:[
+            {value:null        , display:''          , },
+            {value:42          , display:'42'        , },
+            {value:0           , display:'0'         , },
+            {value:12345.125   , display:'hello'     , htmlDisplay: 
+                '<span class="number_miles">12</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_dot">.</span>'+
+                '<span class="number_decimals">125</span>'    
+            },
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:'0'},
+            {value:{}},
+            {value:[]},
+            {value:/regexp/},
+        ]
+    },
+    "date": {
+        validData:[
+        ],
+        invalidData:[
+        ]
+    },
+    "boolean": {
+        validData:[
+        ],
+        invalidData:[
+        ]
+    } 
+};
+
+toTest["text_no_empty"] = changing(toTest["text"],{});
+toTest["text_no_empty"].validData = toTest["text"].validData.filter(function(data){ return data.value !=='' && !data.multiline; });
+toTest["text_no_empty"].invalidData = toTest["text"].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
+toTest["text_no_empty"].invalidData = toTest["text"].invalidData//.concat({value:'', errRegexp:/text cannot be empty/});
+
 describe("adapter",function(){
     describe("for text without empty strings",function(){
         var inputElement;
@@ -51,113 +109,46 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
-    BestTypes["text"].domFixtures.forEach(function(def){
-        describe("for text with empty strings",function(){
+    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){
+        describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
             var skip;
             beforeEach(function(done){
                 theElement = Tedede.createFromFixture(def).create();
-                Tedede.adaptElement(theElement,'text');
+                Tedede.adaptElement(theElement,typeName);
                 document.body.appendChild(theElement);
                 done();
             });
-            [
-                {value:null        , display:''          , valueEmpty:false, htmlDisplay: ''         },
-                {value:'hello'     , display:'hello'     , valueEmpty:false, htmlDisplay: 'hello'    },
-                {value:'hi\nWorld' , display:'hi\nWorld' , valueEmpty:false, htmlDisplay: 'hi\nWorld', multiline:true},
-                {value:''          , display:''          , valueEmpty:true , htmlDisplay: ''         }
-            ].map(function(data){
+            toTest[typeName].validData.map(function(data){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
                     theElement.setTypedValue(data.value);
-                    if(def.html){
+                    if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea')){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(!data.multiline){
                         var inspect = def.tagName==='input' || def.tagName==='textarea'?'value':'textContent';
-                        expect(theElement[inspect]).to.eql(data.value||'');
+                        expect(theElement[inspect]).to.eql(coalesce(data.value,''));
                     }
                     expect(theElement.getTypedValue()).to.eql(data.value);
-                    expect(theElement.valueEmpty).to.eql(data.valueEmpty);
+                    if(typeName==='text'){
+                        expect(theElement.valueEmpty).to.eql(data.valueEmpty);
+                    }
                 });
             });
-           [
-                {value:true},
-                {value:new Date()},
-                {value:0},
-                {value:32},
-                {value:{}},
-                {value:[]},
-                {value:/regexp/},
-            ].forEach(function(def){
+            toTest[typeName].invalidData.forEach(function(def){
                 it("reject invalid value "+def.value,function(){
                     if(skip) return;
-                    var UNTOUCH = 'untouch';
+                    var UNTOUCH = toTest[typeName].validData[1].value;
                     theElement.setTypedValue(UNTOUCH);
                     expect(function(){
                         theElement.setTypedValue(def.value);
-                    }).to.throwError(/Not a string value/);
+                    }).to.throwError(def.errRegexp||/Not a .* in input/);
                     expect(theElement.getTypedValue()).to.eql(UNTOUCH);
                 });
             });
         });
-    });
-    describe("for number type",function(){
-        [
-            {tagName:'div', type:''}, 
-            {tagName:'input', type:'text'}, 
-            {tagName:'input', type:'number'}
-        ].forEach(function(def){
-            var theElement;
-            beforeEach(function(done){
-                theElement = html[def.tagName]({type:def.type}).create();
-                Tedede.adaptElement(theElement,'number');
-                done();
-            });
-            it("sets and get normal number in div",function(){
-                theElement.setTypedValue(42);
-                expect(theElement.textContent||theElement.value).to.be('42');
-                expect(theElement.getTypedValue()).to.be(42);
-            });
-            it("set and gets null in div",function(){
-                theElement.setTypedValue(null);
-                expect(coalesce(theElement.textContent,theElement.value)).to.be('');
-                expect(theElement.getTypedValue()).to.be(null);
-            });
-            it("set and gets 0 in div",function(){
-                theElement.setTypedValue(0);
-                expect(theElement.textContent||theElement.value).to.be('0');
-                expect(theElement.getTypedValue()).to.be(0);
-            });
-            it("reject invalid value",function(){
-                var UNTOUCH = Math.random();
-                theElement.setTypedValue(UNTOUCH);
-                expect(function(){
-                    theElement.setTypedValue('sarasa');
-                }).to.throwError(/Not a Number in input/);
-                expect(theElement.getTypedValue()).to.be(UNTOUCH);
-            });
-            it("set pretty value",function(){
-                var x = '12345.125';
-                theElement.setTypedValue(x);
-                expect(theElement.textContent||theElement.value).to.be(x);
-                if(theElement.value){
-                    expect(theElement.value).to.be(x);
-                }else if(theElement.textContent){
-                    expect(theElement.textContent).to.be(x);
-                    expect(theElement.innerHTML).to.be(
-                        '<span class="number_miles">12</span>'+
-                        '<span class="number_miles">345</span>'+
-                        '<span class="number_dot">.</span>'+
-                        '<span class="number_decimals">125</span>'
-                    );
-                }else{
-                    expect('No value in textContent or value').to.be.false();
-                }
-                expect(theElement.getTypedValue()).to.be(Number(x));
-            });
-        });
-    });
+    }); });
     describe("for boolean type",function(){
         [
             {tagName:'div'  , type:''        , html:true , show:true }, 
