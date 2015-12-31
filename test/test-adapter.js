@@ -56,11 +56,7 @@ describe("adapter",function(){
             var theElement;
             var skip;
             beforeEach(function(done){
-                var htmlTagAttr=[html];
-                if(def.type){
-                    htmlTagAttr.push({type:def.type});
-                }
-                theElement = html[def.tagName].apply(htmlTagAttr).create();
+                theElement = Tedede.createFromFixture(def).create();
                 Tedede.adaptElement(theElement,'text');
                 document.body.appendChild(theElement);
                 done();
