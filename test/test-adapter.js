@@ -91,7 +91,6 @@ var toTest = {
 toTest["text_no_empty"] = changing(toTest["text"],{});
 toTest["text_no_empty"].validData = toTest["text"].validData.filter(function(data){ return data.value !=='' && !data.multiline; });
 toTest["text_no_empty"].invalidData = toTest["text"].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
-toTest["text_no_empty"].invalidData = toTest["text"].invalidData//.concat({value:'', errRegexp:/text cannot be empty/});
 
 describe("adapter",function(){
     describe("for text without empty strings",function(){

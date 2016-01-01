@@ -1,6 +1,6 @@
 "use strict";
 
-describe.skip("events", function(){
+describe("events", function(){
     function sendClickTo(elem) {
         var e;
         try{
@@ -108,10 +108,10 @@ describe.skip("events", function(){
         document.body.appendChild(theElement);
         sendKeyTo(theElement, 32 , 'keypress');
         expect(theElement.getTypedValue()).to.be('');
-        expect(theElement.placeholder).to.be('\u2422');
+        expect(theElement.valueEmpty).to.be(true);
         expect(theElement.value).to.be('');
         sendKeyTo(theElement, 32 , 'keypress');
-        expect(theElement.placeholder).to.be('null');
+        expect(theElement.valueEmpty).to.be(false);
         done();
     });
     it("must recieve key 'h' and change the internal typed value to current date", function(done){
