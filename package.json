@@ -50,6 +50,10 @@
     "infinito": "node server/karma-server.js --karma karma.conf.js",
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
+    "wptest": "node server/pdemo-server.js",
+    "cptest": ".\\node_modules\\phantomjs\\lib\\phantom\\phantomjs.exe ./server/ptest.js",
+    "xxx-wptest": "node server/pdemo-server.js && .\\node_modules\\phantomjs\\lib\\phantom\\phantomjs.exe ./server/ptest.js",
+    "ptest": "./node_modules/phantomjs/lib/phantom/phantomjs ./server/ptest.js",
     "start": "node server/server.js"
   }
 }
