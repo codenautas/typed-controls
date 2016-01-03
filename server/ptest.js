@@ -5,9 +5,11 @@ var expect = require('expect.js');
 var page = require('webpage').create();
 var system = require('system');
 
-console.log('The default user agent is ' + page.settings.userAgent);
-page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari 5.1.7';
-console.log('using ' + page.settings.userAgent);
+console.log('The default user agent is ');
+console.log(page.settings.userAgent);
+page.settings.userAgent = page.settings.userAgent.replace(new RegExp("PhantomJS/.* Safari/[0-9.]*"),'Safari 5.1.7');
+console.log('using new user agent (Safari not Phantom)');
+console.log(page.settings.userAgent);
 
 var pageName = 'http://localhost:43091/demo';
 
