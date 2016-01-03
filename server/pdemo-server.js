@@ -88,7 +88,8 @@ process.on('exit', function(code){
 });
 
 
-process.on('error', function(err){
+process.on('uncaughtException', function(err){
     console.log('process NOT CAPTURED ERROR',err);
+    console.log(err.stack);
 });
 
