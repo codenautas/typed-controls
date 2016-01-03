@@ -3,6 +3,8 @@ console.log('starting phantom');
 var expect = require('expect.js');
 
 var page = require('webpage').create();
+var system = require('system');
+
 console.log('The default user agent is ' + page.settings.userAgent);
 page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/534.34 (KHTML, like Gecko) PhantomJS/1.9.8 Safari 5.1.7';
 console.log('using ' + page.settings.userAgent);
@@ -11,20 +13,13 @@ var pageName = 'http://localhost:43091/demo';
 
 function getInfo(id){
     return JSON.parse(page.evaluate(function(id){
-        var bool1 = document.getElementById(id);
-        var rect = bool1.getBoundingClientRect();
-        // console.log('bool1',bool1.value, bool1.checked, bool1.indeterminate, bool1.getTypedValue(), bool1.type, bool1.tagName);
-        // var j = {
-        //     value: bool1.getTypedValue(),
-        //     cx: Math.floor((rect.left+rect.right)/2),
-        //     cy: Math.floor((rect.top+rect.bottom)/2),
-        // };
-        // console.log(j);
-        // console.log(JSON.stringify(j));
+        var theElement = document.getElementById(id);
+        var rect = theElement.getBoundingClientRect();
         return JSON.stringify({
-            value: bool1.getTypedValue(),
+            value: 'getTypedValue' in theElement?theElement.getTypedValue():'not adapted',
             cx: Math.floor((rect.left+rect.right)/2),
             cy: Math.floor((rect.top+rect.bottom)/2),
+            isActive: document.activeElement === theElement
         });
     }, id));
 }
@@ -48,7 +43,7 @@ function runTests(page){
         page.sendEvent('keydown', key);
         page.sendEvent('keyup', key);
     }
-    try{
+    function testCheckbox(){
         var bool1 = getInfo('bool1'); 
         expect(bool1.value).to.be(false);
         page.sendEvent('click', bool1.cx, bool1.cy);
@@ -83,10 +78,54 @@ function runTests(page){
         sendKey(page.event.key.Period);
         bool1 = getInfo('bool1'); 
         expect(bool1.value).to.be(null);
+    }
+    function testText(){
+        var text1 = getInfo('text1'); 
+        expect(text1.value).to.be(null);
+        page.evaluate(function(id){
+            var theElement = document.getElementById(id);
+            theElement.focus();
+        }, 'text1')
+        text1 = getInfo('text1'); 
+        expect(text1.isActive).to.be(true);
+        page.sendEvent('keypress', 'ab');
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('ab');
+        sendKey(page.event.key.Backspace);
+        sendKey(page.event.key.Backspace);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be(null);
+        sendKey(page.event.key.Space);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('');
+        sendKey(page.event.key.Left);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('');
+        sendKey(page.event.key.A);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('A');
+        sendKey(page.event.key.Left);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('A');
+        sendKey(page.event.key.B);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('BA');
+        sendKey(page.event.key.Delete);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be('B');
+        sendKey(page.event.key.Backspace);
+        text1 = getInfo('text1'); 
+        expect(text1.value).to.be(null);
+    }
+    try{
+        testCheckbox();
+        testText();
         page.render('server/local-capture.png', {format: 'png', quality: '100'});
     }catch(err){
         console.log('ERROR. TESTING');
         console.log(err.stack);
     }
-    phantom.exit();
+    if(!(system.args.indexOf('--hold')>0)){
+        phantom.exit();
+    }
 }

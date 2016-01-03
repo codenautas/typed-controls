@@ -34,6 +34,10 @@ app.get('/demo', function(req,res){
                 html.input({type: "checkbox", id:"bool1"}),
                 html.label({"for": "bool1"}, "has tri-state booleans"),
             ]),
+            html.div([
+                html.label({"for": "text1"}, "text with empty"),
+                html.input({type: "text", id:"text1", "accesskey": "t"}),
+            ]),
             html.pre({id: "messages"}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
@@ -62,7 +66,7 @@ var server = app.listen(PORT, function(){
     var spawn = require('child_process').spawn;
     pidPhantom = spawn(
         './node_modules/phantomjs/lib/phantom/phantomjs'+(winOS?'.exe':''),
-        ['./server/ptest.js'],
+        ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
         { stdio: 'inherit' }
     );
     pidPhantom.on('close', function (code, signal) {

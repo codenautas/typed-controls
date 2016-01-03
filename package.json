@@ -51,6 +51,7 @@
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ptest": "node server/pdemo-server.js",
+    "ptest-h": "node server/pdemo-server.js --p--hold",
     "start": "node server/server.js"
   }
 }
