@@ -35,6 +35,7 @@ module.exports = function(config) {
     preprocessors: {
       'lib/*.js': ['coverage']
     },
+    /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     coverageReporter: process.env.TRAVIS||true?{
         type:'lcov', 
         dir:'coverage/'
@@ -42,6 +43,7 @@ module.exports = function(config) {
         type : 'html',
         dir : 'coverage/'
     },
+    // */
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

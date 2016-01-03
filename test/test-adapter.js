@@ -159,7 +159,7 @@ describe("adapter",function(){
                     when: def.attributes.type==='date',
                     must: theElement && theElement.type==='date',
                     description: 'input of type date',
-                    excluding: 'Firefox 31.0, Firefox 43.0, IE 11.0'.split(', '),
+                    excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, IE 11.0'.split(', '),
                     context: theElementErr
                 });
                 if(!skip){
