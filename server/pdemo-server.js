@@ -91,5 +91,6 @@ process.on('exit', function(code){
 process.on('uncaughtException', function(err){
     console.log('process NOT CAPTURED ERROR',err);
     console.log(err.stack);
+    process.exit(1);
 });
 
