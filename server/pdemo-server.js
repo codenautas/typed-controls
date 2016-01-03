@@ -81,7 +81,14 @@ process.on('exit', function(code){
     console.log('process exit',code);
     if(pidPhantom){
         pidPhantom.kill('SIGHUP');
+        console.log('SIGHUP sended to phantom');
+    }else{
+        console.log('phantom already closed');
     }
-    console.log('SIGHUP sended to phantom');
+});
+
+
+process.on('error', function(err){
+    console.log('process NOT CAPTURED ERROR',err);
 });
 
