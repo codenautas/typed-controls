@@ -65,7 +65,7 @@ var server = app.listen(PORT, function(){
     console.log('launch phantom');
     var spawn = require('child_process').spawn;
     pidPhantom = spawn(
-        './node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantom'),
+        './node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs'),
         ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
         { stdio: 'inherit' }
     );

@@ -32,10 +32,10 @@ module.exports = function(config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
       'lib/*.js': ['coverage']
     },
-    /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     coverageReporter: process.env.TRAVIS||true?{
         type:'lcov', 
         dir:'coverage/'
