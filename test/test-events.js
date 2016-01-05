@@ -95,18 +95,18 @@ describe("events", function(){
         Tedede.adaptElement(theElement,'boolean');
         document.body.appendChild(theElement);
         theElement.setTypedValue(true);
-        sendKeyTo(theElement, 8 , 'keydown');
+        sendKeyTo(theElement, 8 , 'keydown'); // backspace
         expect(theElement.getTypedValue()).to.be(null);
         theElement.setTypedValue(false);
-        sendKeyTo(theElement, 46, 'keydown');
+        sendKeyTo(theElement, 46, 'keydown'); // delete
         expect(theElement.getTypedValue()).to.be(null);
         done();
     });
-    it("must receive del or backspace key and change the internal typed value to null", function(done){
-        var theElement = html.input({placeholder:"null"}).create();
+    it("must receive space key and change the internal typed value to null", function(done){
+        var theElement = html.input({}).create();
         Tedede.adaptElement(theElement,'text');
         document.body.appendChild(theElement);
-        sendKeyTo(theElement, 32 , 'keypress');
+        sendKeyTo(theElement, 32 , 'keypress'); // ' '
         expect(theElement.getTypedValue()).to.be('');
         expect(theElement.valueEmpty).to.be(true);
         expect(theElement.value).to.be('');
@@ -141,7 +141,7 @@ describe("events", function(){
                 document.body.appendChild(theElement);
                 expect(theElement.getTypedValue()).to.be(null);
                 theElement.focus();
-                sendKeyTo(theElement, 72 , 'keydown');
+                sendKeyTo(theElement, 72 , 'keydown'); // h
                 var obtD = theElement.getTypedValue(), expD=new Date(Date.now());
                 expect(obtD.getFullYear()).to.eql(expD.getFullYear());
                 expect(obtD.getMonth()).to.eql(expD.getMonth());
