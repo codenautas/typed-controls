@@ -33,8 +33,11 @@ function sendKey(key){
     }
 }
 
+var keys = null;
+
 casper.test.begin("Test checkbox", function(test) {
     casper.start('http://localhost:43091/demo', function() {
+        keys = casper.page.event.key;
         test.assertTitle('tedede demo', 'titulo correcto');
         test.assertExists('#bool1', 'tengo bool1');
         var boolN = 'bool1';
@@ -43,28 +46,28 @@ casper.test.begin("Test checkbox", function(test) {
         sendEvent('click', bool1);
         bool1 = getInfo(boolN);
         test.assert(bool1.value === true, "one click sets it to true");
-        sendKey(casper.page.event.key.Space);
+        sendKey(keys.Space);
         bool1 = getInfo(boolN);
         test.assert(bool1.value === false, "space sets to false");
-        sendKey(casper.page.event.key.Delete);
+        sendKey(keys.Delete);
         bool1 = getInfo(boolN);
         test.assert(! bool1.value, "delete sets null");
-        sendKey(casper.page.event.key.Space);
+        sendKey(keys.Space);
         bool1 = getInfo(boolN);
         test.assert(bool1.value === false, "space sets to false (2)");
-        sendKey(casper.page.event.key.Backspace);
+        sendKey(keys.Backspace);
         bool1 = getInfo(boolN);
         test.assert(! bool1.value, "backspace sets null");
-        sendKey(casper.page.event.key.Space);
+        sendKey(keys.Space);
         bool1 = getInfo(boolN);
         test.assert(bool1.value === false, "space sets to false (3)");
-        sendKey(casper.page.event.key.Minus);
+        sendKey(keys.Minus);
         bool1 = getInfo(boolN);
         test.assert(! bool1.value, "minus sets null");
-        sendKey(casper.page.event.key.Space);
+        sendKey(keys.Space);
         bool1 = getInfo(boolN);
         test.assert(bool1.value === false, "space sets to false (4)");
-        sendKey(casper.page.event.key.Period);
+        sendKey(keys.Period);
         bool1 = getInfo(boolN);
         test.assert(! bool1.value, "period sets null");
     }).run(function() {
