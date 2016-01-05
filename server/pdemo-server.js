@@ -63,9 +63,6 @@ var pidPhantom;
 var server = app.listen(PORT, function(){
     console.log('Listening on port %d', server.address().port);
     console.log('launch phantom');
-    process.argv.forEach(function (val, index, array) {
-        console.log(index + ': ' + val);
-    });
     var spawn = require('child_process').spawn;
     var args = process.argv;
     if(args.length == 3 && args[2]==='--use-casper') {
