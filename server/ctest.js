@@ -1,5 +1,3 @@
-"use strict";
-
 casper.on("remote.message", function(msg) {
     this.echo("Console: " + msg);
 });
