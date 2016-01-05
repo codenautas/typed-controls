@@ -33,10 +33,18 @@ function sendKey(key){
     }
 }
 
+function sendFocus(elem) {
+    casper.page.evaluate(function(id) {
+       var theElement = document.getElementById(id);
+       theElement.focus(); 
+    }, elem);
+}
+
 var keys = null;
+var testUrl = 'http://localhost:43091/demo';
 
 casper.test.begin("Test checkbox", function(test) {
-    casper.start('http://localhost:43091/demo', function() {
+    casper.start(testUrl, function() {
         keys = casper.page.event.key;
         test.assertTitle('tedede demo', 'titulo correcto');
         test.assertExists('#bool1', 'tengo bool1');
@@ -70,6 +78,22 @@ casper.test.begin("Test checkbox", function(test) {
         sendKey(keys.Period);
         bool1 = getInfo(boolN);
         test.assert(! bool1.value, "period sets null");
+    }).run(function() {
+        test.done();
+    });    
+});
+
+casper.test.begin("Test Text", function(test) {
+    casper.start(testUrl, function() {
+        keys = casper.page.event.key;
+        test.assertExists('#text1', 'tengo text1');
+        var textN = 'text1';
+        var text1 = getInfo(textN);
+        test.assert(text1.isActive===false);
+        test.assert(! text1.value, "default value to null");
+        sendFocus(textN);
+        text1 = getInfo(textN);
+        test.assert(text1.isActive===true);
     }).run(function() {
         test.done();
     });    
