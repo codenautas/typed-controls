@@ -40,6 +40,10 @@ function sendFocus(elem) {
     }, elem);
 }
 
+function sendText(text) {
+    casper.page.sendEvent('keypress', text);
+}
+
 var keys = null;
 var testUrl = 'http://localhost:43091/demo';
 
@@ -93,7 +97,35 @@ casper.test.begin("Test Text", function(test) {
         test.assert(! text1.value, "default value to null");
         sendFocus(textN);
         text1 = getInfo(textN);
-        test.assert(text1.isActive===true);
+        test.assert(text1.isActive===true, "should be active if it has focus");
+        sendText('ab');
+        text1 = getInfo(textN);
+        test.assert(text1.value==='ab', 'should set text');
+        sendKey(keys.Backspace);
+        sendKey(keys.Backspace);
+        text1 = getInfo(textN);
+        test.assert(! text1.value, 'double backspace should set to null');
+        sendKey(keys.Space);
+        text1 = getInfo(textN);
+        test.assert(text1.value==='', 'space should set to emtpy string');
+        sendKey(keys.Left);
+        text1 = getInfo(textN);
+        test.assert(text1.value==='', 'left should not alter the value');
+        sendKey(keys.A);
+        text1 = getInfo(textN);
+        test.assert(text1.value==='A', 'should set to "A"');
+        sendKey(keys.Left);
+        text1 = getInfo(textN);
+        test.assert(text1.value==='A', 'left should not alter the value (2)');
+        sendKey(keys.B);
+        text1 = getInfo(textN);
+        test.assert(text1.value==='BA', 'should set to "BA"');
+        sendKey(keys.Delete);
+        text1 = getInfo(textN);
+        test.assert(text1.value=='B', 'delete should erase one character');
+        sendKey(keys.Backspace);
+        text1 = getInfo(textN);
+        test.assert(! text1.value, 'backspace should set to null');
     }).run(function() {
         test.done();
     });    
