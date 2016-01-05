@@ -30,61 +30,7 @@ también disponible en:
 [!--lang:*-->
 
 ```sh
-$ npm install -g tedede
-```
-
-<!--lang:es-->
-
-## Uso (línea de comandos)
-
-<!--lang:en--]
-
-## Usage (command-line)
-
-[!--lang:*-->
-
-```sh
-$ pwd
-/home/user/npm-packages/this-module
-```
-
-<!--lang:es-->
-
-```sh
-$ tedede --list-langs
-Idiomas disponibles: en es
-
-$ tedede . --lang=es
-Listo sin advertencias!
-```
-
-<!--lang:en--]
-
-```sh
-$ tedede --list-langs
-Available languages: en es
-
-$ tedede . 
-Done without warnings!
-```
-
-[!--lang:es-->
-
-## Uso (código)
-
-<!--lang:en--]
-
-## Usage (code)
-
-[!--lang:*-->
-
-```js
-var qaControl = require('tedede');
-
-qaControl.controlProject('./path/to/my/project').then(function(warnings){
-    console.log(warnings);
-});
-
+$ npm install tedede
 ```
 
 ## License
