@@ -63,12 +63,24 @@ var pidPhantom;
 var server = app.listen(PORT, function(){
     console.log('Listening on port %d', server.address().port);
     console.log('launch phantom');
+    process.argv.forEach(function (val, index, array) {
+        console.log(index + ': ' + val);
+    });
     var spawn = require('child_process').spawn;
-    pidPhantom = spawn(
-        (process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs')),
-        ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
-        { stdio: 'inherit' }
-    );
+    var args = process.argv;
+    if(args.length == 3 && args[2]==='--use-casper') {
+        pidPhantom = spawn(
+            winOS?'casperjs.exe':'casperjs',
+            ['test', '--verbose', Path.resolve('./server/ctest.js')],
+            { stdio: 'inherit' }
+        );
+    } else {
+        pidPhantom = spawn(
+            (process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs')),
+            ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
+            { stdio: 'inherit' }
+        );        
+    }
     pidPhantom.on('close', function (code, signal) {
         console.log('Phantom closed', code, signal);
         pidPhantom = null;
