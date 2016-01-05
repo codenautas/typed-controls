@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
-  "repository": "codenautas/qa-control",
+  "repository": "codenautas/tedede",
   "contributors": [{
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   }],
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "body-parser": "1.14.2",
+    "casperjs": "1.1.0-beta3",
     "cookie-parser": "1.4.0",
     "es6-promise": "3.0.2",
     "expect.js": "0.3.1",
@@ -54,5 +55,27 @@
     "ptest-h": "node server/pdemo-server.js --p--hold",
     "ctest": "node server/pdemo-server.js --use-casper",
     "start": "node server/server.js"
+  },
+  "jshintConfig": {
+    "asi": false,
+    "forin": true,
+    "curly": true
+  },
+  "eslintConfig":{
+    "env": {
+      "node": false
+    },
+    "rules": {
+      "strict": 0,
+      "no-console": 1,
+      "no-unused-vars": 1
+    }
+  },
+  "qa-control": {
+    "package-version": "0.1.4",
+    "coverage": 90,
+    "run-in": "server",
+    "stability": "designing",
+    "type": "cmd-tool"
   }
 }

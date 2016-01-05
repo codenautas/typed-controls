@@ -67,7 +67,7 @@ var server = app.listen(PORT, function(){
     var args = process.argv;
     if(args.length == 3 && args[2]==='--use-casper') {
         pidPhantom = spawn(
-            winOS?'casperjs.exe':'casperjs',
+            (process.env.TRAVIS?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
             ['test', '--verbose', Path.resolve('./server/ctest.js')],
             { stdio: 'inherit' }
         );
