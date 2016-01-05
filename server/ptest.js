@@ -1,3 +1,5 @@
+"use strict";
+
 console.log('starting phantom');
 
 var expect = require('expect.js');

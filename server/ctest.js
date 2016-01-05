@@ -27,10 +27,9 @@ function sendEvent(event, elem) {
 }
 
 function sendKey(key){
-    with(casper.page) {
-        sendEvent('keydown', key);
-        sendEvent('keyup', key);
-    }
+    var sendEv = casper.page.sendEvent;
+    sendEv('keydown', key);
+    sendEv('keyup', key);
 }
 
 function sendFocus(elem) {
