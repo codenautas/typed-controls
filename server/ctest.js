@@ -140,8 +140,8 @@ casper.test.begin("Test bool with options", function(test) {
         var bool2=getInfo(elementId);
         test.assertEquals(bool2.value,false);
         
+        //este test da como resultado 'element not adapted'
         var radioButton=getInfo('bool2-true');
-        console.log('######################################################    bool2-true',radioButton.value);
         casper.page.sendEvent('click',radioButton);
         var bool2=getInfo(elementId);
         test.assertEquals(bool2.value,true);
