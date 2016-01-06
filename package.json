@@ -54,6 +54,7 @@
     "ptest": "node server/pdemo-server.js",
     "ptest-h": "node server/pdemo-server.js --p--hold",
     "ctest": "node server/pdemo-server.js --use-casper",
+    "ctest-h": "node server/pdemo-server.js --use-casper --p--hold",
     "start": "node server/server.js"
   },
   "jshintConfig": {

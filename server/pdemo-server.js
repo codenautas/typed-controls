@@ -39,6 +39,10 @@ app.get('/demo', function(req,res){
                 html.label({"for": "text1"}, "text with empty"),
                 html.input({type: "text", id:"text1", "accesskey": "t"}),
             ]),
+            html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' ,id:'label-bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false',id:'label-bool2-false'},"No"),
+            ]),
             html.pre({id: "messages"}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
