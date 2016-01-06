@@ -118,35 +118,49 @@ casper.test.begin("Test Text", function(test) {
     });    
 });
 
-// 
-// casper.test.begin("Test bool with options", function(test) {
-//     casper.start(testUrl, function() {
-//         keys = casper.page.event.key;
-//         test.assertExists('#bool2', 'tengo bool2');
-//         var elementId =  'bool2';
-//         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
-//         var bool2 = getInfo(elementId);
-//         test.assertEquals(bool2.value, null, "default value to null");
-//         var labelTrue = getInfo('label-bool2-true');
-//         casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
-//         bool2 = getInfo(elementId);
-//         test.assertEquals(bool2.value,true);
-//         /*
-//         testKey('ab', 'ab', 'should set text');
-//         testKey(keys.Backspace, 'a' ,'should erase the last key');
-//         testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
-//         testKey(keys.Space, '', 'space in a null input should set to emtpy string');
-//         testKey(keys.Left, '', 'left should not alter the value');
-//         testKey(keys.A, 'A', 'should set to "A"');
-//         testKey(keys.Left,'A', 'left should not alter the value (2)');
-//         testKey(keys.B,'BA', 'should set to "BA"');
-//         testKey(keys.Delete, 'B', 'delete should erase one character');
-//         testKey(keys.Backspace, null, 'backspace should set to null');
-//         testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
-//         */
-//     }).run(function() {
-//         test.done();
-//     });    
-// });
-// 
-// 
+
+casper.test.begin("Test bool with options", function(test) {
+    casper.start(testUrl, function() {
+        keys = casper.page.event.key;
+        test.assertExists('#bool2', 'tengo bool2');
+       
+        var elementId =  'bool2';
+        
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+        var bool2 = getInfo(elementId);
+        test.assertEquals(bool2.value, null, "default value to null");
+
+        var labelTrue = getInfo('label-bool2-true');
+        casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
+        bool2 = getInfo(elementId);
+        test.assertEquals(bool2.value,true);
+
+        var labelFalse=getInfo('bool2-false');
+        casper.page.sendEvent('click', labelFalse.cx,labelFalse.cy);
+        var bool2=getInfo(elementId);
+        test.assertEquals(bool2.value,false);
+        
+        var radioButton=getInfo('bool2-true');
+        console.log('######################################################    bool2-true',radioButton.value);
+        casper.page.sendEvent('click',radioButton);
+        var bool2=getInfo(elementId);
+        test.assertEquals(bool2.value,true);
+        
+        /*
+        testKey('ab', 'ab', 'should set text');
+        testKey(keys.Backspace, 'a' ,'should erase the last key');
+        testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string');
+        testKey(keys.Left, '', 'left should not alter the value');
+        testKey(keys.A, 'A', 'should set to "A"');
+        testKey(keys.Left,'A', 'left should not alter the value (2)');
+        testKey(keys.B,'BA', 'should set to "BA"');
+        testKey(keys.Delete, 'B', 'delete should erase one character');
+        testKey(keys.Backspace, null, 'backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
+        */
+    }).run(function() {
+        test.done();
+    });    
+});
+
