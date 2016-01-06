@@ -29,10 +29,14 @@ function sendEvent(event, elem) {
     casper.page.sendEvent(event, elem.cx, elem.cy);
 }
 
-function sendKey(key){
-    var sendEv = casper.page.sendEvent;
-    sendEv('keydown', key);
-    sendEv('keyup', key);
+function sendKey(keysOrKey){
+    if(typeof keysOrKey === "string"){
+        casper.page.sendEvent('keypress', keysOrKey);
+    }else{
+        var sendEvent = casper.page.sendEvent;
+        sendEvent('keydown', keysOrKey);
+        sendEvent('keyup', keysOrKey);
+    }
 }
 
 function sendFocus(elem) {
@@ -42,30 +46,36 @@ function sendFocus(elem) {
     }, elem);
 }
 
-function sendText(text) {
-    casper.page.sendEvent('keypress', text);
-}
-
 var keys = null;
 var testUrl = 'http://localhost:43091/demo';
 
+/*
+function MiniTester(test, elementId){
+    this.testKey=function (key, expected, description){
+        sendKey(key);
+        var info = getInfo(elementId);
+        test.assertEquals(info.value, expected, description );
+    };
+}
+*/
+function testSendKeyAndCompare(test, elementId, key, expected, description){
+    sendKey(key);
+    var info = getInfo(elementId);
+    test.assertEquals(info.value, expected, description );
+};
 
 casper.test.begin("Test checkbox", function(test) {
     casper.start(testUrl, function() {
-        var boolName = 'bool1';
-        function testKey(key, expected, description){
-            sendKey(key);
-            var bool1 = getInfo(boolName);
-            test.assertEquals(bool1.value, expected, description );
-        }
         keys = casper.page.event.key;
+        var elementId =  'bool1';
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         test.assertTitle('tedede demo', 'titulo correcto');
         test.assertExists('#bool1', 'tengo bool1');
-        var bool1 = getInfo(boolName);
-        test.assertEquals(bool1.value , false, "default value is false");
+        var bool1 = getInfo(elementId);
+        test.assertEquals(bool1.value, false, "default value is false");
         sendEvent('click', bool1);
-        bool1 = getInfo(boolName);
-        test.assertEquals(bool1.value , true, "one click sets it to true");
+        bool1 = getInfo(elementId);
+        test.assertEquals(bool1.value, true, "one click sets it to true");
         
         testKey(keys.Space, false, "space sets to false");
         testKey(keys.Delete, null, "delete sets null");
@@ -84,41 +94,25 @@ casper.test.begin("Test Text", function(test) {
     casper.start(testUrl, function() {
         keys = casper.page.event.key;
         test.assertExists('#text1', 'tengo text1');
-        var textN = 'text1';
-        var text1 = getInfo(textN);
+        var elementId =  'text1';
+        var text1 = getInfo(elementId);
+        var testKey = testSendKeyAndCompare.bind(null, test, 'text1');
         test.assertEquals(text1.isActive,false);
         test.assert(! text1.value, "default value to null");
-        sendFocus(textN);
-        text1 = getInfo(textN);
+        sendFocus(elementId);
+        text1 = getInfo(elementId);
         test.assertEquals(text1.isActive,true, "should be active if it has focus");
-        sendText('ab');
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'ab', 'should set text');
-        sendKey(keys.Backspace);
-        sendKey(keys.Backspace);
-        text1 = getInfo(textN);
-        test.assert(! text1.value, 'double backspace should set to null');
-        sendKey(keys.Space);
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'', 'space should set to emtpy string');
-        sendKey(keys.Left);
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'', 'left should not alter the value');
-        sendKey(keys.A);
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'A', 'should set to "A"');
-        sendKey(keys.Left);
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'A', 'left should not alter the value (2)');
-        sendKey(keys.B);
-        text1 = getInfo(textN);
-        test.assertEquals(text1.value,'BA', 'should set to "BA"');
-        sendKey(keys.Delete);
-        text1 = getInfo(textN);
-        test.assert(text1.value=='B', 'delete should erase one character');
-        sendKey(keys.Backspace);
-        text1 = getInfo(textN);
-        test.assert(! text1.value, 'backspace should set to null');
+        testKey('ab', 'ab', 'should set text');
+        testKey(keys.Backspace, 'a' ,'should erase the last key');
+        testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string');
+        testKey(keys.Left, '', 'left should not alter the value');
+        testKey(keys.A, 'A', 'should set to "A"');
+        testKey(keys.Left,'A', 'left should not alter the value (2)');
+        testKey(keys.B,'BA', 'should set to "BA"');
+        testKey(keys.Delete, 'B', 'delete should erase one character');
+        testKey(keys.Backspace, null, 'backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
     }).run(function() {
         test.done();
     });    
