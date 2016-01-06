@@ -21,6 +21,7 @@ var extensionServeStatic = require('extension-serve-static');
 // app.use(bodyParser.urlencoded({extended:true}));
 
 var html = require('js-to-html').html;
+var changing = require('best-globals').changing;
 
 app.get('/demo', function(req,res){
     res.end(html.html([
@@ -65,6 +66,7 @@ var server = app.listen(PORT, function(){
     console.log('launch phantom');
     var spawn = require('child_process').spawn;
     var args = process.argv;
+    var phantomPath=process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs');
     if(args.length == 3 && args[2]==='--use-casper') {
         pidPhantom = spawn(
             (process.env.TRAVIS?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
@@ -73,11 +75,11 @@ var server = app.listen(PORT, function(){
              //'--fail-fast',
              Path.resolve('./server/ctest.js')
             ],
-            { stdio: 'inherit' }
+            { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath})}
         );
     } else {
         pidPhantom = spawn(
-            (process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs')),
+            phantomPath,
             ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
             { stdio: 'inherit' }
         );        
