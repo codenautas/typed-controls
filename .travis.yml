@@ -7,7 +7,6 @@ matrix:
   fast_finish: true
 script: 
   - npm test
-  - npm run-script ptest
   - npm run-script ctest
 before_script:
   - export DISPLAY=:99.0

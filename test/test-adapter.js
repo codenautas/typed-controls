@@ -143,6 +143,94 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
+    describe.skip("when addapt element with options must control that the name does not repeats",function(){
+        it("must control that tedede-option-group == id",function(){
+            var theElement=html.div({id:'bool21', "tedede-option-group": "bool22"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement);
+            expect(function(){
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/tedede-option-group must match id/);
+        });
+        it("must control that tedede-option-group == name",function(){
+            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool22', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement);
+            expect(function(){
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/tedede-option-group must match name of radiobuttons/);
+        });
+        it("must control that option tagName == 'input'",function(){
+            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.a({type:'radio', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement);
+            expect(function(){
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/option of tedede-option-group must be a input.type radio/);
+        });
+        it("must control that option type='radio'",function(){
+            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'checkbox', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement);
+            expect(function(){
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/option of tedede-option-group must be a input.type radio/);
+        });
+        it("must control options must be childs of respective tedede-option-group",function(){
+            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement1);
+            document.body.appendChild(theElement2);
+            expect(function(){
+                Tedede.adaptElement(theElement1, "boolean");
+            }).to.throwError(/options must be childs of respective tedede-option-group/);
+        })
+        it("must control options must be childs of respective tedede-option-group in identical create",function(){
+            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            var theElement2=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            document.body.appendChild(theElement1);
+            document.body.appendChild(theElement2);
+            expect(function(){
+                Tedede.adaptElement(theElement1, "boolean");
+            }).to.throwError(/options must be childs of respective tedede-option-group/);
+        })
+        it("must control no others elements with the same name",function(){
+            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            ]).create();
+            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool1"},[
+                html.input({type:'radio', name:'bool1', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool1', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
+                html.input({type:'button', name:'bool2', value:'false', id:'bool1-x'}), html.label({"for":'bool1-x'},"No"),
+            ]).create();
+            document.body.appendChild(theElement1);
+            document.body.appendChild(theElement2);
+            expect(function(){
+                Tedede.adaptElement(theElement1, "boolean");
+            }).to.throwError(/invalid option with the same tedede-option-group/);
+        })
+    });
     describe("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){

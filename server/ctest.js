@@ -25,10 +25,6 @@ function getInfo(elemId) {
     }, elemId));
 }
 
-function sendEvent(event, elem) {
-    casper.page.sendEvent(event, elem.cx, elem.cy);
-}
-
 function sendKey(keysOrKey){
     if(typeof keysOrKey === "string"){
         casper.page.sendEvent('keypress', keysOrKey);
@@ -73,7 +69,7 @@ casper.test.begin("Test checkbox", function(test) {
         test.assertExists('#bool1', 'tengo bool1');
         var bool1 = getInfo(elementId);
         test.assertEquals(bool1.value, false, "default value is false");
-        sendEvent('click', bool1);
+        casper.page.sendEvent('click', bool1.cx, bool1.cy);
         bool1 = getInfo(elementId);
         test.assertEquals(bool1.value, true, "one click sets it to true");
         
@@ -142,7 +138,7 @@ casper.test.begin("Test bool with options", function(test) {
         
         //este test da como resultado 'element not adapted'
         var radioButton=getInfo('bool2-true');
-        casper.page.sendEvent('click',radioButton);
+        casper.page.sendEvent('click',radioButton.cx, radioButton.cy);
        // console.log("############   radioButton", radioButton.value);
         var bool2=getInfo(elementId);
         test.assertEquals(bool2.value,true);

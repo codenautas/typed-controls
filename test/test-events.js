@@ -118,12 +118,16 @@ describe("events", function(){
         var theElement;
         var theElementErr=null;
         [
-            {tagName:'div'  , type:''     },
+            {tagName:'div'  },
             {tagName:'input', type:'text' }, 
             {tagName:'input', type:'date' }
         ].forEach(function(def){
             try{
-                theElement = html[def.tagName]({type:def.type}).create();
+                var params=[];
+                if(def.type!==undefined){
+                    params.push({type:def.type});
+                }
+                theElement = html[def.tagName].apply(html, params).create();
                 Tedede.adaptElement(theElement,'date');
             }catch(err){
                 theElement = null;
