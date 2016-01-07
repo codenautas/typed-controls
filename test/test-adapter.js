@@ -143,7 +143,7 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
-    describe.only("boolean with options implemented with radiobuttons",function(){
+    describe("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
             theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
