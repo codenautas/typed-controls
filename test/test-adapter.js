@@ -93,7 +93,7 @@ toTest["text_no_empty"].validData = toTest["text"].validData.filter(function(dat
 toTest["text_no_empty"].invalidData = toTest["text"].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
 
 describe("adapter",function(){
-    describe("for text without empty strings",function(){
+    describe.skip("for text without empty strings",function(){
         var inputElement;
         var divElement;
         beforeEach(function(done){
@@ -143,9 +143,9 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
-    describe.only("when addapt element with options must control that the name does not repeats",function(){
+    describe("when addapt element with options must control that the name does not repeats",function(){
         it("must control that tedede-option-group == id",function(){
-            var theElement=html.div({id:'bool21', "tedede-option-group": "bool22"},[
+            var theElement=html.div({id:'bool21', "tedede-option-group": "bool2"},[
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
             ]).create();
@@ -154,7 +154,7 @@ describe("adapter",function(){
                 Tedede.adaptElement(theElement, "boolean");
             }).to.throwError(/tedede-option-group must match id/);
         });
-        it.skip("must control that tedede-option-group == name",function(){
+        it("must control that tedede-option-group == name",function(){
             var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool22', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
@@ -231,7 +231,7 @@ describe("adapter",function(){
             }).to.throwError(/invalid option with the same tedede-option-group/);
         })
     });
-    describe("boolean with options implemented with radiobuttons",function(){
+    describe.skip("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
             theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
