@@ -30,7 +30,7 @@ app.get('/demo', function(req,res){
             html.link({rel:'stylesheet', type:'text/css', href:'pdemo.css'}),
         ]),
         html.body([
-            html.h1("tedede demo for phantom"),
+            html.h1("tedede demo for browser"),
             html.div([
                 html.input({type: "checkbox", id:"bool1"}),
                 html.label({"for": "bool1"}, "has tri-state booleans"),
@@ -63,46 +63,40 @@ app.use('/',extensionServeStatic('./server', {
     staticExtensions: ['', 'html', 'htm', 'png', 'jpg', 'jpeg', 'gif', 'js', 'css']
 })); 
 
-var pidPhantom;
+var pidBrowser;
 
 var server = app.listen(PORT, function(){
     console.log('Listening on port %d', server.address().port);
-    console.log('launch phantom');
+    console.log('launch browser');
     var spawn = require('child_process').spawn;
     var args = process.argv;
     var phantomPath=process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'phantomjs.exe':'bin/phantomjs');
-    if(args.length == 3 && args[2]==='--use-casper') {
-        pidPhantom = spawn(
-            (process.env.TRAVIS?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
-            ['test',
-             '--verbose',
-             //'--fail-fast',
-             Path.resolve('./server/ctest.js')
-            ],
-            { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath})}
-        );
-    } else {
-        pidPhantom = spawn(
-            phantomPath,
-            ['./server/ptest.js'].concat(process.argv.map(function(arg){ return arg.substr(0,5)=='--p--'?arg.substr(3):''})),
-            { stdio: 'inherit' }
-        );        
-    }
-    pidPhantom.on('close', function (code, signal) {
-        console.log('Phantom closed', code, signal);
-        pidPhantom = null;
-        process.exit();
+    var slimerPath=process.env.TRAVIS?'slimerjs':'./node_modules/slimerjs/lib/slimer/'+(winOS?'slimerjs.bat':'bin/slimerjs');
+    pidBrowser = spawn(
+        (process.env.TRAVIS?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
+        ['test',
+         '--verbose',
+         //'--engine=slimerjs',
+         //'--fail-fast',
+         Path.resolve('./server/ctest.js')
+        ],
+        { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath})}
+    );
+    pidBrowser.on('close', function (code, signal) {
+        console.log('browser closed', code, signal);
+        pidBrowser = null;
+        process.exit(code);
     });
     console.log('all launched');
 });
 
 process.on('exit', function(code){
     console.log('process exit',code);
-    if(pidPhantom){
-        pidPhantom.kill('SIGHUP');
-        console.log('SIGHUP sended to phantom');
+    if(pidBrowser){
+        pidBrowser.kill('SIGHUP');
+        console.log('SIGHUP sended to browser');
     }else{
-        console.log('phantom already closed');
+        console.log('browser already closed');
     }
 });
 

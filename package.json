@@ -41,9 +41,12 @@
     "karma-mocha": "0.2.1",
     "karma-phantomjs-launcher": "0.2.3",
     "karma-safari-launcher": "0.1.1",
+    "karma-slimerjs-launcher": "0.2.0",
     "jade": "1.11.0",
     "mocha": "2.3.4",
     "read-yaml-promise": "1.0.2",
+    "phantomjs": "1.9.19",
+    "slimerjs": "0.9.6-2",
     "sinon": "1.17.2",
     
     "extension-serve-static": "0.1.6"
