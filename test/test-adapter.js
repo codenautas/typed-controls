@@ -164,10 +164,10 @@ describe("adapter",function(){
                 Tedede.adaptElement(theElement, "boolean");
             }).to.throwError(/tedede-option-group must match name of radiobuttons/);
         });
-        it.skip("must control that option tagName == 'input'",function(){
+        it("must control that option tagName == 'input'",function(){
             var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.a({type:'radio', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+                html.button({type:'radio', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
