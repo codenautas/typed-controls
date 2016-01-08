@@ -234,10 +234,10 @@ describe("adapter",function(){
     describe.skip("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
-            theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
+            theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[html.div([
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
-            ]).create();
+            ])]).create();
             document.body.appendChild(theElement);
             Tedede.adaptElement(theElement, "boolean");
         });
