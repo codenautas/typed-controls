@@ -171,7 +171,7 @@ describe("adapter",function(){
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
+                Tedede.adaptElement(theElement, "boolean");             
             }).to.throwError(/option of tedede-option-group must be a input.type radio/);
         });
         it.skip("must control that option type='radio'",function(){
