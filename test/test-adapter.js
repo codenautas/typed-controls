@@ -93,7 +93,7 @@ toTest["text_no_empty"].validData = toTest["text"].validData.filter(function(dat
 toTest["text_no_empty"].invalidData = toTest["text"].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
 
 describe("adapter",function(){
-    describe.skip("for text without empty strings",function(){
+    describe("for text without empty strings",function(){
         var inputElement;
         var divElement;
         beforeEach(function(done){
@@ -231,43 +231,43 @@ describe("adapter",function(){
             }).to.throwError(/invalid option with the same tedede-option-group/);
         })
     });
-    describe.skip("boolean with options implemented with radiobuttons",function(){
+    describe("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
-            theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[html.div([
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            theElement=html.div({id:'bool9', "tedede-option-group": "bool9"},[html.div([
+                html.input({type:'radio', name:'bool9', value:'true' , id:'bool9-true' }), html.label({"for":'bool9-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool9', value:'false', id:'bool9-false'}), html.label({"for":'bool9-false'},"No"),
             ])]).create();
             document.body.appendChild(theElement);
             Tedede.adaptElement(theElement, "boolean");
         });
         it("must be null by default",function(){
-            expect(document.getElementById('bool2-true').checked).to.be(false);
-            expect(document.getElementById('bool2-false').checked).to.be(false);
+            expect(document.getElementById('bool9-true').checked).to.be(false);
+            expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(null);
         });
         it("must get true for true",function(){
             theElement.setTypedValue(true);
-            expect(document.getElementById('bool2-true').checked).to.be(true);
-            expect(document.getElementById('bool2-false').checked).to.be(false);
+            expect(document.getElementById('bool9-true').checked).to.be(true);
+            expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(true);
         });
         it("must get false for false and can change",function(){
             theElement.setTypedValue(false);
-            expect(document.getElementById('bool2-true').checked).to.be(false);
-            expect(document.getElementById('bool2-false').checked).to.be(true);
+            expect(document.getElementById('bool9-true').checked).to.be(false);
+            expect(document.getElementById('bool9-false').checked).to.be(true);
             expect(theElement.getTypedValue()).to.be(false);
             theElement.setTypedValue(null);
-            expect(document.getElementById('bool2-true').checked).to.be(false);
-            expect(document.getElementById('bool2-false').checked).to.be(false);
+            expect(document.getElementById('bool9-true').checked).to.be(false);
+            expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(null);
             theElement.setTypedValue(true);
-            expect(document.getElementById('bool2-true').checked).to.be(true);
-            expect(document.getElementById('bool2-false').checked).to.be(false);
+            expect(document.getElementById('bool9-true').checked).to.be(true);
+            expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(true);
             theElement.setTypedValue(false);
-            expect(document.getElementById('bool2-true').checked).to.be(false);
-            expect(document.getElementById('bool2-false').checked).to.be(true);
+            expect(document.getElementById('bool9-true').checked).to.be(false);
+            expect(document.getElementById('bool9-false').checked).to.be(true);
             expect(theElement.getTypedValue()).to.be(false);
         });
     });
