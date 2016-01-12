@@ -155,9 +155,9 @@ describe("adapter",function(){
             }).to.throwError(/tedede-option-group must match id/);
         });
         it("must control that tedede-option-group == name",function(){
-            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool22', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement=html.div({id:'bool3', "tedede-option-group": "bool3"},[
+                html.input({type:'radio', name:'bool3', value:'true' , id:'bool3-true' }), html.label({"for":'bool3-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool22', value:'false', id:'bool3-false'}), html.label({"for":'bool3-false'},"No"),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
@@ -165,19 +165,19 @@ describe("adapter",function(){
             }).to.throwError(/tedede-option-group must match name of radiobuttons/);
         });
         it("must control that option tagName == 'input'",function(){
-            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.button({type:'radio', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement=html.div({id:'bool4', "tedede-option-group": "bool4"},[
+                html.input({type:'radio', name:'bool4', value:'true' , id:'bool4-true' }), html.label({"for":'bool4-true' },"Sí"), html.br(),
+                html.button({type:'radio', name:'bool4', id:'bool4-false'}), html.label({"for":'bool4-false'},"No"),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
                 Tedede.adaptElement(theElement, "boolean");             
             }).to.throwError(/option of tedede-option-group must be a input.type radio/);
         });
-        it.skip("must control that option type='radio'",function(){
-            var theElement=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'checkbox', name:'bool2', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+        it("must control that option type='radio'",function(){
+            var theElement=html.div({id:'bool5', "tedede-option-group": "bool5"},[
+                html.input({type:'radio', name:'bool5', value:'true' , id:'bool5-true' }), html.label({"for":'bool5-true' },"Sí"), html.br(),
+                html.input({type:'checkbox', name:'bool5', id:'bool5-false'}), html.label({"for":'bool5-false'},"No"),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
@@ -185,13 +185,13 @@ describe("adapter",function(){
             }).to.throwError(/option of tedede-option-group must be a input.type radio/);
         });
         it.skip("must control options must be childs of respective tedede-option-group",function(){
-            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement1=html.div({id:'bool6', "tedede-option-group": "bool6"},[
+                html.input({type:'radio', name:'bool6', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool6', value:'false', id:'bool6-false'}), html.label({"for":'bool6-false'},"No"),
             ]).create();
-            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
+            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool6"},[
+                html.input({type:'radio', name:'bool6', value:'true' , id:'bool6-true' }), html.label({"for":'bool6-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool6', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
             ]).create();
             document.body.appendChild(theElement1);
             document.body.appendChild(theElement2);
@@ -200,13 +200,13 @@ describe("adapter",function(){
             }).to.throwError(/options must be childs of respective tedede-option-group/);
         })
         it.skip("must control options must be childs of respective tedede-option-group in identical create",function(){
-            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement1=html.div({id:'bool7', "tedede-option-group": "bool7"},[
+                html.input({type:'radio', name:'bool7', value:'true' , id:'bool7-true' }), html.label({"for":'bool7-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool7', value:'false', id:'bool7-false'}), html.label({"for":'bool7-false'},"No"),
             ]).create();
-            var theElement2=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement2=html.div({id:'bool7', "tedede-option-group": "bool7"},[
+                html.input({type:'radio', name:'bool7', value:'true' , id:'bool7-true' }), html.label({"for":'bool7-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool7', value:'false', id:'bool7-false'}), html.label({"for":'bool7-false'},"No"),
             ]).create();
             document.body.appendChild(theElement1);
             document.body.appendChild(theElement2);
@@ -215,14 +215,14 @@ describe("adapter",function(){
             }).to.throwError(/options must be childs of respective tedede-option-group/);
         })
         it.skip("must control no others elements with the same name",function(){
-            var theElement1=html.div({id:'bool2', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+            var theElement1=html.div({id:'bool8', "tedede-option-group": "bool8"},[
+                html.input({type:'radio', name:'bool8', value:'true' , id:'bool8-true' }), html.label({"for":'bool8-true' },"Sí"), html.br(),
+                html.input({type:'radio', name:'bool8', value:'false', id:'bool8-false'}), html.label({"for":'bool8-false'},"No"),
             ]).create();
             var theElement2=html.div({id:'bool1', "tedede-option-group": "bool1"},[
                 html.input({type:'radio', name:'bool1', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool1', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
-                html.input({type:'button', name:'bool2', value:'false', id:'bool1-x'}), html.label({"for":'bool1-x'},"No"),
+                html.input({type:'button', name:'bool8', value:'false', id:'bool1-x'}), html.label({"for":'bool1-x'},"No"),
             ]).create();
             document.body.appendChild(theElement1);
             document.body.appendChild(theElement2);
