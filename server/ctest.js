@@ -170,3 +170,27 @@ casper.test.begin("Test bool with options", function(test) {
     });    
 });
 
+casper.test.begin("Test text with custom event", function(test) {
+    casper.start(testUrl, function() {
+        var elementId='txtEmiter';
+        sendFocus(elementId);
+        test.assertExists('#txtReceiver', 'tengo receiver');
+        casper.page.evaluate(function() {
+            window.myUpdateEventResult='.';
+            txtEmiter.addEventListener("update", function updateEvent(e){
+                window.myUpdateEventResult+='ok';
+            }, false);
+        });
+        var keys = casper.page.event.key;
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+        testKey(keys.A, 'A');
+        testKey(keys.Tab, 'A');
+        var myUpdateEventResult=casper.page.evaluate(function() {
+            return window.myUpdateEventResult;
+        });
+        console.log("Skipping manually"); return;
+        test.assertEquals(myUpdateEventResult,'.ok');
+    }).run(function() {
+        test.done();
+    });    
+});

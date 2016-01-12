@@ -29,7 +29,7 @@ app.get('/demo', function(req,res){
         //link rel="stylesheet" type="text/css" href="mystyle.css"> </head>.
             html.link({rel:'stylesheet', type:'text/css', href:'pdemo.css'}),
         ]),
-        html.body([
+        html.body({id:'elBody'},[
             html.h1("tedede demo for browser"),
             html.div([
                 html.input({type: "checkbox", id:"bool1"}),
@@ -43,6 +43,8 @@ app.get('/demo', function(req,res){
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' ,id:'label-bool2-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false',id:'label-bool2-false'},"No"),
             ]),
+            html.input({type: "text", id:"txtReceiver"}),
+            html.input({type: "text", id:"txtEmiter"}),
             html.pre({id: "messages"}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),

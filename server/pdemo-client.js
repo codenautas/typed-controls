@@ -12,6 +12,10 @@ window.addEventListener('load', function(){
     Tedede.adaptElement(bool1, 'boolean');
     Tedede.adaptElement(text1, 'text');
     Tedede.adaptElement(bool2, 'boolean');
+    
+    Tedede.adaptElement(txtReceiver, 'text');
+    Tedede.adaptElement(txtEmiter, 'text');
+    
     if(!"show events"){
         showEvent('keydown');
         showEvent('keypress');
