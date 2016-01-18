@@ -59,7 +59,7 @@
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ctest": "node server/pdemo-server.js --use-casper",
-    "ctest-h": "node server/pdemo-server.js --use-casper --p--hold",
+    "ctest-h": "node server/pdemo-server.js --use-casper --hold",
     "start": "node server/server.js"
   },
   "jshintConfig": {

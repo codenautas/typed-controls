@@ -95,7 +95,9 @@ var server = app.listen(PORT, function(){
     pidBrowser.on('close', function (code, signal) {
         console.log('browser closed', code, signal);
         pidBrowser = null;
-        process.exit(code);
+        if(!(process.argv.indexOf('--hold')>0)){
+            process.exit(code);
+        }
     });
     console.log('all launched');
 });
