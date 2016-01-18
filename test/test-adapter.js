@@ -325,6 +325,19 @@ describe("adapter",function(){
                         expect(theElement.valueEmpty).to.eql(data.valueEmpty);
                     }
                 });
+                it("send the right event "+data.value+" in "+def.tagName,function(done){
+                    if(!def.mainUpdateEventName || skip) {
+                        done();
+                        return;
+                    }
+                    theElement.setTypedValue(data.value);
+                    theElement.addEventListener('update', function(){
+                        expect(this.getTypedValue()).to.eql(data.value);
+                        done();
+                    });
+                    var evt=new CustomEvent('blur');
+                    theElement.dispatchEvent(evt);
+                });
             });
             toTest[typeName].invalidData.forEach(function(def){
                 it("reject invalid value "+def.value,function(){
