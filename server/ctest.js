@@ -191,12 +191,11 @@ casper.test.begin("Test text with custom event", function(test) {
         var keys = casper.page.event.key;
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.A, 'A');
-        testKey(keys.Tab, 'A');
+        testKey(keys.Tab, 'A'); // esto debe disparar el evento
         var myUpdateEventResult=casper.page.evaluate(function() {
             return window.myUpdateEventResult;
         });
-        console.log("Skipping manually"); return;
-        //test.assertEquals(myUpdateEventResult,'.ok');
+        test.assertEquals(myUpdateEventResult,'.ok');
     }).run(function() {
         this.test.done();
     });    
