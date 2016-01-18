@@ -16,6 +16,13 @@ casper.on("resource.error", function(msg, trace) {
     this.echo("Res.Error: " + msg);
 });
 
+var numErrors = 0;
+
+casper.test.on("fail", function () {
+    ++numErrors;
+});
+
+
 function getInfo(elemId) {
     return JSON.parse(casper.page.evaluate(function(id) {
         var theElement = document.getElementById(id);
@@ -189,8 +196,16 @@ casper.test.begin("Test text with custom event", function(test) {
             return window.myUpdateEventResult;
         });
         console.log("Skipping manually"); return;
-        test.assertEquals(myUpdateEventResult,'.ok');
+        //test.assertEquals(myUpdateEventResult,'.ok');
     }).run(function() {
-        test.done();
+        this.test.done();
+    });    
+});
+
+casper.test.begin("Test text with custom event", function(test) {
+    casper.start(testUrl, function() {
+        this.echo("# errores: "+numErrors)
+    }).run(function() {
+        this.test.done(numErrors === 0);
     });    
 });
