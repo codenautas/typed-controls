@@ -181,9 +181,10 @@ casper.test.begin("Test text with custom event", function(test) {
         test.assertExists('#txtEmiter', 'tengo emmiter');
         casper.page.evaluate(function() {
             window.myUpdateEventResult='.';
+            window.mySourceElement = null;
             txtEmiter.addEventListener("update", function updateEvent(e){
-                console.log("event.type:", e.type);
                 window.myUpdateEventResult+='ok';
+                window.mySourceElement = e.target;
             }, false);
         });
         var keys = casper.page.event.key;
@@ -193,7 +194,14 @@ casper.test.begin("Test text with custom event", function(test) {
         var myUpdateEventResult=casper.page.evaluate(function() {
             return window.myUpdateEventResult;
         });
+        var mySourceElement=casper.page.evaluate(function() {
+            return window.mySourceElement;
+        });
+        var txtEmiter = casper.page.evaluate(function(id) {
+            return document.getElementById(id);
+        }, elementId);
         test.assertEquals(myUpdateEventResult,'.ok');
+        test.assertEquals(mySourceElement, txtEmiter);
     }).run(function() {
         this.test.done();
     });    
