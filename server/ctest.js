@@ -127,9 +127,6 @@ casper.test.begin("Test Text", function(test) {
 
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
-        
-        //console.log("Skipping manually"); return;
-        
         keys = casper.page.event.key;
         test.assertExists('#bool2', 'tengo bool2');
        
@@ -185,6 +182,7 @@ casper.test.begin("Test text with custom event", function(test) {
         casper.page.evaluate(function() {
             window.myUpdateEventResult='.';
             txtEmiter.addEventListener("update", function updateEvent(e){
+                console.log("event.type:", e.type);
                 window.myUpdateEventResult+='ok';
             }, false);
         });
