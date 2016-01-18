@@ -13,7 +13,6 @@ window.addEventListener('load', function(){
     Tedede.adaptElement(text1, 'text');
     Tedede.adaptElement(bool2, 'boolean');
     
-    Tedede.adaptElement(txtReceiver, 'text');
     Tedede.adaptElement(txtEmiter, 'text');
     
     if(!"show events"){

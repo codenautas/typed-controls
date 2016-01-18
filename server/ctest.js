@@ -174,7 +174,7 @@ casper.test.begin("Test text with custom event", function(test) {
     casper.start(testUrl, function() {
         var elementId='txtEmiter';
         sendFocus(elementId);
-        test.assertExists('#txtReceiver', 'tengo receiver');
+        test.assertExists('#txtEmiter', 'tengo emmiter');
         casper.page.evaluate(function() {
             window.myUpdateEventResult='.';
             txtEmiter.addEventListener("update", function updateEvent(e){
