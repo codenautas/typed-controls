@@ -331,10 +331,15 @@ describe("adapter",function(){
                         done();
                         return;
                     }
+                    console.log('TTTTTTTTTTTTTT',typeName,data.value);
                     theElement.setTypedValue(data.value);
                     theElement.addEventListener('update', function(){
-                        expect(this.getTypedValue()).to.eql(data.value);
-                        done();
+                        try{
+                            expect(this.getTypedValue()).to.eql(data.value);
+                            done();
+                        }catch(err){
+                            done(err);
+                        }
                     });
                     var evt=new CustomEvent('blur');
                     theElement.dispatchEvent(evt);
