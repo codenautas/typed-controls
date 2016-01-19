@@ -171,6 +171,59 @@ casper.test.begin("Test text with custom event", function(test) {
     });    
 });
 
+casper.test.begin("Test checkbox with custom event", function(test) {
+    casper.start(testUrl, function() {
+        var elementId =  'bool1';
+        test.assertExists('#'+elementId, 'tengo bool1');
+        sendFocus(elementId);
+        
+        casper.page.evaluate(function() {
+            window.myCounter=0;
+            window.mySourceElement = null;
+            bool1.addEventListener("update", function updateEvent(e){
+                ++window.myCounter;
+                window.mySourceElement = e.target;
+            }, false);
+        });
+        
+        var testClick = testSendClickAndCompare.bind(null, test, elementId);
+        testClick(true, "click should change value and fire update");
+        
+        var myCounter=casper.page.evaluate(function() {
+            return window.myCounter;
+        });
+        var mySourceElement=casper.page.evaluate(function() {
+            return window.mySourceElement;
+        });
+        var bool1 = casper.page.evaluate(function(id) {
+            return document.getElementById(id);
+        }, elementId);
+        
+        test.assertEquals(myCounter, 1);
+        test.assertEquals(mySourceElement, bool1);
+        
+        
+        testClick(false, "another click should change value and fire update");
+        
+        var myCounter=casper.page.evaluate(function() {
+            return window.myCounter;
+        });
+        var mySourceElement=casper.page.evaluate(function() {
+            return window.mySourceElement;
+        });
+        var bool1 = casper.page.evaluate(function(id) {
+            return document.getElementById(id);
+        }, elementId);
+        
+        test.assertEquals(myCounter, 2);
+        test.assertEquals(mySourceElement, bool1);
+        
+    }).run(function() {
+        this.test.done();
+    });    
+});
+
+
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
         test.assertExists('#bool2', 'tengo bool2');
@@ -200,48 +253,11 @@ casper.test.begin("Test bool with options", function(test) {
        // console.log("############   radioButton", radioButton.value);
         var bool2=getInfo(elementId);
         test.assertEquals(bool2.value,true);
-*/        
-        /*
-        testKey('ab', 'ab', 'should set text');
-        testKey(keys.Backspace, 'a' ,'should erase the last key');
-        testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
-        testKey(keys.Space, '', 'space in a null input should set to emtpy string');
-        testKey(keys.Left, '', 'left should not alter the value');
-        testKey(keys.A, 'A', 'should set to "A"');
-        testKey(keys.Left,'A', 'left should not alter the value (2)');
-        testKey(keys.B,'BA', 'should set to "BA"');
-        testKey(keys.Delete, 'B', 'delete should erase one character');
-        testKey(keys.Backspace, null, 'backspace should set to null');
-        testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
-        */
+*/ 
     }).run(function() {
         test.done();
     });    
 });
-
-
-casper.test.begin("Test checkbox with custom event", function(test) {
-    casper.start(testUrl, function() {
-        var elementId =  'bool1';
-        test.assertExists('#'+elementId, 'tengo bool1');
-        sendFocus(elementId);
-        
-        casper.page.evaluate(function() {
-            window.myCounter=0;
-            window.mySourceElement = null;
-            txtEmiter.addEventListener("update", function updateEvent(e){
-                ++window.myCounter;
-                window.mySourceElement = e.target;
-            }, false);
-        });
-        
-      
-        var bool1 = getInfo(elementId);
-    }).run(function() {
-        this.test.done();
-    });    
-});
-
 
 // checkeo de tests funcionará al actualizar CasperJS!
 casper.test.begin("Finish", function(test) {
