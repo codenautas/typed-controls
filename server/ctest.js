@@ -240,18 +240,14 @@ casper.test.begin("Test checkbox with custom event", function(test) {
     });    
 });
 
-
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
-              
         var boolG =  'bool2';
         var boolT = 'bool2-true';
         var boolF = 'bool2-false';
-        
         test.assertExists('#'+boolG, 'tengo bool2');
         test.assertExists('#'+boolT, 'tengo bool2-true');
         test.assertExists('#'+boolF, 'tengo bool2-false');
-        
         var clickTrue = testSendClickToGroupAndCompare.bind(null, test, boolG, boolT);
         var clickFalse = testSendClickToGroupAndCompare.bind(null, test, boolG, boolF);
         
@@ -262,6 +258,36 @@ casper.test.begin("Test bool with options", function(test) {
         
     }).run(function() {
         test.done();
+    });    
+});
+
+casper.test.begin("Test bool with options with custom event", function(test) {
+    casper.start(testUrl, function() {
+        var boolG =  'bool2';
+        var boolT = 'bool2-true';
+        var boolF = 'bool2-false';
+        
+        casper.page.evaluate(function() {
+            window.myCounter=10;
+            window.mySourceElement = null;
+            bool1.addEventListener("update", function updateEvent(e){
+                window.myCounter += 7;
+                window.mySourceElement = e.target;
+            }, false);
+        });
+        
+        sendFocus(boolG);
+        
+        // var testKey = testSendKeyAndCompare.bind(null, test, boolG);
+        // var compareSender = testCompareSender.bind(null, test, 'mySourceElement');
+        // var compareVar = testCompareUpdatedVar.bind(null, test, 'myCounter');
+        
+        // testKey(keys.Tab, null, 'Should trigger update event');
+        // compareVar(17, 'should set to 17');
+        // compareSender(boolG, "sender should be '"+boolG+"'");        
+        
+    }).run(function() {
+        this.test.done();
     });    
 });
 
