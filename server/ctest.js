@@ -71,9 +71,15 @@ function testSendKeyAndCompare(test, elementId, key, expected, description){
     test.assertEquals(info.value, expected, description );
 };
 
-casper.test.begin("Test checkbox", function(test) {
+casper.test.begin('Setup', 0, function(test) {
     casper.start(testUrl, function() {
         keys = casper.page.event.key;
+        test.done();
+    }).run();
+});
+
+casper.test.begin("Test checkbox", function(test) {
+    casper.start(testUrl, function() {
         var elementId =  'bool1';
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         test.assertTitle('tedede demo', 'titulo correcto');
@@ -92,6 +98,8 @@ casper.test.begin("Test checkbox", function(test) {
         testKey(keys.Minus, null, "minus sets null");
         testKey(keys.Space, false, "space sets to false (4)");
         testKey(keys.Period, null, "period sets null");
+        
+        
     }).run(function() {
         test.done();
     });    
@@ -99,7 +107,6 @@ casper.test.begin("Test checkbox", function(test) {
 
 casper.test.begin("Test Text", function(test) {
     casper.start(testUrl, function() {
-        keys = casper.page.event.key;
         test.assertExists('#text1', 'tengo text1');
         var elementId =  'text1';
         var text1 = getInfo(elementId);
@@ -127,7 +134,6 @@ casper.test.begin("Test Text", function(test) {
 
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
-        keys = casper.page.event.key;
         test.assertExists('#bool2', 'tengo bool2');
        
         var elementId =  'bool2';
@@ -187,7 +193,6 @@ casper.test.begin("Test text with custom event", function(test) {
                 window.mySourceElement = e.target;
             }, false);
         });
-        var keys = casper.page.event.key;
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.A, 'A');
         testKey(keys.Tab, 'A'); // esto debe disparar el evento
@@ -202,6 +207,54 @@ casper.test.begin("Test text with custom event", function(test) {
         }, elementId);
         test.assertEquals(myUpdateEventResult,'.ok');
         test.assertEquals(mySourceElement, txtEmiter);
+    }).run(function() {
+        this.test.done();
+    });    
+});
+
+casper.test.begin("Test checkbox with custom event", function(test) {
+    casper.start(testUrl, function() {
+        var elementId =  'bool1';
+        test.assertExists('#'+elementId, 'tengo bool1');
+        sendFocus(elementId);
+        
+        casper.page.evaluate(function() {
+            window.myCounter=0;
+            window.mySourceElement = null;
+            txtEmiter.addEventListener("update", function updateEvent(e){
+                ++window.myCounter;
+                window.mySourceElement = e.target;
+            }, false);
+        });
+        
+        var bool1 = getInfo(elementId);
+        
+/*         
+        var elementId='txtEmiter';
+        sendFocus(elementId);
+        casper.page.evaluate(function() {
+            window.myUpdateEventResult='.';
+            window.mySourceElement = null;
+            txtEmiter.addEventListener("update", function updateEvent(e){
+                window.myUpdateEventResult+='ok';
+                window.mySourceElement = e.target;
+            }, false);
+        });
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+        testKey(keys.A, 'A');
+        testKey(keys.Tab, 'A'); // esto debe disparar el evento
+        var myUpdateEventResult=casper.page.evaluate(function() {
+            return window.myUpdateEventResult;
+        });
+        var mySourceElement=casper.page.evaluate(function() {
+            return window.mySourceElement;
+        });
+        var txtEmiter = casper.page.evaluate(function(id) {
+            return document.getElementById(id);
+        }, elementId);
+        test.assertEquals(myUpdateEventResult,'.ok');
+        test.assertEquals(mySourceElement, txtEmiter);
+*/
     }).run(function() {
         this.test.done();
     });    
