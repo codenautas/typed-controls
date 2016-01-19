@@ -49,6 +49,20 @@ function testSendClickAndCompare(test, elementId, expected, description){
     test.assertEquals(info.value, expected, description);
 };
 
+function testCompareUpdate(test, winVar, winSource, sourceId, expectedVar, description){
+    var myVar=casper.page.evaluate(function(wVar) {
+        return window[wVar];
+    }, winVar);
+    var mySourceElement=casper.page.evaluate(function(wVar) {
+        return window[wVar];
+    }, winSource);
+    var mySourceId = casper.page.evaluate(function(id) {
+        return document.getElementById(id);
+    }, sourceId);
+    casper.echo("myVar:"+myVar);
+    test.assertEquals(myVar, expectedVar);
+    test.assertEquals(mySourceElement, mySourceId);
+};
 
 casper.test.on("fail", function () {
     ++numErrors;
@@ -187,37 +201,17 @@ casper.test.begin("Test checkbox with custom event", function(test) {
         });
         
         var testClick = testSendClickAndCompare.bind(null, test, elementId);
-        testClick(true, "click should change value and fire update");
+        var compareUpdate = testCompareUpdate.bind(null, test, 'myCounter', 'mySourceElement', elementId);
         
-        var myCounter=casper.page.evaluate(function() {
-            return window.myCounter;
-        });
-        var mySourceElement=casper.page.evaluate(function() {
-            return window.mySourceElement;
-        });
-        var bool1 = casper.page.evaluate(function(id) {
-            return document.getElementById(id);
-        }, elementId);
+        testClick(true, "click should change value to TRUE and fire update");
+        compareUpdate(1, 'should set to 1')
         
-        test.assertEquals(myCounter, 1);
-        test.assertEquals(mySourceElement, bool1);
+        testClick(false, "another click should change value to FALSE and fire update");
+        compareUpdate(2, 'should set to 2')
         
-        
-        testClick(false, "another click should change value and fire update");
-        
-        var myCounter=casper.page.evaluate(function() {
-            return window.myCounter;
-        });
-        var mySourceElement=casper.page.evaluate(function() {
-            return window.mySourceElement;
-        });
-        var bool1 = casper.page.evaluate(function(id) {
-            return document.getElementById(id);
-        }, elementId);
-        
-        test.assertEquals(myCounter, 2);
-        test.assertEquals(mySourceElement, bool1);
-        
+        testClick(true, "another click should change value BACK TO TRUE and fire update");
+        compareUpdate(3, 'should set to 3')
+                
     }).run(function() {
         this.test.done();
     });    
