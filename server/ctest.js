@@ -1,27 +1,8 @@
 "use strict";
 
-casper.on("remote.message", function(msg) {
-    this.echo("Console: " + msg);
-});
-
-casper.on("page.error", function(msg, trace) {
-    this.echo("page Error: " + msg);
-    for(var t in trace) {
-        var tra = trace[t];
-        this.echo("  ["+tra.file+":"+tra.line+"] "+tra.function)
-    }
-});
-
-casper.on("resource.error", function(msg, trace) {
-    this.echo("Res.Error: " + msg);
-});
-
+var keys = null;
+var testUrl = 'http://localhost:43091/demo';
 var numErrors = 0;
-
-casper.test.on("fail", function () {
-    ++numErrors;
-});
-
 
 function getInfo(elemId) {
     return JSON.parse(casper.page.evaluate(function(id) {
@@ -53,24 +34,35 @@ function sendFocus(elem) {
     }, elem);
 }
 
-var keys = null;
-var testUrl = 'http://localhost:43091/demo';
-
-/*
-function MiniTester(test, elementId){
-    this.testKey=function (key, expected, description){
-        sendKey(key);
-        var info = getInfo(elementId);
-        test.assertEquals(info.value, expected, description );
-    };
-}
-*/
 function testSendKeyAndCompare(test, elementId, key, expected, description){
     sendKey(key);
     var info = getInfo(elementId);
     test.assertEquals(info.value, expected, description );
 };
 
+casper.test.on("fail", function () {
+    ++numErrors;
+});
+
+// hooks para errores
+casper.on("remote.message", function(msg) {
+    this.echo("Console: " + msg);
+});
+
+casper.on("page.error", function(msg, trace) {
+    this.echo("page Error: " + msg);
+    for(var t in trace) {
+        var tra = trace[t];
+        this.echo("  ["+tra.file+":"+tra.line+"] "+tra.function)
+    }
+});
+
+casper.on("resource.error", function(msg, trace) {
+    this.echo("Res.Error: " + msg);
+});
+
+
+// Una sola vez
 casper.test.begin('Setup', 0, function(test) {
     casper.start(testUrl, function() {
         keys = casper.page.event.key;
@@ -78,6 +70,7 @@ casper.test.begin('Setup', 0, function(test) {
     }).run();
 });
 
+// Inicio de los tests
 casper.test.begin("Test checkbox", function(test) {
     casper.start(testUrl, function() {
         var elementId =  'bool1';
@@ -260,6 +253,8 @@ casper.test.begin("Test checkbox with custom event", function(test) {
     });    
 });
 
+
+// checkeo de tests funcionará al actualizar CasperJS!
 casper.test.begin("Test text with custom event", function(test) {
     casper.start(testUrl, function() {
         this.echo("# errores: "+numErrors)
