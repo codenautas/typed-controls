@@ -27,12 +27,15 @@ function sendKey(keysOrKey){
     }
 }
 
-function sendFocus(elem) {
-    casper.page.evaluate(function(id) {
+function sendEv(eventName, elem) {
+    casper.page.evaluate(function(ev, id) {
        var theElement = document.getElementById(id);
-       theElement.focus(); 
-    }, elem);
+       theElement[ev]();
+    }, eventName, elem);
 }
+
+function sendFocus(elem) { sendEv('focus', elem); }
+function sendClick(elem) { sendEv('click', elem); }
 
 function testSendKeyAndCompare(test, elementId, key, expected, description){
     sendKey(key);
@@ -40,12 +43,10 @@ function testSendKeyAndCompare(test, elementId, key, expected, description){
     test.assertEquals(info.value, expected, description );
 };
 
-
 function testSendClickAndCompare(test, elementId, expected, description){
     var info = getInfo(elementId);
     casper.page.sendEvent('click', info.cx, info.cy);
     info = getInfo(elementId);
-    //casper.echo("exp:"+expected+" real:"+info.value)
     test.assertEquals(info.value, expected, description);
 };
 
@@ -237,16 +238,25 @@ casper.test.begin("Test checkbox with custom event", function(test) {
 
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
-        test.assertExists('#bool2', 'tengo bool2');
-       
-        var elementId =  'bool2';
+              
+        var boolG =  'bool2';
+        var boolT = 'bool2-true';
+        var boolF = 'bool2-false';
         
-        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
-        var bool2 = getInfo(elementId);
+        test.assertExists('#'+boolG, 'tengo bool2');
+        test.assertExists('#'+boolT, 'tengo bool2-true');
+        test.assertExists('#'+boolF, 'tengo bool2-false');
+        
+        var testKey = testSendKeyAndCompare.bind(null, test, boolG);
+        var bool2 = getInfo(boolG);
         this.echo(bool2.value);
-/*
-        
         test.assertEquals(bool2.value, null, "default value to null");
+        
+        // sendFocus(boolT);
+        // var testClick = testSendClickAndCompare.bind(null, test, boolT);
+        // testClick(true, "one click sets it to true");
+        
+/*
 
         var labelTrue = getInfo('label-bool2-true');
         casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
