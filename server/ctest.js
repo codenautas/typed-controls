@@ -59,7 +59,6 @@ function testCompareUpdate(test, winVar, winSource, sourceId, expectedVar, descr
     var mySourceId = casper.page.evaluate(function(id) {
         return document.getElementById(id);
     }, sourceId);
-    casper.echo("myVar:"+myVar);
     test.assertEquals(myVar, expectedVar);
     test.assertEquals(mySourceElement, mySourceId);
 };
@@ -211,7 +210,17 @@ casper.test.begin("Test checkbox with custom event", function(test) {
         
         testClick(true, "another click should change value BACK TO TRUE and fire update");
         compareUpdate(3, 'should set to 3')
-                
+        
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);        
+        testKey(keys.Space, false, 'SPACE should change value to FALSE and fire update');
+        compareUpdate(4, 'should set to 4')
+        
+        testKey(keys.Space, true, 'SPACE should change value BACK to TRUE and fire update');
+        compareUpdate(5, 'should set to 5')
+        
+        testKey(keys.Space, false, 'SPACE should change value BACK to FALSE and fire update');
+        compareUpdate(6, 'should set to 6')
+        
     }).run(function() {
         this.test.done();
     });    
