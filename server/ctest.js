@@ -135,7 +135,7 @@ casper.test.begin("Test bool with options", function(test) {
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         var bool2 = getInfo(elementId);
         this.echo(bool2.value);
-/*        
+/*
         
         test.assertEquals(bool2.value, null, "default value to null");
 

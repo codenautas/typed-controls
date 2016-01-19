@@ -285,6 +285,7 @@ describe("adapter",function(){
             beforeEach(function(done){
                 try{
                     theElement = Tedede.createFromFixture(def).create();
+                    document.body.appendChild(theElement);
                 }catch(err){
                     theElementErr = err;
                     theElement = null;
@@ -306,7 +307,7 @@ describe("adapter",function(){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
                     theElement.setTypedValue(data.value);
-                    if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea')){
+                    if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea' && !def.creatorFunction)){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(!data.multiline){
@@ -316,7 +317,7 @@ describe("adapter",function(){
                             expect(theElement.checked).to.be(data.value===true);
                         }else if(def.attributes.type==='date' && data.value!=null){
                             expect(theElement.value).to.eql(data.valueISO);
-                        }else{
+                        }else if(!def.creatorFunction){
                             expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
                         }
                     }
