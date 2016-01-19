@@ -49,18 +49,21 @@ function testSendClickAndCompare(test, elementId, expected, description){
     test.assertEquals(info.value, expected, description);
 };
 
-function testCompareUpdate(test, winVar, winSource, sourceId, expectedVar, description){
+function testCompareUpdatedVar(test, winVar, expectedVar, description){
     var myVar=casper.page.evaluate(function(wVar) {
         return window[wVar];
     }, winVar);
+    test.assertEquals(myVar, expectedVar, description);
+};
+
+function testCompareSender(test, sourceId, expectedSource, description){
     var mySourceElement=casper.page.evaluate(function(wVar) {
         return window[wVar];
-    }, winSource);
+    }, sourceId);
     var mySourceId = casper.page.evaluate(function(id) {
         return document.getElementById(id);
-    }, sourceId);
-    test.assertEquals(myVar, expectedVar);
-    test.assertEquals(mySourceElement, mySourceId);
+    }, expectedSource);
+    test.assertEquals(mySourceElement, mySourceId, description);
 };
 
 casper.test.on("fail", function () {
@@ -156,7 +159,7 @@ casper.test.begin("Test text with custom event", function(test) {
     casper.start(testUrl, function() {
         var elementId='txtEmiter';
         sendFocus(elementId);
-        test.assertExists('#txtEmiter', 'tengo emmiter');
+        test.assertExists('#txtEmiter', 'tengo emiter');
         casper.page.evaluate(function() {
             window.myUpdateEventResult='.';
             window.mySourceElement = null;
@@ -166,8 +169,8 @@ casper.test.begin("Test text with custom event", function(test) {
             }, false);
         });
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
-        testKey(keys.A, 'A');
-        testKey(keys.Tab, 'A'); // esto debe disparar el evento
+        testKey(keys.A, 'A', 'value should be set to "A"');
+        testKey(keys.Tab, 'A', 'value should not change but fire the update event'); // esto debe disparar el evento
         var myUpdateEventResult=casper.page.evaluate(function() {
             return window.myUpdateEventResult;
         });
@@ -177,8 +180,8 @@ casper.test.begin("Test text with custom event", function(test) {
         var txtEmiter = casper.page.evaluate(function(id) {
             return document.getElementById(id);
         }, elementId);
-        test.assertEquals(myUpdateEventResult,'.ok');
-        test.assertEquals(mySourceElement, txtEmiter);
+        test.assertEquals(myUpdateEventResult,'.ok', 'result should be updated');
+        test.assertEquals(mySourceElement, txtEmiter, 'update sender should be "'+elementId+'"');
     }).run(function() {
         this.test.done();
     });    
@@ -200,26 +203,31 @@ casper.test.begin("Test checkbox with custom event", function(test) {
         });
         
         var testClick = testSendClickAndCompare.bind(null, test, elementId);
-        var compareUpdate = testCompareUpdate.bind(null, test, 'myCounter', 'mySourceElement', elementId);
+        var compareSender = testCompareSender.bind(null, test, 'mySourceElement');
+        var compareVar = testCompareUpdatedVar.bind(null, test, 'myCounter');
         
         testClick(true, "click should change value to TRUE and fire update");
-        compareUpdate(1, 'should set to 1')
+        compareVar(1, 'should set to 1');
         
         testClick(false, "another click should change value to FALSE and fire update");
-        compareUpdate(2, 'should set to 2')
+        compareVar(2, 'should set to 2');
         
         testClick(true, "another click should change value BACK TO TRUE and fire update");
-        compareUpdate(3, 'should set to 3')
+        compareVar(3, 'should set to 3');
+        
+        compareSender(elementId, "sender should be '"+elementId+"'");
         
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);        
         testKey(keys.Space, false, 'SPACE should change value to FALSE and fire update');
-        compareUpdate(4, 'should set to 4')
+        compareVar(4, 'should set to 4');
         
         testKey(keys.Space, true, 'SPACE should change value BACK to TRUE and fire update');
-        compareUpdate(5, 'should set to 5')
+        compareVar(5, 'should set to 5');
         
         testKey(keys.Space, false, 'SPACE should change value BACK to FALSE and fire update');
-        compareUpdate(6, 'should set to 6')
+        compareVar(6, 'should set to 6');
+        
+        compareSender(elementId, "sender should be '"+elementId+"'");
         
     }).run(function() {
         this.test.done();
