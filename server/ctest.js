@@ -44,9 +44,14 @@ function testSendKeyAndCompare(test, elementId, key, expected, description){
 };
 
 function testSendClickAndCompare(test, elementId, expected, description){
+    sendClick(elementId);
     var info = getInfo(elementId);
-    casper.page.sendEvent('click', info.cx, info.cy);
-    info = getInfo(elementId);
+    test.assertEquals(info.value, expected, description);
+};
+
+function testSendClickToGroupAndCompare(test, groupId, elementId, expected, description){
+    sendClick(elementId);
+    var info = getInfo(groupId);
     test.assertEquals(info.value, expected, description);
 };
 
@@ -247,34 +252,14 @@ casper.test.begin("Test bool with options", function(test) {
         test.assertExists('#'+boolT, 'tengo bool2-true');
         test.assertExists('#'+boolF, 'tengo bool2-false');
         
-        var testKey = testSendKeyAndCompare.bind(null, test, boolG);
-        var bool2 = getInfo(boolG);
-        this.echo(bool2.value);
-        test.assertEquals(bool2.value, null, "default value to null");
+        var clickTrue = testSendClickToGroupAndCompare.bind(null, test, boolG, boolT);
+        var clickFalse = testSendClickToGroupAndCompare.bind(null, test, boolG, boolF);
         
-        // sendFocus(boolT);
-        // var testClick = testSendClickAndCompare.bind(null, test, boolT);
-        // testClick(true, "one click sets it to true");
+        clickTrue(true, 'click on true sets to true');
+        clickFalse(false, 'click on FALSE sets to FALSE');
+        clickFalse(false, 'click on FALSE mantains FALSE');
+        clickTrue(true, 'click on true sets to true');
         
-/*
-
-        var labelTrue = getInfo('label-bool2-true');
-        casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
-        bool2 = getInfo(elementId);
-        test.assertEquals(bool2.value,true);
-
-        var labelFalse=getInfo('bool2-false');
-        casper.page.sendEvent('click', labelFalse.cx,labelFalse.cy);
-        var bool2=getInfo(elementId);
-        test.assertEquals(bool2.value,false);
-        
-        //este test da como resultado 'element not adapted'
-        var radioButton=getInfo('bool2-true');
-        casper.page.sendEvent('click',radioButton.cx, radioButton.cy);
-       // console.log("############   radioButton", radioButton.value);
-        var bool2=getInfo(elementId);
-        test.assertEquals(bool2.value,true);
-*/ 
     }).run(function() {
         test.done();
     });    
