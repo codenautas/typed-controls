@@ -327,10 +327,12 @@ describe("adapter",function(){
                     }
                 });
                 it("send the right event "+data.value+" in "+def.tagName,function(done){
+                    //console.log("TYPE", typeName, "TAG", def.tagName, "DATA", data ? data : 'null');
                     if(!def.mainUpdateEventName || skip) {
                         done();
                         return;
                     }
+                    //console.log(typeName, def.tagName, "updEVENT", def.mainUpdateEventName)
                     theElement.setTypedValue(data.value);
                     theElement.addEventListener('update', function(){
                         try{
@@ -340,7 +342,8 @@ describe("adapter",function(){
                             done(err);
                         }
                     });
-                    var evt=new CustomEvent('blur');
+                    var evt=new CustomEvent(def.mainUpdateEventName);
+                    //var evt=new CustomEvent('blur');
                     theElement.dispatchEvent(evt);
                 });
             });
