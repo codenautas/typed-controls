@@ -40,6 +40,16 @@ function testSendKeyAndCompare(test, elementId, key, expected, description){
     test.assertEquals(info.value, expected, description );
 };
 
+
+function testSendClickAndCompare(test, elementId, expected, description){
+    var info = getInfo(elementId);
+    casper.page.sendEvent('click', info.cx, info.cy);
+    info = getInfo(elementId);
+    //casper.echo("exp:"+expected+" real:"+info.value)
+    test.assertEquals(info.value, expected, description);
+};
+
+
 casper.test.on("fail", function () {
     ++numErrors;
 });
@@ -63,26 +73,30 @@ casper.on("resource.error", function(msg, trace) {
 
 
 // Una sola vez
-casper.test.begin('Setup', 0, function(test) {
+casper.test.begin('Setup', function(test) {
     casper.start(testUrl, function() {
         keys = casper.page.event.key;
         test.done();
-    }).run();
+    }).run(function() {
+        test.done();
+    });
 });
 
 // Inicio de los tests
-casper.test.begin("Test checkbox", function(test) {
+casper.test.begin("Test checkbox", function suite(test) {
     casper.start(testUrl, function() {
         var elementId =  'bool1';
-        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         test.assertTitle('tedede demo', 'titulo correcto');
         test.assertExists('#bool1', 'tengo bool1');
         var bool1 = getInfo(elementId);
         test.assertEquals(bool1.value, false, "default value is false");
-        casper.page.sendEvent('click', bool1.cx, bool1.cy);
-        bool1 = getInfo(elementId);
-        test.assertEquals(bool1.value, true, "one click sets it to true");
+
+        var testClick = testSendClickAndCompare.bind(null, test, elementId);
+        testClick(true, "one click sets it to true");
+        testClick(false, "one click sets it to false");
+        testClick(true, "one click sets it back to true");
         
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.Space, false, "space sets to false");
         testKey(keys.Delete, null, "delete sets null");
         testKey(keys.Space, false, "space sets to false (2)");
@@ -91,7 +105,6 @@ casper.test.begin("Test checkbox", function(test) {
         testKey(keys.Minus, null, "minus sets null");
         testKey(keys.Space, false, "space sets to false (4)");
         testKey(keys.Period, null, "period sets null");
-        
         
     }).run(function() {
         test.done();
@@ -125,53 +138,6 @@ casper.test.begin("Test Text", function(test) {
     });    
 });
 
-casper.test.begin("Test bool with options", function(test) {
-    casper.start(testUrl, function() {
-        test.assertExists('#bool2', 'tengo bool2');
-       
-        var elementId =  'bool2';
-        
-        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
-        var bool2 = getInfo(elementId);
-        this.echo(bool2.value);
-/*
-        
-        test.assertEquals(bool2.value, null, "default value to null");
-
-        var labelTrue = getInfo('label-bool2-true');
-        casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
-        bool2 = getInfo(elementId);
-        test.assertEquals(bool2.value,true);
-
-        var labelFalse=getInfo('bool2-false');
-        casper.page.sendEvent('click', labelFalse.cx,labelFalse.cy);
-        var bool2=getInfo(elementId);
-        test.assertEquals(bool2.value,false);
-        
-        //este test da como resultado 'element not adapted'
-        var radioButton=getInfo('bool2-true');
-        casper.page.sendEvent('click',radioButton.cx, radioButton.cy);
-       // console.log("############   radioButton", radioButton.value);
-        var bool2=getInfo(elementId);
-        test.assertEquals(bool2.value,true);
-        
-        /*
-        testKey('ab', 'ab', 'should set text');
-        testKey(keys.Backspace, 'a' ,'should erase the last key');
-        testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
-        testKey(keys.Space, '', 'space in a null input should set to emtpy string');
-        testKey(keys.Left, '', 'left should not alter the value');
-        testKey(keys.A, 'A', 'should set to "A"');
-        testKey(keys.Left,'A', 'left should not alter the value (2)');
-        testKey(keys.B,'BA', 'should set to "BA"');
-        testKey(keys.Delete, 'B', 'delete should erase one character');
-        testKey(keys.Backspace, null, 'backspace should set to null');
-        testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
-        */
-    }).run(function() {
-        test.done();
-    });    
-});
 
 casper.test.begin("Test text with custom event", function(test) {
     casper.start(testUrl, function() {
@@ -205,6 +171,55 @@ casper.test.begin("Test text with custom event", function(test) {
     });    
 });
 
+casper.test.begin("Test bool with options", function(test) {
+    casper.start(testUrl, function() {
+        test.assertExists('#bool2', 'tengo bool2');
+       
+        var elementId =  'bool2';
+        
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+        var bool2 = getInfo(elementId);
+        this.echo(bool2.value);
+/*
+        
+        test.assertEquals(bool2.value, null, "default value to null");
+
+        var labelTrue = getInfo('label-bool2-true');
+        casper.page.sendEvent('click', labelTrue.cx, labelTrue.cy);
+        bool2 = getInfo(elementId);
+        test.assertEquals(bool2.value,true);
+
+        var labelFalse=getInfo('bool2-false');
+        casper.page.sendEvent('click', labelFalse.cx,labelFalse.cy);
+        var bool2=getInfo(elementId);
+        test.assertEquals(bool2.value,false);
+        
+        //este test da como resultado 'element not adapted'
+        var radioButton=getInfo('bool2-true');
+        casper.page.sendEvent('click',radioButton.cx, radioButton.cy);
+       // console.log("############   radioButton", radioButton.value);
+        var bool2=getInfo(elementId);
+        test.assertEquals(bool2.value,true);
+*/        
+        /*
+        testKey('ab', 'ab', 'should set text');
+        testKey(keys.Backspace, 'a' ,'should erase the last key');
+        testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string');
+        testKey(keys.Left, '', 'left should not alter the value');
+        testKey(keys.A, 'A', 'should set to "A"');
+        testKey(keys.Left,'A', 'left should not alter the value (2)');
+        testKey(keys.B,'BA', 'should set to "BA"');
+        testKey(keys.Delete, 'B', 'delete should erase one character');
+        testKey(keys.Backspace, null, 'backspace should set to null');
+        testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
+        */
+    }).run(function() {
+        test.done();
+    });    
+});
+
+
 casper.test.begin("Test checkbox with custom event", function(test) {
     casper.start(testUrl, function() {
         var elementId =  'bool1';
@@ -220,34 +235,8 @@ casper.test.begin("Test checkbox with custom event", function(test) {
             }, false);
         });
         
+      
         var bool1 = getInfo(elementId);
-        
-/*         
-        var elementId='txtEmiter';
-        sendFocus(elementId);
-        casper.page.evaluate(function() {
-            window.myUpdateEventResult='.';
-            window.mySourceElement = null;
-            txtEmiter.addEventListener("update", function updateEvent(e){
-                window.myUpdateEventResult+='ok';
-                window.mySourceElement = e.target;
-            }, false);
-        });
-        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
-        testKey(keys.A, 'A');
-        testKey(keys.Tab, 'A'); // esto debe disparar el evento
-        var myUpdateEventResult=casper.page.evaluate(function() {
-            return window.myUpdateEventResult;
-        });
-        var mySourceElement=casper.page.evaluate(function() {
-            return window.mySourceElement;
-        });
-        var txtEmiter = casper.page.evaluate(function(id) {
-            return document.getElementById(id);
-        }, elementId);
-        test.assertEquals(myUpdateEventResult,'.ok');
-        test.assertEquals(mySourceElement, txtEmiter);
-*/
     }).run(function() {
         this.test.done();
     });    
@@ -255,7 +244,7 @@ casper.test.begin("Test checkbox with custom event", function(test) {
 
 
 // checkeo de tests funcionará al actualizar CasperJS!
-casper.test.begin("Test text with custom event", function(test) {
+casper.test.begin("Finish", function(test) {
     casper.start(testUrl, function() {
         this.echo("# errores: "+numErrors)
     }).run(function() {
