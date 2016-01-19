@@ -261,6 +261,7 @@ casper.test.begin("Test bool with options", function(test) {
     });    
 });
 
+/*
 casper.test.begin("Test bool with options with custom event", function(test) {
     casper.start(testUrl, function() {
         var boolG =  'bool2';
@@ -290,6 +291,7 @@ casper.test.begin("Test bool with options with custom event", function(test) {
         this.test.done();
     });    
 });
+*/
 
 // checkeo de tests funcionará al actualizar CasperJS!
 casper.test.begin("Finish", function(test) {
