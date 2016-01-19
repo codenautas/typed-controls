@@ -331,7 +331,6 @@ describe("adapter",function(){
                         done();
                         return;
                     }
-                    console.log('TTTTTTTTTTTTTT',typeName,data.value);
                     theElement.setTypedValue(data.value);
                     theElement.addEventListener('update', function(){
                         try{
