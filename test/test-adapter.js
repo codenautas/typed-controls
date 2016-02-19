@@ -1,7 +1,7 @@
 "use strict";
 
 var toTest = {
-    "text": {
+    "text": [{
         validData:[
             {value:null        , display:''          , valueEmpty:false, htmlDisplay: ''         },
             {value:'hello'     , display:'hello'     , valueEmpty:false, htmlDisplay: 'hello'    },
@@ -19,8 +19,8 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }, 
-    "number": {
+    }], 
+    "number": [{
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
@@ -43,8 +43,37 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    },
-    "date": {
+    }],
+    "number_0to9": [{
+        typeInfo:{
+            typeName:"number",
+            maxValue:9,
+            minValue:0
+        },
+        validData:[
+            {value:null        , display:''          , },
+            {value:42          , display:'42'        , },
+            {value:0           , display:'0'         , },
+            {value:12345.125   , display:'12345.125' , htmlDisplay: 
+                '<span class="number_miles">12</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_dot">.</span>'+
+                '<span class="number_decimals">125</span>'    
+            },
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:'sarasa'},
+            {value:'0'},
+            // {value:0},
+            // {value:32},
+            {value:{}},
+            {value:[]},
+            {value:/regexp/},
+        ]
+    }],
+    "date": [{
         validData:[
             {value:null                   , display:'' },
             {value:new Date(2015,12-1,31) , display:'31/12/2015'  , htmlDisplay:
@@ -67,8 +96,8 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    },
-    "boolean": {
+    }],
+    "boolean": [{
         validData:[
             {value:null , display:''  , htmlDisplay:''},
             {value:true , display:'Sí', htmlDisplay:'<span class="bool_true">Sí</span>' },
@@ -85,12 +114,37 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    } 
+    }],
+    "enum": [{
+        validData:[
+            {value:null        , display:''          , },
+            {value:42          , display:'42'        , },
+            {value:0           , display:'0'         , },
+            {value:12345.125   , display:'12345.125' , htmlDisplay: 
+                '<span class="number_miles">12</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_dot">.</span>'+
+                '<span class="number_decimals">125</span>'    
+            },
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:'sarasa'},
+            {value:'0'},
+            // {value:0},
+            // {value:32},
+            {value:{}},
+            {value:[]},
+            {value:/regexp/},
+        ]
+    }],
 };
 
-toTest["text_no_empty"] = changing(toTest["text"],{});
-toTest["text_no_empty"].validData = toTest["text"].validData.filter(function(data){ return data.value !=='' && !data.multiline; });
-toTest["text_no_empty"].invalidData = toTest["text"].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
+toTest["text_no_empty"] = []
+toTest["text_no_empty"][0] = changing(toTest["text"][0],{});
+toTest["text_no_empty"][0].validData = toTest["text"][0].validData.filter(function(data){ return data.value !=='' && !data.multiline; });
+toTest["text_no_empty"][0].invalidData = toTest["text"][0].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
 
 describe("adapter",function(){
     describe("for text without empty strings",function(){
@@ -277,7 +331,7 @@ describe("adapter",function(){
             expect(theElement.getTypedValue()).to.be(false);
         });
     });
-    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){
+    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){ toTest[typeName].forEach(function(testFixture){
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
             var theElementErr;
@@ -303,7 +357,7 @@ describe("adapter",function(){
                 }
                 done();
             });
-            toTest[typeName].validData.map(function(data){
+            testFixture.validData.map(function(data){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
                     theElement.setTypedValue(data.value);
@@ -347,10 +401,10 @@ describe("adapter",function(){
                     theElement.dispatchEvent(evt);
                 });
             });
-            toTest[typeName].invalidData.forEach(function(def){
+            testFixture.invalidData.forEach(function(def){
                 it("reject invalid value "+def.value,function(){
                     if(skip) return;
-                    var UNTOUCH = toTest[typeName].validData[1].value;
+                    var UNTOUCH = testFixture.validData[1].value;
                     theElement.setTypedValue(UNTOUCH);
                     expect(function(){
                         theElement.setTypedValue(def.value);
@@ -359,5 +413,5 @@ describe("adapter",function(){
                 });
             });
         });
-    }); });
+    }); }); });
 });
