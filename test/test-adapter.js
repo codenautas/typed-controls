@@ -62,8 +62,8 @@ var toTest = {
             {value:'0'},
             {value:-1, errRegexp:/The value is lower than .*/},
             {value:32, errRegexp:/The value is greater than .*/},
-            {value:0.00001},
-            // skip {value:9.5},
+            {value:0.00001, errRegexp:/The value is not an integer/},
+            {value:8.5 , errRegexp:/The value is not an integer/},
             {value:{}},
             {value:[]},
             {value:/regexp/},
@@ -111,17 +111,22 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
-    /*"enum": [{
+    "enum": [{
+        typeInfo:{
+            typeName:"enum",
+            options:{
+                'a': {label: 'es una vocal'             },
+                'b': {label: 'es una consonante'        },
+                'c': {label: 'es otra consonante'       },
+                'd': {label: 'ninguna de las anteriores'}
+            }
+        },
         validData:[
-            {value:null        , display:''          , },
-            {value:42          , display:'42'        , },
-            {value:0           , display:'0'         , },
-            {value:12345.125   , display:'12345.125' , htmlDisplay: 
-                '<span class="number_miles">12</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_dot">.</span>'+
-                '<span class="number_decimals">125</span>'    
-            },
+            {value:null        , display:''         , },
+            {value:'a'         , display:''         , },
+            {value:'b'         , display:''         , },
+            {value:'c'         , display:''         , },
+            {value:'d'         , display:''         , },
         ],
         invalidData:[
             {value:true},
@@ -134,7 +139,7 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }],*/
+    }],
 };
 
 toTest["text_no_empty"] = []
@@ -334,7 +339,7 @@ describe("adapter",function(){
             var skip;
             beforeEach(function(done){
                 try{
-                    theElement = Tedede.createFromFixture(def).create();
+                    theElement = Tedede.createFromFixture(def, (testFixture.typeInfo||{}).options).create();
                     document.body.appendChild(theElement);
                 }catch(err){
                     theElementErr = err;
