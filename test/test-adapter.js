@@ -43,31 +43,27 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }],
-    "number_0to9": [{
+    },{
         typeInfo:{
             typeName:"number",
             maxValue:9,
-            minValue:0
+            minValue:0,
+            onlyInt:true
         },
         validData:[
             {value:null        , display:''          , },
-            {value:42          , display:'42'        , },
+            {value:2           , display:'2'         , },
             {value:0           , display:'0'         , },
-            {value:12345.125   , display:'12345.125' , htmlDisplay: 
-                '<span class="number_miles">12</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_dot">.</span>'+
-                '<span class="number_decimals">125</span>'    
-            },
         ],
         invalidData:[
             {value:true},
             {value:new Date()},
             {value:'sarasa'},
             {value:'0'},
-            // {value:0},
-            // {value:32},
+            {value:-1, errRegexp:/The value is lower than .*/},
+            // skip {value:32},
+            // skip {value:0.00001},
+            // skip {value:9.5},
             {value:{}},
             {value:[]},
             {value:/regexp/},
@@ -352,7 +348,7 @@ describe("adapter",function(){
                     context: theElementErr
                 });
                 if(!skip){
-                    Tedede.adaptElement(theElement,typeName);
+                    Tedede.adaptElement(theElement,testFixture.typeInfo||typeName);
                     document.body.appendChild(theElement);
                 }
                 done();
