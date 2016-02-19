@@ -61,8 +61,8 @@ var toTest = {
             {value:'sarasa'},
             {value:'0'},
             {value:-1, errRegexp:/The value is lower than .*/},
-            // skip {value:32},
-            // skip {value:0.00001},
+            {value:32, errRegexp:/The value is greater than .*/},
+            {value:0.00001},
             // skip {value:9.5},
             {value:{}},
             {value:[]},
@@ -111,7 +111,7 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
-    "enum": [{
+    /*"enum": [{
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
@@ -134,7 +134,7 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }],
+    }],*/
 };
 
 toTest["text_no_empty"] = []
@@ -353,9 +353,11 @@ describe("adapter",function(){
                 }
                 done();
             });
+            //if(typeName=='enum'){console.log("#############3",def)};
             testFixture.validData.map(function(data){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
+                    //console.log("data",data,"data.value",data.value);
                     theElement.setTypedValue(data.value);
                     if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea' && !def.creatorFunction)){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
