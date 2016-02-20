@@ -14,7 +14,7 @@ describe("events", function(){
             NOT_SUPPORTED_SITUATION({
                 must: !err,
                 description: 'error in creating MouseEvent: '+err,
-                excluding: 'IE 11.0, PhantomJS 1.9.8, Safari 5.1.7'.split(', ')
+                excluding: 'IE 11.0, PhantomJS 1.9.8, PhantomJS 2.1.1, Safari 5.1.7'.split(', ')
             });
             elem.click();
         }
@@ -77,7 +77,7 @@ describe("events", function(){
             NOT_SUPPORTED_SITUATION({
                 must: !err,
                 description: "setting keyCode and which when emulating event",
-                excluding: ['Safari 5.1.7', 'PhantomJS 1.9.8'],
+                excluding: ['Safari 5.1.7', 'PhantomJS 1.9.8', 'PhantomJS 2.1.1'],
                 context: err
             });
             oEvent = document.createEvent('Events');
@@ -136,8 +136,8 @@ describe("events", function(){
             var skip = NOT_SUPPORTED_SITUATION({
                 when: def.type === 'date',
                 must: theElement && theElement.type==='date',
-                description: 'input of type date',
-                excluding: 'IE 11.0, Firefox 31.0, Firefox 39.0, Firefox 43.0'.split(', '),
+                description: 'input of type date 2',
+                excluding: 'IE 11.0, PhantomJS 2.1.1, Firefox 31.0, Firefox 39.0, Firefox 43.0'.split(', '),
                 context: theElementErr
             });
             if(! skip) {
