@@ -63,13 +63,10 @@ function testCompareUpdatedVar(test, winVar, expectedVar, description){
 };
 
 function testCompareSender(test, sourceId, expectedSource, description){
-    var mySourceElement=casper.page.evaluate(function(wVar) {
-        return window[wVar];
-    }, sourceId);
-    var mySourceId = casper.page.evaluate(function(id) {
-        return document.getElementById(id);
-    }, expectedSource);
-    test.assertEquals(mySourceElement, mySourceId, description);
+    var mySourceElement_equals_mySourceId=casper.page.evaluate(function(wVar, id) {
+        return window[wVar] === document.getElementById(id);
+    }, sourceId, expectedSource);
+    test.assertEquals(mySourceElement_equals_mySourceId, true , description);
 };
 
 casper.test.on("fail", function () {
@@ -121,13 +118,14 @@ casper.test.begin("Test checkbox", function suite(test) {
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.Space, false, "space sets to false");
         testKey(keys.Delete, null, "delete sets null");
-        testKey(keys.Space, false, "space sets to false (2)");
+        var postNull = true;
+        testKey(keys.Space, postNull, "space sets to post null (2)");
         testKey(keys.Backspace, null, "backspace sets null");
-        testKey(keys.Space, false, "space sets to false (3)");
+        testKey(keys.Space, postNull, "space sets to post null (3)");
         testKey(keys.Minus, null, "minus sets null");
-        testKey(keys.Space, false, "space sets to false (4)");
+        testKey(keys.Space, postNull, "space sets to post null (4)");
+        testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
-        
     }).run(function() {
         test.done();
     });    
@@ -180,14 +178,11 @@ casper.test.begin("Test text with custom event", function(test) {
         var myUpdateEventResult=casper.page.evaluate(function() {
             return window.myUpdateEventResult;
         });
-        var mySourceElement=casper.page.evaluate(function() {
-            return window.mySourceElement;
-        });
-        var txtEmiter = casper.page.evaluate(function(id) {
-            return document.getElementById(id);
+        var mySourceElement_IsEqualTo_txtEmiter=casper.page.evaluate(function(id) {
+            return window.mySourceElement === document.getElementById(id);
         }, elementId);
         test.assertEquals(myUpdateEventResult,'.ok', 'result should be updated');
-        test.assertEquals(mySourceElement, txtEmiter, 'update sender should be "'+elementId+'"');
+        test.assertEquals(mySourceElement_IsEqualTo_txtEmiter, true, 'update sender should be "'+elementId+'"');
     }).run(function() {
         this.test.done();
     });    

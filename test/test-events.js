@@ -114,14 +114,14 @@ describe("events", function(){
         expect(theElement.valueEmpty).to.be(false);
         done();
     });
-    it("must recieve key 'h' and change the internal typed value to current date", function(done){
-        var theElement;
-        var theElementErr=null;
-        [
-            {tagName:'div'  },
-            {tagName:'input', type:'text' }, 
-            {tagName:'input', type:'date' }
-        ].forEach(function(def){
+    [
+        {tagName:'div'  },
+        {tagName:'input', type:'text' }, 
+        {tagName:'input', type:'date' }
+    ].forEach(function(def){
+        it("must recieve key 'h' and change the internal typed value to current date", function(done){
+            var theElement;
+            var theElementErr=null;
             try{
                 var params=[];
                 if(def.type!==undefined){
@@ -137,7 +137,7 @@ describe("events", function(){
                 when: def.type === 'date',
                 must: theElement && theElement.type==='date',
                 description: 'input of type date 2',
-                excluding: 'IE 11.0, PhantomJS 2.1.1, Firefox 31.0, Firefox 39.0, Firefox 43.0'.split(', '),
+                excluding: 'IE 11.0, PhantomJS 2.1.1, Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0'.split(', '),
                 context: theElementErr
             });
             if(! skip) {
@@ -149,14 +149,13 @@ describe("events", function(){
                 var obtD = theElement.getTypedValue(), expD=new Date(Date.now());
                 expect(obtD.getFullYear()).to.eql(expD.getFullYear());
                 expect(obtD.getMonth()).to.eql(expD.getMonth());
-                expect(obtD.getDay()).to.eql(expD.getDay());
+                expect(obtD.getDate()).to.eql(expD.getDate());
                 expect(obtD.getHours()).to.eql(0);
                 expect(obtD.getMinutes()).to.eql(0);
                 expect(obtD.getSeconds()).to.eql(0);
             }
             done();
         });
-
     });
 });
  
