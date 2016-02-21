@@ -1,7 +1,7 @@
 {
   "name": "tedede",
   "description": "TDD",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/tedede",
@@ -35,7 +35,7 @@
     "istanbul": "0.4.2",
     "karma-chrome-launcher": "0.2.2",
     "karma-coverage": "0.5.3",
-    "karma-expect": "1.1.1",
+    "karma-expect": "1.1.2",
     "karma-firefox-launcher": "0.1.7",
     "karma-ie-launcher": "^0.2.0",
     "karma-mocha": "0.2.2",
