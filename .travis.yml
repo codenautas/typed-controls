@@ -6,11 +6,13 @@ node_js:
 matrix:
   fast_finish: true
   allow_failures:
-    - node_js: "5.4.1" 
+    - node_js: "5.6.0" 
 script: 
   - npm test
   - npm run-script ctest
 before_script:
-  - export DISPLAY=:99.0
+  - npm install -g casperjs
+  - phantomjs --version; casperjs --version  - export DISPLAY=:99.0
+  - export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'
   - sh -e /etc/init.d/xvfb start
 after_script: "cp ./coverage/Fire*/lcov.info ./coverage && ls -cal ./coverage && npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
