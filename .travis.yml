@@ -13,6 +13,5 @@ script:
 before_script:
   - npm install -g casperjs
   - phantomjs --version; casperjs --version  - export DISPLAY=:99.0
-  - export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'
   - sh -e /etc/init.d/xvfb start
 after_script: "cp ./coverage/Fire*/lcov.info ./coverage && ls -cal ./coverage && npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
