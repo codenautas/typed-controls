@@ -11,7 +11,6 @@ script:
   - npm test
   - npm run-script ctest
 before_script:
-  - npm install -g casperjs
-  - phantomjs --version; casperjs --version  - export DISPLAY=:99.0
+  - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 after_script: "cp ./coverage/Fire*/lcov.info ./coverage && ls -cal ./coverage && npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
