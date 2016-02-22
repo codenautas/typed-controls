@@ -71,8 +71,8 @@ var server = app.listen(PORT, function(){
     console.log('launch browser');
     var spawn = require('child_process').spawn;
     var args = process.argv;
-    var phantomPath=process.env.TRAVIS?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'bin/phantomjs.exe':'bin/phantomjs');
-    var slimerPath=process.env.TRAVIS?'slimerjs':'./node_modules/slimerjs/lib/slimer/'+(winOS?'slimerjs.bat':'bin/slimerjs');
+    var phantomPath=process.env.TRAVIS && false?'phantomjs':'./node_modules/phantomjs/lib/phantom/'+(winOS?'bin/phantomjs.exe':'bin/phantomjs');
+    var slimerPath=process.env.TRAVIS && false?'slimerjs':'./node_modules/slimerjs/lib/slimer/'+(winOS?'slimerjs.bat':'bin/slimerjs');
     
     pidBrowser = spawn(
         (process.env.TRAVIS && false?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
