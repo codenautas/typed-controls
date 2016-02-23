@@ -256,6 +256,32 @@ casper.test.begin("Test bool with options", function(test) {
     });    
 });
 
+casper.test.begin("Test options", function(test) {
+    casper.start(testUrl, function() {
+        casper.page.evaluate(function() {
+            var opts={
+                "a":{label:"Total"},
+                "b":{label:"Parcial"},
+                "c":{label:"No cumplió (aclarar en observaciones)"},
+                "d":{label:"No aplica"}
+            };
+            var elementoOpciones = Tedede.optionsCtrl('the-opt-ctrl',opts).create();
+            document.body.appendChild(elementoOpciones);
+            Tedede.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
+            window.myRegisterEvents='';
+            window.mySourceElement = null;
+            bool1.addEventListener("update", function updateEvent(e){
+                ++window.myCounter;
+                window.mySourceElement = e.target;
+            }, false);
+        });
+        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a');
+        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b');
+    }).run(function() {
+        test.done();
+    });    
+});
+
 /*
 casper.test.begin("Test bool with options with custom event", function(test) {
     casper.start(testUrl, function() {
