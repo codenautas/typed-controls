@@ -307,6 +307,7 @@ describe("adapter",function(){
             expect(document.getElementById('bool9-true').checked).to.be(false);
             expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(null);
+            expect(theElement.contentEditable).to.be('false');
         });
         it("must get true for true",function(){
             theElement.setTypedValue(true);
