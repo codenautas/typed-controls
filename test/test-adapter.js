@@ -115,12 +115,13 @@ var toTest = {
     "enum": [{
         typeInfo:{
             typeName:"enum",
-            options:{
-                'a': {label: 'es una vocal'             },
-                'b': {label: 'es una consonante'        },
-                'c': {label: 'es otra consonante'       },
-                'd': {label: 'ninguna de las anteriores'}
-            }
+            showOption: true,
+            options:[
+                {option: 'a', label: 'es una vocal'      },
+                {option: 'b', label: 'es una consonante' },
+                {option: 'c', label: 'es otra consonante'},
+                {option: 'd', label: 'otra', more: true  }
+            ]
         },
         validData:[
             {value:null        , display:''         , },
@@ -199,103 +200,34 @@ describe("adapter",function(){
             expect(divElement.getTypedValue()).to.be('untouched');
         });
     });
-    describe("when addapt element with options must control that the name does not repeats",function(){
-        it("must control that tedede-option-group == id",function(){
-            var theElement=html.div({id:'bool21', "tedede-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false'},"No"),
+    describe("when addapt element with options must control the structure",function(){
+        it("must control options no less options",function(){
+            var theElement=html.div({"tedede-option-group": "simple-option"},[
+                html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
                 Tedede.adaptElement(theElement, "boolean");
-            }).to.throwError(/tedede-option-group must match id/);
-        });
-        it("must control that tedede-option-group == name",function(){
-            var theElement=html.div({id:'bool3', "tedede-option-group": "bool3"},[
-                html.input({type:'radio', name:'bool3', value:'true' , id:'bool3-true' }), html.label({"for":'bool3-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool22', value:'false', id:'bool3-false'}), html.label({"for":'bool3-false'},"No"),
-            ]).create();
-            document.body.appendChild(theElement);
-            expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
-            }).to.throwError(/tedede-option-group must match name of radiobuttons/);
-        });
-        it("must control that option tagName == 'input'",function(){
-            var theElement=html.div({id:'bool4', "tedede-option-group": "bool4"},[
-                html.input({type:'radio', name:'bool4', value:'true' , id:'bool4-true' }), html.label({"for":'bool4-true' },"Sí"), html.br(),
-                html.button({type:'radio', name:'bool4', id:'bool4-false'}), html.label({"for":'bool4-false'},"No"),
-            ]).create();
-            document.body.appendChild(theElement);
-            expect(function(){
-                Tedede.adaptElement(theElement, "boolean");             
-            }).to.throwError(/option of tedede-option-group must be a input.type radio/);
-        });
-        it("must control that option type='radio'",function(){
-            var theElement=html.div({id:'bool5', "tedede-option-group": "bool5"},[
-                html.input({type:'radio', name:'bool5', value:'true' , id:'bool5-true' }), html.label({"for":'bool5-true' },"Sí"), html.br(),
-                html.input({type:'checkbox', name:'bool5', id:'bool5-false'}), html.label({"for":'bool5-false'},"No"),
-            ]).create();
-            document.body.appendChild(theElement);
-            expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
-            }).to.throwError(/option of tedede-option-group must be a input.type radio/);
-        });
-        it("must control options must be childs of respective tedede-option-group",function(){
-            var theElement1=html.div({id:'bool6', "tedede-option-group": "bool6"},[
-                html.input({type:'radio', name:'bool1', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool6', value:'false', id:'bool6-false'}), html.label({"for":'bool6-false'},"No"),
-            ]).create();
-            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool1"},[
-                html.input({type:'radio', name:'bool6', value:'true' , id:'bool6-true' }), html.label({"for":'bool6-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool1', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
-            ]).create();
-            document.body.appendChild(theElement1);
-            document.body.appendChild(theElement2);
-            expect(function(){
-                Tedede.adaptElement(theElement1, "boolean");
-            }).to.throwError(/options must be childs of respective tedede-option-group/);
+            }).to.throwError(/incomplete options control/);
         })
-        it("must control options must be childs of respective tedede-option-group in identical create",function(){
-            var theElement1=html.div({id:'bool7', "tedede-option-group": "bool7"},[
-                html.input({type:'radio', name:'bool7', value:'true' , id:'bool7-true' }), html.label({"for":'bool7-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool7', value:'false', id:'bool7-false'}), html.label({"for":'bool7-false'},"No"),
+        it("must control options more options",function(){
+            var theElement=html.div({"tedede-option-group": "simple-option"},[
+                html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
+                html.input({type:'radio', value:'false'}), html.label({"for-value":'false'},"Sí"), html.br(),
+                html.input({type:'radio', value:'x'    }), html.label({"for-value":'x'    },"Sí"), html.br(),
             ]).create();
-            var theElement2=html.div({id:'bool7', "tedede-option-group": "bool7"},[
-                html.input({type:'radio', name:'bool7', value:'true' , id:'bool7-true' }), html.label({"for":'bool7-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool7', value:'false', id:'bool7-false'}), html.label({"for":'bool7-false'},"No"),
-            ]).create();
-            document.body.appendChild(theElement1);
-            document.body.appendChild(theElement2);
+            document.body.appendChild(theElement);
             expect(function(){
-                Tedede.adaptElement(theElement1, "boolean");
-            }).to.throwError(/invalid option with the same tedede-option-group/);
-            expect(function(){
-                Tedede.adaptElement(theElement2, "boolean");
-            }).to.throwError(/options must be childs of respective tedede-option-group/);
-        })
-        it("must control no others elements with the same name",function(){
-            var theElement1=html.div({id:'bool8', "tedede-option-group": "bool8"},[
-                html.input({type:'radio', name:'bool8', value:'true' , id:'bool8-true' }), html.label({"for":'bool8-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool8', value:'false', id:'bool8-false'}), html.label({"for":'bool8-false'},"No"),
-            ]).create();
-            var theElement2=html.div({id:'bool1', "tedede-option-group": "bool1"},[
-                html.input({type:'radio', name:'bool1', value:'true' , id:'bool1-true' }), html.label({"for":'bool1-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool1', value:'false', id:'bool1-false'}), html.label({"for":'bool1-false'},"No"),
-                html.input({type:'button', name:'bool8', value:'false', id:'bool1-x'}), html.label({"for":'bool1-x'},"No"),
-            ]).create();
-            document.body.appendChild(theElement1);
-            document.body.appendChild(theElement2);
-            expect(function(){
-                Tedede.adaptElement(theElement1, "boolean");
-            }).to.throwError(/invalid option with the same tedede-option-group/);
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/invalid options in options control/);
         })
     });
     describe("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
-            theElement=html.div({id:'bool9', "tedede-option-group": "bool9"},[html.div([
-                html.input({type:'radio', name:'bool9', value:'true' , id:'bool9-true' }), html.label({"for":'bool9-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool9', value:'false', id:'bool9-false'}), html.label({"for":'bool9-false'},"No"),
+            theElement=html.div({id:'bool9', "tedede-option-group": "simple-option"},[html.div([
+                html.input({type:'radio', value:'true' }), html.label({"for-value":true },"Sí"), html.br(),
+                html.input({type:'radio', value:'false'}), html.label({"for-value":false},"No"),
             ])]).create();
             document.body.appendChild(theElement);
             Tedede.adaptElement(theElement, "boolean");
@@ -303,11 +235,20 @@ describe("adapter",function(){
         afterEach(function(){
             document.body.removeChild(theElement);
         });
+        it("must complete the id and name",function(){
+            var expected=html.div([
+                html.div({id:'bool9', "tedede-option-group": "bool9"},[html.div([
+                    html.input({type:'radio', value:'true' , name:'bool9', id:'bool9-true' }), html.label({"for-value":true , "for":'bool9-true' },"Sí"), html.br(),
+                    html.input({type:'radio', value:'false', name:'bool9', id:'bool9-false'}), html.label({"for-value":false, "for":'bool9-false'},"No"),
+                ])])
+            ]).create().innerHTML;
+            expect(expected).to.eql(theElement.outerHTML);
+        });
         it("must be null by default",function(){
             expect(document.getElementById('bool9-true').checked).to.be(false);
             expect(document.getElementById('bool9-false').checked).to.be(false);
             expect(theElement.getTypedValue()).to.be(null);
-            expect(theElement.contentEditable).to.be('false');
+            expect(theElement.contentEditable).to.be('inherit');
         });
         it("must get true for true",function(){
             theElement.setTypedValue(true);
@@ -341,20 +282,25 @@ describe("adapter",function(){
             var skip;
             beforeEach(function(done){
                 try{
-                    theElement = Tedede.createFromFixture(def, (testFixture.typeInfo||{}).options).create();
+                    theElement = Tedede.createFromFixture(def, testFixture.typeInfo).create();
                     document.body.appendChild(theElement);
                 }catch(err){
                     theElementErr = err;
                     theElement = null;
                 }
                 skip = NOT_SUPPORTED_SITUATION({
-                    when: def.attributes.type==='date',
+                    when: def.attributes.type==='date' || theElementErr,
                     must: theElement && theElement.type==='date',
                     description: 'input of type date',
                     excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, PhantomJS 2.1.1, IE 11.0'.split(', '),
                     context: theElementErr
                 });
                 if(!skip){
+                    if(theElement==null){
+                        console.log('*****************************');
+                        console.log(testFixture);
+                        console.log('---------------------');
+                    }
                     Tedede.adaptElement(theElement,testFixture.typeInfo||typeName);
                     document.body.appendChild(theElement);
                 }

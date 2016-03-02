@@ -265,7 +265,7 @@ casper.test.begin("Test options", function(test) {
                 "c":{label:"No cumplió (aclarar en observaciones)"},
                 "d":{label:"No aplica"}
             };
-            var elementoOpciones = Tedede.optionsCtrl('the-opt-ctrl',opts).create();
+            var elementoOpciones = Tedede.optionsCtrl(opts).create();
             document.body.appendChild(elementoOpciones);
             Tedede.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
             window.myRegisterEvents='';
