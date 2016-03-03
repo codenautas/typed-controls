@@ -278,12 +278,15 @@ describe("adapter",function(){
     Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){ toTest[typeName].forEach(function(testFixture){
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
+            var theBestElement;
             var theElementErr;
             var skip;
             beforeEach(function(done){
                 try{
                     theElement = Tedede.createFromFixture(def, testFixture.typeInfo).create();
+                    theBestElement = Tedede.bestCtrl(testFixture.typeInfo||typeName).create();
                     document.body.appendChild(theElement);
+                    document.body.appendChild(theBestElement);
                 }catch(err){
                     theElementErr = err;
                     theElement = null;
@@ -302,6 +305,7 @@ describe("adapter",function(){
                         console.log('---------------------');
                     }
                     Tedede.adaptElement(theElement,testFixture.typeInfo||typeName);
+                    Tedede.adaptElement(theBestElement,testFixture.typeInfo||typeName);
                     document.body.appendChild(theElement);
                 }
                 done();
@@ -331,6 +335,32 @@ describe("adapter",function(){
                         expect(theElement.valueEmpty).to.eql(data.valueEmpty);
                     }
                 });
+                it("sets and get "+data.value+" for best ctrl",function(){
+                    if(skip) return;
+                    //console.log("data",data,"data.value",data.value);
+                    theBestElement.setTypedValue(data.value);
+                    if(!data.multiline){
+                        var inspect = def.tagName==='input' || def.tagName==='textarea'?'value':'textContent';
+                        if(theBestElement.type==='checkbox'){
+                            expect(theBestElement.indeterminate).to.be(data.value===null);
+                            expect(theBestElement.checked).to.be(data.value===true);
+                        }
+                        if('value' in theBestElement && !('textContent' in theBestElement)){
+                            inspect = 'value';
+                        }else if(!('value' in theBestElement) && 'textContent' in theBestElement && theBestElement.childElementCount==0){
+                            inspect = 'textContent';
+                        }else{
+                            inspect = null;
+                        }
+                        if(inspect){
+                            expect(theBestElement[inspect]).to.eql('display' in data?data.display:data.value);
+                        }
+                    }
+                    expect(theBestElement.getTypedValue()).to.eql(data.value);
+                    if(typeName==='text'){
+                        expect(theBestElement.valueEmpty).to.eql(data.valueEmpty);
+                    }
+                });
                 it("send the right event "+data.value+" in "+def.tagName,function(done){
                     //console.log("TYPE", typeName, "TAG", def.tagName, "DATA", data ? data : 'null');
                     if(!def.mainUpdateEventName || skip) {
@@ -353,14 +383,17 @@ describe("adapter",function(){
                 });
             });
             testFixture.invalidData.forEach(function(def){
-                it("reject invalid value "+def.value,function(){
-                    if(skip) return;
-                    var UNTOUCH = testFixture.validData[1].value;
-                    theElement.setTypedValue(UNTOUCH);
-                    expect(function(){
-                        theElement.setTypedValue(def.value);
-                    }).to.throwError(def.errRegexp||/Not a .* in input/);
-                    expect(theElement.getTypedValue()).to.eql(UNTOUCH);
+                ['normal', 'best'].forEach(function(mode){
+                    it("reject invalid value "+def.value+" mode "+mode,function(){
+                        if(skip) return;
+                        var UNTOUCH = testFixture.validData[1].value;
+                        var thisElement = mode=='normal' ? theElement : theBestElement;
+                        thisElement.setTypedValue(UNTOUCH);
+                        expect(function(){
+                            thisElement.setTypedValue(def.value);
+                        }).to.throwError(def.errRegexp||/Not a .* in input/);
+                        expect(thisElement.getTypedValue()).to.eql(UNTOUCH);
+                    });
                 });
             });
         });
