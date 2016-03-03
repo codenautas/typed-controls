@@ -119,7 +119,7 @@ var toTest = {
             options:[
                 {option: 'a', label: 'es una vocal'      },
                 {option: 'b', label: 'es una consonante' },
-                {option: 'c', label: 'es otra consonante'},
+                {option:  3 , label: 'es un número'      },
                 {option: 'd', label: 'otra', more: true  }
             ]
         },
@@ -127,7 +127,7 @@ var toTest = {
             {value:null        , display:''         , },
             {value:'a'         , display:''         , },
             {value:'b'         , display:''         , },
-            {value:'c'         , display:''         , },
+            {value: 3          , display:''         , },
             {value:'d'         , display:''         , },
         ],
         invalidData:[
