@@ -1,5 +1,9 @@
 "use strict";
 
+window.changing=bestGlobals.changing;
+window.BestTypes=Tedede.BestTypes;
+window.html=jsToHtml.html;
+
 var toTest = {
     "text": [{
         validData:[

@@ -33,9 +33,9 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     // /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
-      'lib/*.js': ['coverage']
+      'lib/*.js': ['coverage'] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
-    coverageReporter: process.env.TRAVIS||true?{
+    coverageReporter: process.env.TRAVIS?{
         type:'lcov', 
         dir:'coverage/'
     }:{
@@ -47,7 +47,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'/* issue , 'coverage' */ ],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
@@ -81,5 +81,5 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: !!process.env.TRAVIS || !!process.env.SINGLE_RUN
-  })
-}
+  });
+};
