@@ -8,6 +8,9 @@ var winOS = Path.sep==='\\';
 var _ = require('lodash');
 var express = require('express');
 var app = express();
+
+// var im = require('istanbul-middleware');
+
 // var cookieParser = require('cookie-parser');
 // var bodyParser = require('body-parser');
 // var session = require('express-session');
@@ -58,6 +61,9 @@ app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExten
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
 
+// app.use('/coverage', im.createHandler());
+// app.use(im.createClientHandler(__dirname));
+
 app.use('/',extensionServeStatic('./server', {
     extensions: ['html', 'htm'], 
     index: 'index.html', 
@@ -78,6 +84,7 @@ var server = app.listen(PORT, function(){
         (process.env.TRAVIS && false?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
         ['test',
          '--verbose',
+         // '--loglevel=debug',
          //'--value=true',
          //'--engine=slimerjs',
          //'--fail-fast',

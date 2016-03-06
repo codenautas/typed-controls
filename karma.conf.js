@@ -33,13 +33,13 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     // /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
-      'lib/*.js': ['coverage'] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
+      'lib/tedede.js': ['coverage'] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
     coverageReporter: process.env.TRAVIS?{
         type:'lcov', 
         dir:'coverage/'
     }:{
-        type : 'html',
+        type : 'json',
         dir : 'coverage/'
     },
     // */
@@ -47,7 +47,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'coverage', 'coverage-html-index'],
 
 
     // web server port

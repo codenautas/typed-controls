@@ -259,13 +259,14 @@ casper.test.begin("Test bool with options", function(test) {
 casper.test.begin("Test options", function(test) {
     casper.start(testUrl, function() {
         casper.page.evaluate(function() {
-            var opts={
-                "a":{label:"Total"},
-                "b":{label:"Parcial"},
-                "c":{label:"No cumplió (aclarar en observaciones)"},
-                "d":{label:"No aplica"}
-            };
-            var elementoOpciones = Tedede.optionsCtrl(opts).create();
+            var opts=[
+                {option:"a", label:"Total"},
+                {option:"b", label:"Parcial"},
+                {option:"c", label:"No cumplió (aclarar en observaciones)"},
+                {option:9  , label:"No aplica"}
+            ];
+            var elementoOpciones = Tedede.optionsCtrl({typeName:'enum', options:opts}).create();
+            elementoOpciones.id='the-opt-ctrl';
             document.body.appendChild(elementoOpciones);
             Tedede.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
             window.myRegisterEvents='';
