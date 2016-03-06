@@ -23,8 +23,9 @@ Entonces un reporte de cobertura para cada navegador no es útil.
 
 ### estado actual
 
- [x] Hay test de cobertura con istanbul para los test basados en mocha.
- [x] El script `npm run report` unifica los test de istanbul de mocha para generar un test unificado en `~~\tedede\coverage\index.html`
- [_] Faltan test de cobertura con istanbul para los test basados en casper
- [_] Falta comprobar que `npm run report` toma automáticamente el resultado de esos tests
- [_] Falta integrar todo en `~~\tedede\server\pdemo-server.js`
+ - [x] Cobertura con istanbul para los test basados en mocha.
+ - [x] El script `npm run report` unifica los test de istanbul de mocha para generar un test unificado en `~~\tedede\coverage\index.html`
+ - [ ] Test de cobertura con istanbul para los test basados en casper. #2
+ - [ ] Lugar para poner los tests del lado del servidor. #3
+ - [ ] Comprobar que `npm run report` toma automáticamente el resultado de esos tests. #4
+ - [ ] Integrar todo en `~~\tedede\server\pdemo-server.js`. #4
