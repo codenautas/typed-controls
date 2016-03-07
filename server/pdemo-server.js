@@ -68,11 +68,10 @@ app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
 
 if(coverageON) {
     app.use('/demo/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
-    function useOnlyCoverage(req) {
+    app.use(im.createClientHandler(__dirname, { matcher:function(req) {
         var parsed = require('url').parse(req.url);
         return parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/coverage/);
-    }
-    app.use(im.createClientHandler(__dirname, {matcher:useOnlyCoverage}));
+    }}));
 }
 
 app.use('/',extensionServeStatic('./server', {
