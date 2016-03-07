@@ -1,7 +1,7 @@
 "use strict";
 
 var keys = null;
-var testUrl = 'http://localhost:43091/demo/coverage';
+var testUrl = 'http://localhost:43091/demo';
 var numErrors = 0;
 
 casper.test.on("fail", function () {
@@ -38,10 +38,26 @@ casper.test.begin('Setup', function(test) {
 
 
 // Inicio de los tests
-casper.test.begin("Test checkbox", function suite(test) {
+casper.test.begin("Test 1", function suite(test) {
     casper.start(testUrl, function() {
-        var elementId =  'bool1';
+        test.assertTitle('tedede demo', 'titulo correcto');
+        var AjaxBestPromise=casper.page.evaluate(function(wVar) {
+            return window[wVar];
+        }, 'AjaxBestPromise');
+        for(var p in AjaxBestPromise) {
+            var o=AjaxBestPromise[p];
+            console.log(" ", p, ":", o, typeof(o))
+        }
+        //test.assertTrue(casper.page.injectJs('../node_modules/ajax-best-promise/bin/ajax-best-promise.js'), "Incluir ajax-best-promise");
+        // test.assertTrue(casper.page.injectJs('ajax-best-promise.js'), "Incluir ajax-best-promise");
         test.assertTrue(true);
+        // AjaxBestPromise.post({
+            // url:testUrl+'/coverage',
+            // data:{info:"{}"}
+        // }).then(function(resultJson){
+            // var result=JSON.parse(resultJson);
+            // this.echo(resultJson);
+        // });
     }).run(function() {
         test.done();
     });    
