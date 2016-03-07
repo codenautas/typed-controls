@@ -64,6 +64,7 @@
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ctest": "node server/pdemo-server.js --use-casper",
     "ctest-h": "node server/pdemo-server.js --use-casper --hold",
+    "ctest-cov": "node server/pdemo-server.js --use-casper --coverage",
     "start": "node server/server.js",
     "report": "istanbul report"
   },

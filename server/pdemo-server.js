@@ -9,7 +9,11 @@ var _ = require('lodash');
 var express = require('express');
 var app = express();
 
-// var im = require('istanbul-middleware');
+var coverageON = process.argv.indexOf('--coverage') !== -1;
+
+if(coverageON) {
+    var im = require('istanbul-middleware');
+}
 
 // var cookieParser = require('cookie-parser');
 // var bodyParser = require('body-parser');
@@ -61,8 +65,15 @@ app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExten
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
 
-// app.use('/coverage', im.createHandler());
-// app.use(im.createClientHandler(__dirname));
+if(coverageON) {
+    app.use('/demo/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
+
+    function useOnlyCoverage(req) {
+        var parsed = require('url').parse(req.url);
+        return parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/coverage/);
+    }
+    app.use(im.createClientHandler(__dirname, {matcher:useOnlyCoverage}));
+}
 
 app.use('/',extensionServeStatic('./server', {
     extensions: ['html', 'htm'], 
@@ -88,7 +99,7 @@ var server = app.listen(PORT, function(){
          //'--value=true',
          //'--engine=slimerjs',
          //'--fail-fast',
-         Path.resolve('./server/ctest.js')
+         Path.resolve(coverageON ? './server/ctest-coverage.js' : './server/ctest.js')
         ],
         { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath})}
     );
