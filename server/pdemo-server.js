@@ -118,7 +118,8 @@ var server = app.listen(PORT, function(){
          //'--value=true',
          //'--engine=slimerjs',
          //'--fail-fast',
-         Path.resolve(coverageON ? './server/ctest-coverage.js' : './server/ctest.js')
+         //Path.resolve(coverageON ? './server/ctest-coverage.js' : './server/ctest.js')
+         Path.resolve('./server/ctest.js')
         ],
         { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath})}
     );

@@ -111,7 +111,6 @@ casper.test.begin("Test checkbox", function suite(test) {
         testKey(keys.Space, postNull, "space sets to post null (4)");
         testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
-            
         var sentCover = this.evaluate(function(wsurl) {
             try {
             var dataReq = JSON.stringify(window.__coverage__);
@@ -151,7 +150,7 @@ casper.test.begin("Test coverage", function suite(test) {
 // checkeo de tests funcionará al actualizar CasperJS!
 casper.test.begin("Finish", function(test) {
     casper.start(testUrl, function() {
-        this.echo("# errores: "+numErrors)
+        this.echo("# errores: "+numErrors);
     }).run(function() {
         this.test.done(numErrors === 0);
     });    

@@ -62,7 +62,7 @@
     "infinito": "node server/karma-server.js --karma karma.conf.js",
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
-    "ctest": "node server/pdemo-server.js --use-casper",
+    "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --hold",
     "ctest-cov": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-cov-h": "node server/pdemo-server.js --use-casper --coverage --hold",

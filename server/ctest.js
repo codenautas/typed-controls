@@ -1,8 +1,25 @@
 "use strict";
 
 var keys = null;
-var testUrl = 'http://localhost:43091/demo';
+var baseUrl = 'http://localhost:43091';
+var testUrl = baseUrl + '/demo';
+var coverageUrl = baseUrl + '/coverage';
 var numErrors = 0;
+
+function sendCoverage() {
+    var sentCover = casper.page.evaluate(function(wsurl) {
+        try {
+            console.log("url", wsurl)
+            var dataReq = JSON.stringify(window.__coverage__);
+            var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
+                console.log("data",  data);
+                return JSON.parse(data);
+        } catch (e) {
+            console.log("sentCover error", e)
+        }
+    }, coverageUrl+'/client');
+    console.log("sent coverage", sentCover)
+}
 
 function getInfo(elemId) {
     return JSON.parse(casper.page.evaluate(function(id) {
@@ -126,6 +143,7 @@ casper.test.begin("Test checkbox", function suite(test) {
         testKey(keys.Space, postNull, "space sets to post null (4)");
         testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
+        sendCoverage();    
     }).run(function() {
         test.done();
     });    
@@ -153,6 +171,7 @@ casper.test.begin("Test Text", function(test) {
         testKey(keys.Delete, 'B', 'delete should erase one character');
         testKey(keys.Backspace, null, 'backspace should set to null');
         testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
+        sendCoverage();
     }).run(function() {
         test.done();
     });    
@@ -183,6 +202,7 @@ casper.test.begin("Test text with custom event", function(test) {
         }, elementId);
         test.assertEquals(myUpdateEventResult,'.ok', 'result should be updated');
         test.assertEquals(mySourceElement_IsEqualTo_txtEmiter, true, 'update sender should be "'+elementId+'"');
+        sendCoverage();
     }).run(function() {
         this.test.done();
     });    
@@ -229,7 +249,7 @@ casper.test.begin("Test checkbox with custom event", function(test) {
         compareVar(6, 'should set to 6');
         
         // compareSender(elementId, "sender should be '"+elementId+"'");
-        
+        sendCoverage();        
     }).run(function() {
         this.test.done();
     });    
@@ -251,6 +271,7 @@ casper.test.begin("Test bool with options", function(test) {
         clickFalse(false, 'click on FALSE mantains FALSE');
         clickTrue(true, 'click on true sets to true');
         
+        sendCoverage();
     }).run(function() {
         test.done();
     });    
@@ -278,6 +299,7 @@ casper.test.begin("Test options", function(test) {
         });
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a');
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b');
+        sendCoverage();
     }).run(function() {
         test.done();
     });    
@@ -309,6 +331,7 @@ casper.test.begin("Test bool with options with custom event", function(test) {
         // compareVar(17, 'should set to 17');
         // compareSender(boolG, "sender should be '"+boolG+"'");        
         
+        sendCoverage();
     }).run(function() {
         this.test.done();
     });    
@@ -318,8 +341,28 @@ casper.test.begin("Test bool with options with custom event", function(test) {
 // checkeo de tests funcionará al actualizar CasperJS!
 casper.test.begin("Finish", function(test) {
     casper.start(testUrl, function() {
-        this.echo("# errores: "+numErrors)
+        this.echo("# errores: "+numErrors);
     }).run(function() {
         this.test.done(numErrors === 0);
+    });    
+});
+
+casper.test.begin("save coverage", function suite(test) {
+    casper.start(testUrl, function() {
+        var sentCover = this.evaluate(function(wsurl) {
+            try {
+            var dataReq = JSON.stringify(window.__coverage__);
+            var data = __utils__.sendAJAX(wsurl, 'GET', dataReq, false);
+                //console.log("data",  data);
+                return JSON.parse(data);
+                // return data;
+            } catch (e) {
+                console.log("sentCover error", e)
+            }
+        }, {wsurl: coverageUrl+'/object'});
+        console.log("sent coverage", sentCover)
+        fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4)); 
+    }).run(function() {
+        test.done();
     });    
 });
