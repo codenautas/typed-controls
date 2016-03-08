@@ -32,7 +32,6 @@ var changing = require('best-globals').changing;
 
 function coverageMatcher(req) {
     var parsed = require('url').parse(req.url);
-    // var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/pdemo-client/)) ? true : false;
     var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && ! parsed.pathname.match(/lib[1-9]?/)) ? true : false;
     console.log("url", parsed.pathname, r);
     return r;
@@ -40,11 +39,11 @@ function coverageMatcher(req) {
 
 if(coverageON) {
     console.log('Activando coverage');
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
-    app.use('/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
-    app.use(im.createClientHandler(__dirname, { matcher:coverageMatcher}));
+    //app.use(bodyParser.urlencoded({ extended: true }));
+    //app.use(bodyParser.json());
     im.hookLoader(__dirname, { verbose: true });
+    app.use('/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
+    app.use(im.createClientHandler(__dirname, { matcher:coverageMatcher }));
 }
 
 app.get('/demo', function(req,res){

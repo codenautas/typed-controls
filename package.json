@@ -65,6 +65,7 @@
     "ctest": "node server/pdemo-server.js --use-casper",
     "ctest-h": "node server/pdemo-server.js --use-casper --hold",
     "ctest-cov": "node server/pdemo-server.js --use-casper --coverage",
+    "ctest-cov-h": "node server/pdemo-server.js --use-casper --coverage --hold",
     "start": "node server/server.js",
     "report": "istanbul report"
   },

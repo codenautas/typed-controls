@@ -6,6 +6,8 @@ var testUrl = baseUrl + '/demo';
 var coverageUrl = baseUrl + '/coverage';
 var numErrors = 0;
 
+var fs = require('fs');
+
 function getInfo(elemId) {
     return JSON.parse(casper.page.evaluate(function(id) {
         var theElement = document.getElementById(id);
@@ -109,25 +111,20 @@ casper.test.begin("Test checkbox", function suite(test) {
         testKey(keys.Space, postNull, "space sets to post null (4)");
         testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
-        var self = this;
-        casper.page.evaluate(function() {    
-            console.log("Tedede", JSON.stringify(Tedede))
-            console.log("ABP", JSON.stringify(AjaxBestPromise))
-            /*
-            var sentCover = this.evaluate(function(wsurl) {
-                try {
-                var dataReq = JSON.stringify(window.__coverage__);
-                // console.log(dataReq);
-                var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
-                    console.log("data",  data);
-                    return JSON.parse(data);
-                } catch (e) {
-                    console.log("sentCover error", e)
-                }
-            }, {wsurl: coverageUrl+'/pdemo-client'});
-            console.log("sent coverage", sentCover)
-            */
-        });
+            
+        var sentCover = this.evaluate(function(wsurl) {
+            try {
+            //console.log("COVERAGE", JSON.stringify(window.__coverage__));
+            var dataReq = JSON.stringify(window.__coverage__);
+            //console.log(dataReq);
+            var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
+                console.log("data",  data);
+                return JSON.parse(data);
+            } catch (e) {
+                console.log("sentCover error", e)
+            }
+        }, {wsurl: coverageUrl+'/client'});
+        console.log("sent coverage", sentCover)
     }).run(function() {
         test.done();
     });    
@@ -139,7 +136,7 @@ casper.test.begin("Test coverage", function suite(test) {
         var covObj = this.evaluate(function(wsurl) {
             try {
                 var data = __utils__.sendAJAX(wsurl, 'GET', null, false);
-                console.log("data",  data);
+                //console.log("data",  data);
                 return JSON.parse(data);
             } catch (e) {
                 console.log("covObj error", e)
@@ -147,6 +144,19 @@ casper.test.begin("Test coverage", function suite(test) {
         }, {wsurl: coverageUrl+'/object'});
         console.log("coverage requested", JSON.stringify(covObj));
         test.assertTrue(true);
+        var zip = this.evaluate(function(covUrl) {
+            var covDown = covUrl+'/download';
+            //return __utils__.getBinary(covDown);
+            return __utils__.getBase64(covDown);
+        }, coverageUrl);
+        zip =this.evaluate(function(zip) {
+            return __utils__.decode(zip);
+        }, zip);
+        //console.log("zip", zip);
+        
+        var fOut = fs.open('coverage.zip', 'wb'); 
+        fOut.write(zip); 
+        fOut.close();
     }).run(function() {
         test.done();
     });    
