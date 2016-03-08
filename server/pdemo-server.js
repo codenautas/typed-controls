@@ -30,6 +30,23 @@ var extensionServeStatic = require('extension-serve-static');
 var html = require('js-to-html').html;
 var changing = require('best-globals').changing;
 
+function coverageMatcher(req) {
+    var parsed = require('url').parse(req.url);
+    // var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/pdemo-client/)) ? true : false;
+    var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && ! parsed.pathname.match(/lib[1-9]?/)) ? true : false;
+    console.log("url", parsed.pathname, r);
+    return r;
+}
+
+if(coverageON) {
+    console.log('Activando coverage');
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+    app.use('/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
+    app.use(im.createClientHandler(__dirname, { matcher:coverageMatcher}));
+    im.hookLoader(__dirname, { verbose: true });
+}
+
 app.get('/demo', function(req,res){
     res.end(html.html([
         html.head([
@@ -52,7 +69,7 @@ app.get('/demo', function(req,res){
             ]),
             html.input({type: "text", id:"txtEmiter"}),
             html.pre({id: "messages"}),
-//            html.script({src:'lib4/ajax-best-promise.js'}),
+            html.script({src:'lib4/ajax-best-promise.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
             html.script({src:'lib/tedede.js'}),
@@ -61,24 +78,10 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'tedede demo'}));
 });
 
+app.use('/lib4',extensionServeStatic('./node_modules/ajax-best-promise/bin', {staticExtensions:'js'}));
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
-//app.use('/lib4',extensionServeStatic('./node_modules/ajax-best-promise/bin', {staticExtensions:'js'}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
-
-function coverageMatcher(req) {
-    var parsed = require('url').parse(req.url);
-    console.log("url", parsed.pathname);
-    return (parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/pdemo-client/)) ? true : false;
-}
-
-if(coverageON) {
-    console.log('Activando coverage');
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
-    app.use('/coverage', im.createHandler({ verbose: true, resetOnGet: true }));
-    app.use(im.createClientHandler(__dirname, { matcher:coverageMatcher}));
-}
 
 app.use('/',extensionServeStatic('./server', {
     extensions: ['html', 'htm'], 

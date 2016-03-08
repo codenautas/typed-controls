@@ -109,17 +109,25 @@ casper.test.begin("Test checkbox", function suite(test) {
         testKey(keys.Space, postNull, "space sets to post null (4)");
         testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
-        
-        var sentCover = this.evaluate(function(wsurl) {
-            try {
-                var data = __utils__.sendAJAX(wsurl, 'POST', JSON.stringify(window.__coverage__), false);
-                console.log("data",  data)
-                return JSON.parse(data);
-            } catch (e) {
-                console.log("sentCover error", e)
-            }
-        }, {wsurl: coverageUrl+'/tedede'});
-        console.log("sent coverage", sentCover)
+        var self = this;
+        casper.page.evaluate(function() {    
+            console.log("Tedede", JSON.stringify(Tedede))
+            console.log("ABP", JSON.stringify(AjaxBestPromise))
+            /*
+            var sentCover = this.evaluate(function(wsurl) {
+                try {
+                var dataReq = JSON.stringify(window.__coverage__);
+                // console.log(dataReq);
+                var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
+                    console.log("data",  data);
+                    return JSON.parse(data);
+                } catch (e) {
+                    console.log("sentCover error", e)
+                }
+            }, {wsurl: coverageUrl+'/pdemo-client'});
+            console.log("sent coverage", sentCover)
+            */
+        });
     }).run(function() {
         test.done();
     });    
@@ -128,14 +136,16 @@ casper.test.begin("Test checkbox", function suite(test) {
 casper.test.begin("Test coverage", function suite(test) {
     casper.start(testUrl, function() {
         test.assertTitle('tedede demo', 'titulo correcto');
-        var posted = this.evaluate(function(wsurl) {
+        var covObj = this.evaluate(function(wsurl) {
             try {
-                return JSON.parse(__utils__.sendAJAX(wsurl, 'GET', null, false)).name;
+                var data = __utils__.sendAJAX(wsurl, 'GET', null, false);
+                console.log("data",  data);
+                return JSON.parse(data);
             } catch (e) {
-                console.log("posted error", e)
+                console.log("covObj error", e)
             }
-        }, {wsurl: coverageUrl});
-        console.log("coverage requested", posted)
+        }, {wsurl: coverageUrl+'/object'});
+        console.log("coverage requested", JSON.stringify(covObj));
         test.assertTrue(true);
     }).run(function() {
         test.done();

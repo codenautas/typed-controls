@@ -259,6 +259,8 @@ casper.test.begin("Test bool with options", function(test) {
 casper.test.begin("Test options", function(test) {
     casper.start(testUrl, function() {
         casper.page.evaluate(function() {
+            //console.log("Tedede", JSON.stringify(Tedede))
+            //console.log("ABP", JSON.stringify(AjaxBestPromise))
             var opts=[
                 {option:"a", label:"Total"},
                 {option:"b", label:"Parcial"},
