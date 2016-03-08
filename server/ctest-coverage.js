@@ -114,11 +114,9 @@ casper.test.begin("Test checkbox", function suite(test) {
             
         var sentCover = this.evaluate(function(wsurl) {
             try {
-            //console.log("COVERAGE", JSON.stringify(window.__coverage__));
             var dataReq = JSON.stringify(window.__coverage__);
-            //console.log(dataReq);
             var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
-                console.log("data",  data);
+                //console.log("data",  data);
                 return JSON.parse(data);
             } catch (e) {
                 console.log("sentCover error", e)
@@ -133,27 +131,14 @@ casper.test.begin("Test checkbox", function suite(test) {
 casper.test.begin("Test coverage", function suite(test) {
     casper.start(testUrl, function() {
         test.assertTitle('tedede demo', 'titulo correcto');
-        // var covObj = this.evaluate(function(wsurl) {
-            // try {
-                // var data = __utils__.sendAJAX(wsurl, 'GET', null, false);
-                // return JSON.parse(data);
-            // } catch (e) {
-                // console.log("covObj error", e)
-            // }
-        // }, {wsurl: coverageUrl+'/object'});
-        // console.log("coverage requested", JSON.stringify(covObj));
-        test.assertTrue(true);
         var zip = this.evaluate(function(covUrl) {
             var covDown = covUrl+'/download';
-            //return __utils__.getBinary(covDown);
             return __utils__.getBase64(covDown);
         }, coverageUrl);
         zip =this.evaluate(function(zip) {
             return __utils__.decode(zip);
         }, zip);
-        //console.log("zip", zip);
-        
-        var fOut = fs.open('coverage.zip', 'wb'); 
+        var fOut = fs.open('casper_coverage.zip', 'wb'); 
         fOut.write(zip); 
         fOut.close();
     }).run(function() {
