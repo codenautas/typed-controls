@@ -130,17 +130,19 @@ casper.test.begin("Test checkbox", function suite(test) {
 
 casper.test.begin("Test coverage", function suite(test) {
     casper.start(testUrl, function() {
-        test.assertTitle('tedede demo', 'titulo correcto');
-        var zip = this.evaluate(function(covUrl) {
-            var covDown = covUrl+'/download';
-            return __utils__.getBase64(covDown);
-        }, coverageUrl);
-        zip =this.evaluate(function(zip) {
-            return __utils__.decode(zip);
-        }, zip);
-        var fOut = fs.open('casper_coverage.zip', 'wb'); 
-        fOut.write(zip); 
-        fOut.close();
+        var sentCover = this.evaluate(function(wsurl) {
+            try {
+            var dataReq = JSON.stringify(window.__coverage__);
+            var data = __utils__.sendAJAX(wsurl, 'GET', dataReq, false);
+                //console.log("data",  data);
+                return JSON.parse(data);
+                // return data;
+            } catch (e) {
+                console.log("sentCover error", e)
+            }
+        }, {wsurl: coverageUrl+'/object'});
+        console.log("sent coverage", sentCover)
+        fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4)); 
     }).run(function() {
         test.done();
     });    
