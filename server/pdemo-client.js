@@ -9,8 +9,6 @@ function showEvent(eventName){
 }
 
 window.addEventListener('load', function(){
-    //console.log("ABP", JSON.stringify(AjaxBestPromise));
-    //console.log("Tedede", JSON.stringify(Tedede));
     Tedede.adaptElement(bool1, 'boolean');
     Tedede.adaptElement(text1, 'text');
     Tedede.adaptElement(bool2, 'boolean');

@@ -68,7 +68,6 @@ app.get('/demo', function(req,res){
             ]),
             html.input({type: "text", id:"txtEmiter"}),
             html.pre({id: "messages"}),
-            html.script({src:'lib4/ajax-best-promise.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
             html.script({src:'lib/tedede.js'}),
@@ -77,7 +76,6 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'tedede demo'}));
 });
 
-app.use('/lib4',extensionServeStatic('./node_modules/ajax-best-promise/bin', {staticExtensions:'js'}));
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));

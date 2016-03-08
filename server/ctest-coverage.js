@@ -133,16 +133,15 @@ casper.test.begin("Test checkbox", function suite(test) {
 casper.test.begin("Test coverage", function suite(test) {
     casper.start(testUrl, function() {
         test.assertTitle('tedede demo', 'titulo correcto');
-        var covObj = this.evaluate(function(wsurl) {
-            try {
-                var data = __utils__.sendAJAX(wsurl, 'GET', null, false);
-                //console.log("data",  data);
-                return JSON.parse(data);
-            } catch (e) {
-                console.log("covObj error", e)
-            }
-        }, {wsurl: coverageUrl+'/object'});
-        console.log("coverage requested", JSON.stringify(covObj));
+        // var covObj = this.evaluate(function(wsurl) {
+            // try {
+                // var data = __utils__.sendAJAX(wsurl, 'GET', null, false);
+                // return JSON.parse(data);
+            // } catch (e) {
+                // console.log("covObj error", e)
+            // }
+        // }, {wsurl: coverageUrl+'/object'});
+        // console.log("coverage requested", JSON.stringify(covObj));
         test.assertTrue(true);
         var zip = this.evaluate(function(covUrl) {
             var covDown = covUrl+'/download';
