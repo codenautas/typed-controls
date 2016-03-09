@@ -55,21 +55,22 @@ function sendEv(eventName, elem) {
 function sendFocus(elem) { sendEv('focus', elem); }
 function sendClick(elem) { sendEv('click', elem); }
 
-function testSendKeyAndCompare(test, elementId, key, expected, description){
+function testSendKeyAndCompare(test, elementId, key, expected, description, expectedRegisteredEvents){
     sendKey(key);
-    var info = getInfo(elementId);
-    test.assertEquals(info.value, expected, description );
+    testCompare(test, elementId, expected, description, expectedRegisteredEvents);
 };
 
-function testSendClickAndCompare(test, elementId, expected, description){
-    sendClick(elementId);
-    var info = getInfo(elementId);
-    test.assertEquals(info.value, expected, description);
+function testSendClickAndCompare(test, elementId, expected, description, expectedRegisteredEvents){
+    testSendClickToGroupAndCompare(test, elementId, elementId, expected, description, expectedRegisteredEvents)
 };
 
 function testSendClickToGroupAndCompare(test, groupId, elementId, expected, description, expectedRegisteredEvents){
     sendClick(elementId);
-    var info = getInfo(groupId);
+    testCompare(test, groupId, expected, description, expectedRegisteredEvents);
+}
+
+function testCompare(test, elementId, expected, description, expectedRegisteredEvents){
+    var info = getInfo(elementId);
     test.assertEquals(info.value, expected, description);
     if(expectedRegisteredEvents){
         test.assertEquals(info.registeredEvents, expectedRegisteredEvents, 'Registered Events: '+description);
@@ -311,6 +312,9 @@ casper.test.begin("Test options", function(test) {
         });
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a','> a');
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b','> a b');
+        sendFocus('the-opt-ctrl-b');
+        testSendKeyAndCompare(test, 'the-opt-ctrl', keys.Down, 'c', 'down key changes value', '> a b c'); // down key
+        this.capture('local-capture2.png');
         sendCoverage();
     }).run(function() {
         test.done();
