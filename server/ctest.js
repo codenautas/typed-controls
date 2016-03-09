@@ -29,7 +29,8 @@ function getInfo(elemId) {
             value: 'getTypedValue' in theElement?theElement.getTypedValue():'not adapted',
             cx: Math.floor((rect.left+rect.right)/2),
             cy: Math.floor((rect.top+rect.bottom)/2),
-            isActive: document.activeElement === theElement
+            isActive: document.activeElement === theElement,
+            registeredEvents: window.myRegisterEvents
         })
     }, elemId));
 }
@@ -66,10 +67,13 @@ function testSendClickAndCompare(test, elementId, expected, description){
     test.assertEquals(info.value, expected, description);
 };
 
-function testSendClickToGroupAndCompare(test, groupId, elementId, expected, description){
+function testSendClickToGroupAndCompare(test, groupId, elementId, expected, description, expectedRegisteredEvents){
     sendClick(elementId);
     var info = getInfo(groupId);
     test.assertEquals(info.value, expected, description);
+    if(expectedRegisteredEvents){
+        test.assertEquals(info.registeredEvents, expectedRegisteredEvents, 'Registered Events: '+description);
+    }
 };
 
 function testCompareUpdatedVar(test, winVar, expectedVar, description){
@@ -257,6 +261,14 @@ casper.test.begin("Test checkbox with custom event", function(test) {
 
 casper.test.begin("Test bool with options", function(test) {
     casper.start(testUrl, function() {
+        casper.page.evaluate(function() {
+            window.myRegisterEvents='>';
+            window.mySourceElement = null;
+            bool2.addEventListener("update", function updateEvent(e){
+                window.myRegisterEvents = window.myRegisterEvents+' '+this.getTypedValue();
+                window.mySourceElement = e.target;
+            }, false);
+        });
         var boolG =  'bool2';
         var boolT = 'bool2-true';
         var boolF = 'bool2-false';
@@ -266,10 +278,10 @@ casper.test.begin("Test bool with options", function(test) {
         var clickTrue = testSendClickToGroupAndCompare.bind(null, test, boolG, boolT);
         var clickFalse = testSendClickToGroupAndCompare.bind(null, test, boolG, boolF);
         
-        clickTrue(true, 'click on true sets to true');
-        clickFalse(false, 'click on FALSE sets to FALSE');
-        clickFalse(false, 'click on FALSE mantains FALSE');
-        clickTrue(true, 'click on true sets to true');
+        clickTrue(true, 'click on true sets to true', '> true');
+        clickFalse(false, 'click on FALSE sets to FALSE', '> true false');
+        clickFalse(false, 'click on FALSE mantains FALSE', '> true false');
+        clickTrue(true, 'click on true sets to true', '> true false true');
         
         sendCoverage();
     }).run(function() {
@@ -290,15 +302,15 @@ casper.test.begin("Test options", function(test) {
             elementoOpciones.id='the-opt-ctrl';
             document.body.appendChild(elementoOpciones);
             Tedede.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
-            window.myRegisterEvents='';
+            window.myRegisterEvents='>';
             window.mySourceElement = null;
-            bool1.addEventListener("update", function updateEvent(e){
-                ++window.myCounter;
+            elementoOpciones.addEventListener("update", function updateEvent(e){
+                window.myRegisterEvents+=' '+this.getTypedValue();
                 window.mySourceElement = e.target;
             }, false);
         });
-        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a');
-        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b');
+        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a','> a');
+        testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b','> a b');
         sendCoverage();
     }).run(function() {
         test.done();
