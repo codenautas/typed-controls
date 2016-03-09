@@ -145,7 +145,9 @@ describe("events", function(){
                 document.body.appendChild(theElement);
                 expect(theElement.getTypedValue()).to.be(null);
                 theElement.focus();
-                sendKeyTo(theElement, 72 , 'keydown'); // h
+                sendKeyTo(theElement, 39, 'keydown'); // right
+                expect(theElement.getTypedValue()).to.be(null);
+                sendKeyTo(theElement, 72, 'keydown'); // h
                 var obtD = theElement.getTypedValue(), expD=new Date(Date.now());
                 expect(obtD.getFullYear()).to.eql(expD.getFullYear());
                 expect(obtD.getMonth()).to.eql(expD.getMonth());

@@ -1,15 +1,15 @@
 "use script";
 
 describe("forms",function(){
+    var formInfo={
+        fields:[
+            {name: 'issue'      },
+            {name: 'subject'    },
+            {name: 'description'},
+        ]
+    }
+    var medium={superId:['issues', 'new', 1], record:{}, 'new':true};
     it("render-form",function(done){
-        var formInfo={
-            fields:[
-                {name: 'issue'      },
-                {name: 'subject'    },
-                {name: 'description'},
-            ]
-        }
-        var medium={superId:['issues', 'new', 1], record:{}, 'new':true};
         var form=Tedede.createForm(formInfo, medium);
         expect(form).to.be.an(Tedede.Form);
         expect(form.medium).to.be(medium);
@@ -17,6 +17,14 @@ describe("forms",function(){
             expect(form.dom).to.be.an(Element);
             expect(form.dom.id).to.be(JSON.stringify(medium.superId));
             expect(medium.forms).to.eql([form]);
+            done();
+        }).catch(done);
+    });
+    it("render-form twice", function(done){
+        var form=Tedede.createForm(formInfo, medium);
+        form.render(document.body).then(function(){
+            return form.render(document.body);
+        }).then(function(){
             done();
         }).catch(done);
     });

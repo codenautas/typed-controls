@@ -214,6 +214,16 @@ describe("adapter",function(){
                 Tedede.adaptElement(theElement, "boolean");
             }).to.throwError(/incomplete options control/);
         })
+        it("must control duplicate options options",function(){
+            var theElement=html.div({"tedede-option-group": "simple-option"},[
+                html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
+                html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
+            ]).create();
+            document.body.appendChild(theElement);
+            expect(function(){
+                Tedede.adaptElement(theElement, "boolean");
+            }).to.throwError(/duplicate options in options control/);
+        })
         it("must control options more options",function(){
             var theElement=html.div({"tedede-option-group": "simple-option"},[
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
