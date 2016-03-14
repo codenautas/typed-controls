@@ -33,7 +33,7 @@ var changing = require('best-globals').changing;
 
 function coverageMatcher(req) {
     var parsed = urlParse(req.url);
-    var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && ! parsed.pathname.match(/lib[1-9]/)) ? true : false;
+    var r = (parsed.pathname && parsed.pathname.match(/\.js$/) && parsed.pathname.match(/\/lib\//)) ? true : false;
     //console.log("url", parsed.pathname, r);
     return r;
 }
