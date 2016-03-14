@@ -6,21 +6,6 @@ var testUrl = baseUrl + '/demo';
 var coverageUrl = baseUrl + '/coverage';
 var numErrors = 0;
 
-function sendCoverage() {
-    var sentCover = casper.page.evaluate(function(wsurl) {
-        try {
-            console.log("url", wsurl)
-            var dataReq = JSON.stringify(window.__coverage__);
-            var data = __utils__.sendAJAX(wsurl, 'POST', dataReq, false, {contentType: 'application/json'});
-                console.log("data",  data);
-                return JSON.parse(data);
-        } catch (e) {
-            console.log("sentCover error", e)
-        }
-    }, coverageUrl+'/client');
-    console.log("sent coverage", sentCover)
-}
-
 function getInfo(elemId) {
     return JSON.parse(casper.page.evaluate(function(id) {
         var theElement = document.getElementById(id);
@@ -90,6 +75,21 @@ function testCompareSender(test, sourceId, expectedSource, description){
     }, sourceId, expectedSource);
     test.assertEquals(mySourceElement_equals_mySourceId, true , description);
 };
+
+function sendToCoverage(covUrl, method, headers) {
+    var sentCover = casper.page.evaluate(function(wsurl, method, headers) {
+        //console.log("url", wsurl, "method", method, "headers", headers);
+        var dataReq = JSON.stringify(window.__coverage__);
+        var data = __utils__.sendAJAX(wsurl, method, dataReq, false, headers);
+        //console.log("data",  data);
+        return JSON.parse(data);
+    }, coverageUrl+'/'+covUrl, method, headers);
+    //console.log("sent coverage", sentCover);
+    return sentCover;
+};
+
+function sendCoverage() { sendToCoverage('client', 'POST', {contentType: 'application/json'}); };
+
 
 casper.test.on("fail", function () {
     ++numErrors;
@@ -365,18 +365,7 @@ casper.test.begin("Finish", function(test) {
 
 casper.test.begin("save coverage", function suite(test) {
     casper.start(testUrl, function() {
-        var sentCover = this.evaluate(function(wsurl) {
-            try {
-            var dataReq = JSON.stringify(window.__coverage__);
-            var data = __utils__.sendAJAX(wsurl, 'GET', dataReq, false);
-                //console.log("data",  data);
-                return JSON.parse(data);
-                // return data;
-            } catch (e) {
-                console.log("sentCover error", e)
-            }
-        }, {wsurl: coverageUrl+'/object'});
-        console.log("sent coverage", sentCover)
+        var sentCover = sendToCoverage('object', 'GET');
         fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4)); 
     }).run(function() {
         test.done();
