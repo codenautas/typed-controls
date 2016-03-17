@@ -119,7 +119,7 @@ describe("events", function(){
         {tagName:'input', type:'text' }, 
         {tagName:'input', type:'date' }
     ].forEach(function(def){
-        it("must recieve key 'h' and change the internal typed value to current date", function(done){
+        it("must receieve key 'h' and change the internal typed value to current date", function(done){
             var theElement;
             var theElementErr=null;
             try{

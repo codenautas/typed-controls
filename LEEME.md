@@ -2,7 +2,7 @@
 TDD
 
 <!-- cucardas -->
-![designing](https://img.shields.io/badge/stability-designing-red.svg)
+![extending](https://img.shields.io/badge/stability-extending-orange.svg)
 [![npm-version](https://img.shields.io/npm/v/tedede.svg)](https://npmjs.org/package/tedede)
 [![downloads](https://img.shields.io/npm/dm/tedede.svg)](https://npmjs.org/package/tedede)
 [![build](https://img.shields.io/travis/codenautas/tedede/master.svg)](https://travis-ci.org/codenautas/tedede)
