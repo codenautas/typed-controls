@@ -18,4 +18,4 @@ after_script:
   - ls -cal
   - ls -cal ./coverage
   - npm install coveralls@2.11.8
-  - cat ./coverage/lcov.info | coveralls"
+  - cat ./coverage/lcov.info | coveralls
