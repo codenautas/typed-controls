@@ -36,11 +36,11 @@ module.exports = function(config) {
       'lib/tedede.js': ['coverage'] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
     coverageReporter: process.env.TRAVIS?{
-        type:'lcov', 
-        dir:'coverage/'
-    }:{
         type : 'json',
         dir : 'coverage/'
+    }:{
+        type: 'lcov', 
+        dir: 'coverage/'
     },
     // */
 
