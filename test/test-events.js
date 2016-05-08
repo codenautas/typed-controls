@@ -19,7 +19,7 @@ describe("events", function(){
             elem.click();
         }
     }
-    it("must receive click and change the internal typed value of null to a boolean value", function(done){
+    it("must receive click and change the internal typed value of null to a boolean value", function(){
         var id = 'id' + Math.random();
         var theElement = html.input({type:"checkbox", id:id}).create();
         Tedede.adaptElement(theElement,'boolean');
@@ -50,7 +50,7 @@ describe("events", function(){
         expect(theElement.getTypedValue()).to.be(!!firstValue);
         sendClickTo(elementToClick);
         expect(theElement.getTypedValue()).to.be(!!!firstValue);
-        done();
+        // done();
     });
     function sendKeyTo(elem, keyCode, eventName) {
         // based in https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
