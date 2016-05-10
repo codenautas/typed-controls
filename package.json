@@ -53,7 +53,9 @@
     "slimerjs": "~0.906.1",
     "sinon": "~1.17.3",
     
-    "extension-serve-static": "~0.1.6"
+    "extension-serve-static": "~0.1.6",
+    "require-bro": "~0.0.1",
+    "self-explain": "~0.0.6"
   },
   "engines": {
     "node": ">= 0.12.0"
