@@ -26,4 +26,28 @@ describe("create-from-fixture",function(){
         );
         element.create();
     });
+    it("funcion Tedede.optionsCtrl",function(){
+        var typeInfo={
+            typeName:"enum",
+            showOption: true,
+            options:[
+                {option: 'a', label: 'es una vocal'      },
+                {option: 'b', label: 'es una consonante' },
+            ]
+        };
+        var element=Tedede.optionsCtrl(typeInfo);
+        var esperado=html.div({"tedede-option-group": 'simple-option'},[
+            html.div([
+                html.label({"for-value": 'a'},'a'),
+                html.input({type:'radio', value:'a'}),
+                html.label({"for-value": 'a'},'es una vocal')
+            ]),
+            html.div([
+                html.label({"for-value": 'b'},'b'),
+                html.input({type:'radio', value:'b'}),
+                html.label({"for-value": 'b'},'es una consonante')
+            ])
+        ]);
+        expect(element).to.eql(esperado)
+    })
 });
