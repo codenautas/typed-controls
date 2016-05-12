@@ -58,13 +58,15 @@ describe("optionsCtrl",function(){
             typeName: 'enum',
             options:[
                 {option:1, label:'one'},
-                {option:2, label:'two', more:true}
+                {option:2, label:'two', more:true},
+                {option:'ns/nc', label:'ns/nc', more:true}
             ]
         }
         var ctrl = Tedede.optionsCtrl(typeInfo);
         var expected = html.div({ 'tedede-option-group': 'simple-option' },[
             html.div([html.input({"type":"radio","value":1}), html.label({"for-value":1}, "one"),html.br()]),
-            html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"class":"option-more-info"}),html.br()]),
+            html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"for-value":2,"class":"option-more-info"}),html.br()]),
+            html.div([html.input({"type":"radio","value":'ns/nc'}), html.label({"for-value":'ns/nc'}, "ns/nc"),html.span({"for-value":'ns/nc',"class":"option-more-info"}),html.br()]),
         ]);
         // console.log('---------------');
         // console.log(selfExplain.assert.allDifferences(ctrl, expected));
@@ -72,5 +74,6 @@ describe("optionsCtrl",function(){
         var element = ctrl.create();
         Tedede.adaptElement(element,typeInfo);
         expect(element.moreInfo[2].className).to.eql('option-more-info');
+        expect(element.moreInfo['ns/nc'].getAttribute('for-value')).to.eql('ns/nc');
     });
 });
