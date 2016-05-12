@@ -1,5 +1,7 @@
 "use strict";
 
+var assert = selfExplain.assert;
+
 describe("create-from-fixture",function(){
     it("create simple element", function(){
         var element = Tedede.createFromFixture({tagName:'span', attributes:{}});
@@ -48,12 +50,13 @@ describe("create-from-fixture",function(){
                 html.label({"for-value": 'b'},'es una consonante')
             ])
         ]);
-        expect(element).to.eql(esperado)
+        eval(assert(!assert.allDifferences(element, esperado)));
+        // expect(element).to.eql(esperado)
     })
 });
 
 describe("optionsCtrl",function(){
-    it.only("include more info", function(){
+    it("include more info", function(){
         var typeInfo={
             typeName: 'enum',
             options:[
@@ -64,13 +67,13 @@ describe("optionsCtrl",function(){
         }
         var ctrl = Tedede.optionsCtrl(typeInfo);
         var expected = html.div({ 'tedede-option-group': 'simple-option' },[
-            html.div([html.input({"type":"radio","value":1}), html.label({"for-value":1}, "one"),html.br()]),
-            html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"for-value":2,"class":"option-more-info"}),html.br()]),
-            html.div([html.input({"type":"radio","value":'ns/nc'}), html.label({"for-value":'ns/nc'}, "ns/nc"),html.span({"for-value":'ns/nc',"class":"option-more-info"}),html.br()]),
+            html.div([html.input({"type":"radio","value":1}), html.label({"for-value":1}, "one")]),
+            html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"for-value":2,"class":"option-more-info"})]),
+            html.div([html.input({"type":"radio","value":'ns/nc'}), html.label({"for-value":'ns/nc'}, "ns/nc"),html.span({"for-value":'ns/nc',"class":"option-more-info"})]),
         ]);
         // console.log('---------------');
         // console.log(selfExplain.assert.allDifferences(ctrl, expected));
-        expect(ctrl).to.eql(expected);
+        eval(assert(!assert.allDifferences(ctrl, expected)));
         var element = ctrl.create();
         Tedede.adaptElement(element,typeInfo);
         expect(element.moreInfo[2].className).to.eql('option-more-info');
