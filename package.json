@@ -14,15 +14,15 @@
   }],
   "main": "lib/tedede.js",
   "dependencies": {
-    "fs-extra": "0.30.0",
-    "fs-promise": "0.5.0",
-    "js-yaml": "3.6.0",
-    "lodash": "4.11.2",
+    "fs-extra": "~0.30.0",
+    "fs-promise": "~0.5.0",
+    "js-yaml": "~3.6.0",
+    "lodash": "~4.11.2",
 
-    "ajax-best-promise": "0.0.7",
-    "best-globals": "0.2.4",
-    "best-promise": "0.2.4",
-    "js-to-html": "0.9.0"
+    "ajax-best-promise": "~0.0.7",
+    "best-globals": "~0.2.4",
+    "best-promise": "~0.2.4",
+    "js-to-html": "~0.9.0"
   },
   "devDependencies": {
     "body-parser": "~1.15.0",
