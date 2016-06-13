@@ -203,6 +203,15 @@ describe("adapter",function(){
             }).to.throwError(/text cannot be empty/);
             expect(divElement.getTypedValue()).to.be('untouched');
         });
+        function testDisable(element){
+            expect(element.disable).to.be.a(Function);
+            element.disable(true);
+            expect(element.disabled).to.ok();
+            element.disable(false);
+            expect(element.disabled).to.not.ok();
+        }
+        it("have disable function inputElement",function(){ testDisable(inputElement);});
+        it("have disable function divElement"  ,function(){ testDisable(divElement);  });
     });
     describe("when addapt element with options must control the structure",function(){
         it("must control options no less options",function(){
@@ -287,6 +296,16 @@ describe("adapter",function(){
             expect(document.getElementById('bool9-true').checked).to.be(false);
             expect(document.getElementById('bool9-false').checked).to.be(true);
             expect(theElement.getTypedValue()).to.be(false);
+        });
+        it("must disable internal inputs",function(){
+            expect(document.getElementById('bool9-true').disabled).to.be(false);
+            expect(document.getElementById('bool9-false').disabled).to.be(false);
+            theElement.disable(true);
+            expect(document.getElementById('bool9-true').disabled).to.be(true);
+            expect(document.getElementById('bool9-false').disabled).to.be(true);
+            theElement.disable(false);
+            expect(document.getElementById('bool9-true').disabled).to.be(false);
+            expect(document.getElementById('bool9-false').disabled).to.be(false);
         });
     });
     Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){ toTest[typeName].forEach(function(testFixture){

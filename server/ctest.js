@@ -182,6 +182,32 @@ casper.test.begin("Test Text", function(test) {
     });    
 });
 
+['number1','number2'].forEach(function(elementId){
+    return;
+    casper.test.begin("Test Number in div "+elementId, function(test) {
+        casper.start(testUrl, function() {
+            var element = getInfo(elementId);
+            var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+            test.assertEquals(element.isActive,false);
+            sendFocus(elementId);
+            element = getInfo(elementId);
+            test.assertEquals(element.isActive,true, "should be active if it has focus");
+            testKey('12', 12, 'should set numbers');
+            testKey('x', 12, 'should not set non numbers');
+            testKey('3', 123, 'resume sending numbers');
+            testKey(keys.Backspace, 12 ,'should erase the last key');
+            testKey(keys.Backspace, 1 ,'should erase the last key');
+            testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
+            testKey(keys.Space, null, 'space in a null input should mantains null');
+            testKey(keys.Left, null, 'left should not alter the value');
+            testKey(keys.A, null, 'should maintains null');
+            testKey('1',1, 'should set to "1"');
+            sendCoverage();
+        }).run(function() {
+            test.done();
+        });    
+    });
+});
 
 casper.test.begin("Test text with custom event", function(test) {
     casper.start(testUrl, function() {
@@ -283,6 +309,20 @@ casper.test.begin("Test bool with options", function(test) {
         clickFalse(false, 'click on FALSE sets to FALSE', '> true false');
         clickFalse(false, 'click on FALSE mantains FALSE', '> true false');
         clickTrue(true, 'click on true sets to true', '> true false true');
+        
+        casper.page.evaluate(function() {
+            bool2.disable(true);
+        });
+
+        clickFalse(true, 'click on FALSE mantains FALSE', '> true false true');
+        clickTrue(true, 'click on true sets to true', '> true false true');
+        
+        casper.page.evaluate(function() {
+            bool2.disable(false);
+        });
+
+        clickFalse(false, 'click on FALSE mantains FALSE', '> true false true false');
+        clickTrue(true, 'click on true sets to true', '> true false true false true');
         
         sendCoverage();
     }).run(function() {

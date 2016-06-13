@@ -82,6 +82,14 @@ app.get('/demo', function(req,res){
             ]),
             html.input({type: "text", id:"txtEmiter"}),
             html.pre({id: "messages"}),
+            html.div([
+                html.label({"for": "number1"}, "number:"),
+                html.input({type: "text", id:"number1"}),
+            ]),
+            html.div([
+                html.label({"for": "number2"}, "number:"),
+                html.div({id:"number2", contenteditable:true}),
+            ]),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
             html.script({src:'lib/tedede.js'}),
