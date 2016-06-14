@@ -21,6 +21,7 @@ function getInfo(elemId) {
 }
 
 function sendKey(keysOrKey){
+    // https://github.com/ariya/phantomjs/commit/cab2635e66d74b7e665c44400b8b20a8f225153a
     if(typeof keysOrKey === "string"){
         casper.page.sendEvent('keypress', keysOrKey);
     }else{
@@ -56,6 +57,9 @@ function testSendClickToGroupAndCompare(test, groupId, elementId, expected, desc
 
 function testCompare(test, elementId, expected, description, expectedRegisteredEvents){
     var info = getInfo(elementId);
+    if(info.value != expected){
+        console.log('!========',info.value, expected, description);
+    }
     test.assertEquals(info.value, expected, description);
     if(expectedRegisteredEvents){
         test.assertEquals(info.registeredEvents, expectedRegisteredEvents, 'Registered Events: '+description);
@@ -182,8 +186,7 @@ casper.test.begin("Test Text", function(test) {
     });    
 });
 
-['number1','number2'].forEach(function(elementId){
-    return;
+['number1'/*,'number2'*/].forEach(function(elementId){
     casper.test.begin("Test Number in div "+elementId, function(test) {
         casper.start(testUrl, function() {
             var element = getInfo(elementId);
@@ -194,7 +197,7 @@ casper.test.begin("Test Text", function(test) {
             test.assertEquals(element.isActive,true, "should be active if it has focus");
             testKey('12', 12, 'should set numbers');
             testKey('x', 12, 'should not set non numbers');
-            testKey('3', 123, 'resume sending numbers');
+            testKey(keys['3'], 123, 'resume sending numbers');
             testKey(keys.Backspace, 12 ,'should erase the last key');
             testKey(keys.Backspace, 1 ,'should erase the last key');
             testKey(keys.Backspace, null ,'because the control has two chars the double backspace should set to null');
