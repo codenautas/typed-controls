@@ -137,7 +137,7 @@ describe("events", function(){
                 when: def.type === 'date',
                 must: theElement && theElement.type==='date',
                 description: 'input of type date 2',
-                excluding: 'IE 11.0, PhantomJS 2.1.1, Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0'.split(', '),
+                excluding: 'IE 11.0, PhantomJS 2.1.1, Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0, Firefox 47.0'.split(', '),
                 context: theElementErr
             });
             if(! skip) {
