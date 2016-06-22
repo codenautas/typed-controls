@@ -23,7 +23,6 @@ var bodyParser = require('body-parser');
 // var fs = require('fs-promise');
 // var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
-// var jade = require('jade');
 
 // app.use(cookieParser());
 // app.use(bodyParser.urlencoded({extended:true}));

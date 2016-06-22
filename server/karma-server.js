@@ -11,7 +11,6 @@ var fs = require('fs-promise');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
-var jade = require('jade');
 
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');
