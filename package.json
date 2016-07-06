@@ -60,6 +60,9 @@
   "engines": {
     "node": ">= 0.12.0"
   },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "infinito": "node server/karma-server.js --karma karma.conf.js",
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
@@ -85,7 +88,7 @@
     }
   },
   "qa-control": {
-    "package-version": "0.1.4",
+    "package-version": "0.2.0",
     "coverage": 100,
     "run-in": "both",
     "stability": "extending",
