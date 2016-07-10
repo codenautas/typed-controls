@@ -186,15 +186,16 @@ describe("adapter",function(){
         });
         it("reject invalid value",function(){
             divElement.setTypedValue('untouch');
-            sinon.stub(divElement,'validateTypedData', function(data){
+            var original_validateTypedData=divElement.validateTypedData;
+            divElement.validateTypedData=function(data){
                 expect(data).to.be('alfa');
                 throw new Error('invalid data "alfa"');
-            });
+            };
             expect(function(){
                 divElement.setTypedValue('alfa');
             }).to.throwError(/invalid data "alfa"/);
             expect(divElement.getTypedValue()).to.be('untouch');
-            divElement.validateTypedData.restore();
+            divElement.validateTypedData=original_validateTypedData;
         });
         it("reject empty value",function(){
             divElement.setTypedValue('untouched');
