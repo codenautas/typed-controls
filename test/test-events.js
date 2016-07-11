@@ -22,7 +22,7 @@ describe("events", function(){
     it("must receive click and change the internal typed value of null to a boolean value", function(){
         var id = 'id' + Math.random();
         var theElement = html.input({type:"checkbox", id:id}).create();
-        Tedede.adaptElement(theElement,'boolean');
+        TypedControls.adaptElement(theElement,'boolean');
         var theLabel = html.label({"for": id}, "the text for this tri-state checkbox").create();
         document.body.appendChild(theElement);
         document.body.appendChild(theLabel);
@@ -92,7 +92,7 @@ describe("events", function(){
     }
     it("must receive del or backspace key and change the internal typed value to null", function(done){
         var theElement = html.input({type:"checkbox"}).create();
-        Tedede.adaptElement(theElement,'boolean');
+        TypedControls.adaptElement(theElement,'boolean');
         document.body.appendChild(theElement);
         theElement.setTypedValue(true);
         sendKeyTo(theElement, 8 , 'keydown'); // backspace
@@ -104,7 +104,7 @@ describe("events", function(){
     });
     it("must receive space key and change the internal typed value to null", function(done){
         var theElement = html.input({}).create();
-        Tedede.adaptElement(theElement,'text');
+        TypedControls.adaptElement(theElement,'text');
         document.body.appendChild(theElement);
         sendKeyTo(theElement, 32 , 'keypress'); // ' '
         expect(theElement.getTypedValue()).to.be('');
@@ -128,7 +128,7 @@ describe("events", function(){
                     params.push({type:def.type});
                 }
                 theElement = html[def.tagName].apply(html, params).create();
-                Tedede.adaptElement(theElement,'date');
+                TypedControls.adaptElement(theElement,'date');
             }catch(err){
                 theElement = null;
                 theElementErr = err;

@@ -1,10 +1,10 @@
 {
-  "name": "tedede",
-  "description": "TDD",
-  "version": "0.2.5",
+  "name": "typed-controls",
+  "description": "typed controls, widgets and others",
+  "version": "0.3.1",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
-  "repository": "codenautas/tedede",
+  "repository": "codenautas/typed-controls",
   "contributors": [{
     "name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"
   },{
@@ -12,7 +12,7 @@
   },{
     "name": "Diego Florio", "email": "diegoefe@gmail.com"
   }],
-  "main": "lib/tedede.js",
+  "main": "lib/typed-controls.js",
   "dependencies": {
 
     "best-globals": "~0.4.8",

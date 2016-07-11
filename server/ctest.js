@@ -131,7 +131,7 @@ casper.test.begin('Setup', function(test) {
 casper.test.begin("Test checkbox", function suite(test) {
     casper.start(testUrl, function() {
         var elementId =  'bool1';
-        test.assertTitle('tedede demo', 'titulo correcto');
+        test.assertTitle('typed-controls demo', 'titulo correcto');
         test.assertExists('#bool1', 'tengo bool1');
         var bool1 = getInfo(elementId);
         test.assertEquals(bool1.value, false, "default value is false");
@@ -342,10 +342,10 @@ casper.test.begin("Test options", function(test) {
                 {option:"c", label:"No cumplió (aclarar en observaciones)"},
                 {option:9  , label:"No aplica"}
             ];
-            var elementoOpciones = Tedede.optionsCtrl({typeName:'enum', options:opts}).create();
+            var elementoOpciones = TypedControls.optionsCtrl({typeName:'enum', options:opts}).create();
             elementoOpciones.id='the-opt-ctrl';
             document.body.appendChild(elementoOpciones);
-            Tedede.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
+            TypedControls.adaptElement(elementoOpciones,{typeName:"enum", options:opts});
             window.myRegisterEvents='>';
             window.mySourceElement = null;
             elementoOpciones.addEventListener("update", function updateEvent(e){

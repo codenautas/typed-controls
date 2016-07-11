@@ -10,7 +10,7 @@ describe("connector",function(){
             done();
         });
         it("connects the input element with the almacen and populate",function(){
-            Tedede.connect({
+            TypedControls.connect({
                 input:inputElement,
                 almacen:almacen,
                 field:'the_field',
@@ -20,7 +20,7 @@ describe("connector",function(){
         });
         it("connects the input element with the almacen and populate null",function(){
             almacen.the_field = null;
-            Tedede.connect({
+            TypedControls.connect({
                 input:inputElement,
                 almacen:almacen,
                 field:'the_field',

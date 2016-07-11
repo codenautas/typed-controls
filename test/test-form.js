@@ -10,8 +10,8 @@ describe("forms",function(){
     }
     var medium={superId:['issues', 'new', 1], record:{}, 'new':true};
     it("render-form",function(done){
-        var form=Tedede.createForm(formInfo, medium);
-        expect(form).to.be.an(Tedede.Form);
+        var form=TypedControls.createForm(formInfo, medium);
+        expect(form).to.be.an(TypedControls.Form);
         expect(form.medium).to.be(medium);
         form.render(document.body).then(function(){
             expect(form.dom).to.be.an(Element);
@@ -21,7 +21,7 @@ describe("forms",function(){
         }).catch(done);
     });
     it("render-form twice", function(done){
-        var form=Tedede.createForm(formInfo, medium);
+        var form=TypedControls.createForm(formInfo, medium);
         form.render(document.body).then(function(){
             return form.render(document.body);
         }).then(function(){

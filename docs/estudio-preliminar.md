@@ -51,4 +51,4 @@ función                  | pub. | fijo | uso
   * fijo: función que siempre es igual
   * dep: función que su implementación depende del tipo (son las que hay que programar o revisar en cada tipo)
 
-![imagen](codenautas tedede adaptador.svg)
+![imagen](codenautas typed-controls adaptador.svg)

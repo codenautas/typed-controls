@@ -9,14 +9,14 @@ function showEvent(eventName){
 }
 
 window.addEventListener('load', function(){
-    Tedede.adaptElement(bool1, 'boolean');
-    Tedede.adaptElement(text1, 'text');
-    Tedede.adaptElement(number1, 'number');
-    Tedede.adaptElement(number2, 'number');
-    Tedede.adaptElement(text1, 'text');
-    Tedede.adaptElement(bool2, 'boolean');
+    TypedControls.adaptElement(bool1, 'boolean');
+    TypedControls.adaptElement(text1, 'text');
+    TypedControls.adaptElement(number1, 'number');
+    TypedControls.adaptElement(number2, 'number');
+    TypedControls.adaptElement(text1, 'text');
+    TypedControls.adaptElement(bool2, 'boolean');
     
-    Tedede.adaptElement(txtEmiter, 'text');
+    TypedControls.adaptElement(txtEmiter, 'text');
     if(!"show events"){
         showEvent('keydown');
         showEvent('keypress');

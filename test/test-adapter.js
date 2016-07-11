@@ -1,7 +1,7 @@
 "use strict";
 
 window.changing=bestGlobals.changing;
-window.BestTypes=Tedede.BestTypes;
+window.BestTypes=TypedControls.BestTypes;
 window.html=jsToHtml.html;
 
 var toTest = {
@@ -160,8 +160,8 @@ describe("adapter",function(){
         beforeEach(function(done){
             inputElement = html.input().create();
             divElement = html.div().create();
-            Tedede.adaptElement(inputElement,'text_no_empty');
-            Tedede.adaptElement(divElement,'text_no_empty');
+            TypedControls.adaptElement(inputElement,'text_no_empty');
+            TypedControls.adaptElement(divElement,'text_no_empty');
             done();
         });
         it("sets and get normal string in input",function(){
@@ -216,52 +216,52 @@ describe("adapter",function(){
     });
     describe("when addapt element with options must control the structure",function(){
         it("must control options no less options",function(){
-            var theElement=html.div({"tedede-option-group": "simple-option"},[
+            var theElement=html.div({"typed-controls-option-group": "simple-option"},[
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
+                TypedControls.adaptElement(theElement, "boolean");
             }).to.throwError(/incomplete options control/);
         })
         it("must control duplicate options options",function(){
-            var theElement=html.div({"tedede-option-group": "simple-option"},[
+            var theElement=html.div({"typed-controls-option-group": "simple-option"},[
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
+                TypedControls.adaptElement(theElement, "boolean");
             }).to.throwError(/duplicate options in options control/);
         })
         it("must control options more options",function(){
-            var theElement=html.div({"tedede-option-group": "simple-option"},[
+            var theElement=html.div({"typed-controls-option-group": "simple-option"},[
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
                 html.input({type:'radio', value:'false'}), html.label({"for-value":'false'},"Sí"), html.br(),
                 html.input({type:'radio', value:'x'    }), html.label({"for-value":'x'    },"Sí"), html.br(),
             ]).create();
             document.body.appendChild(theElement);
             expect(function(){
-                Tedede.adaptElement(theElement, "boolean");
+                TypedControls.adaptElement(theElement, "boolean");
             }).to.throwError(/invalid options in options control/);
         })
     });
     describe("boolean with options implemented with radiobuttons",function(){
         var theElement;
         beforeEach(function(){
-            theElement=html.div({id:'bool9', "tedede-option-group": "simple-option"},[html.div([
+            theElement=html.div({id:'bool9', "typed-controls-option-group": "simple-option"},[html.div([
                 html.input({type:'radio', value:'true' }), html.label({"for-value":true },"Sí"), html.br(),
                 html.input({type:'radio', value:'false'}), html.label({"for-value":false},"No"),
             ])]).create();
             document.body.appendChild(theElement);
-            Tedede.adaptElement(theElement, "boolean");
+            TypedControls.adaptElement(theElement, "boolean");
         });
         afterEach(function(){
             document.body.removeChild(theElement);
         });
         it("must complete the id and name",function(){
             var expected=html.div([
-                html.div({id:'bool9', "tedede-option-group": "bool9"},[html.div([
+                html.div({id:'bool9', "typed-controls-option-group": "bool9"},[html.div([
                     html.input({type:'radio', value:'true' , name:'bool9', id:'bool9-true' }), html.label({"for-value":true , "for":'bool9-true' },"Sí"), html.br(),
                     html.input({type:'radio', value:'false', name:'bool9', id:'bool9-false'}), html.label({"for-value":false, "for":'bool9-false'},"No"),
                 ])])
@@ -317,8 +317,8 @@ describe("adapter",function(){
             var skip;
             beforeEach(function(done){
                 try{
-                    theElement = Tedede.createFromFixture(def, testFixture.typeInfo).create();
-                    theBestElement = Tedede.bestCtrl(testFixture.typeInfo||typeName).create();
+                    theElement = TypedControls.createFromFixture(def, testFixture.typeInfo).create();
+                    theBestElement = TypedControls.bestCtrl(testFixture.typeInfo||typeName).create();
                     document.body.appendChild(theElement);
                     document.body.appendChild(theBestElement);
                 }catch(err){
@@ -338,8 +338,8 @@ describe("adapter",function(){
                         console.log(testFixture);
                         console.log('---------------------');
                     }
-                    Tedede.adaptElement(theElement,testFixture.typeInfo||typeName);
-                    Tedede.adaptElement(theBestElement,testFixture.typeInfo||typeName);
+                    TypedControls.adaptElement(theElement,testFixture.typeInfo||typeName);
+                    TypedControls.adaptElement(theBestElement,testFixture.typeInfo||typeName);
                     document.body.appendChild(theElement);
                 }
                 done();

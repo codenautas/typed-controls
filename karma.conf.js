@@ -36,7 +36,7 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     // /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
-      'lib/tedede.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
+      'lib/typed-controls.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
     coverageReporter: process.env.TRAVIS?{
         type : 'json',

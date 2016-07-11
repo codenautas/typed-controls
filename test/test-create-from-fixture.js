@@ -4,17 +4,17 @@ var assert = selfExplain.assert;
 
 describe("create-from-fixture",function(){
     it("create simple element", function(){
-        var element = Tedede.createFromFixture({tagName:'span', attributes:{}});
+        var element = TypedControls.createFromFixture({tagName:'span', attributes:{}});
         expect(element).to.eql(html.span());
         element.create();
     });
     it("create simple element with attributes", function(){
-        var element = Tedede.createFromFixture({tagName:'b', attributes:{"class": "the-class"}});
+        var element = TypedControls.createFromFixture({tagName:'b', attributes:{"class": "the-class"}});
         expect(element).to.eql(html.b({"class": "the-class"}));
         element.create();
     });
     it("create complex elements", function(){
-        var element = Tedede.createFromFixture(
+        var element = TypedControls.createFromFixture(
             {tagName:'i', attributes:{}, content:[
                 {tagName:'span', attributes:{}},
                 {tagName:'b', attributes:{"class": "the-class"}}
@@ -28,7 +28,7 @@ describe("create-from-fixture",function(){
         );
         element.create();
     });
-    it("funcion Tedede.optionsCtrl",function(){
+    it("funcion TypedControls.optionsCtrl",function(){
         var typeInfo={
             typeName:"enum",
             showOption: true,
@@ -37,8 +37,8 @@ describe("create-from-fixture",function(){
                 {option: 'b', label: 'es una consonante' },
             ]
         };
-        var element=Tedede.optionsCtrl(typeInfo);
-        var esperado=html.div({"tedede-option-group": 'simple-option'},[
+        var element=TypedControls.optionsCtrl(typeInfo);
+        var esperado=html.div({"typed-controls-option-group": 'simple-option'},[
             html.div([
                 html.label({"for-value": 'a'},'a'),
                 html.input({type:'radio', value:'a'}),
@@ -65,8 +65,8 @@ describe("optionsCtrl",function(){
                 {option:'ns/nc', label:'ns/nc', more:true}
             ]
         }
-        var ctrl = Tedede.optionsCtrl(typeInfo);
-        var expected = html.div({ 'tedede-option-group': 'simple-option' },[
+        var ctrl = TypedControls.optionsCtrl(typeInfo);
+        var expected = html.div({ 'typed-controls-option-group': 'simple-option' },[
             html.div([html.input({"type":"radio","value":1}), html.label({"for-value":1}, "one")]),
             html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"for-value":2,"class":"option-more-info"})]),
             html.div([html.input({"type":"radio","value":'ns/nc'}), html.label({"for-value":'ns/nc'}, "ns/nc"),html.span({"for-value":'ns/nc',"class":"option-more-info"})]),
@@ -75,7 +75,7 @@ describe("optionsCtrl",function(){
         // console.log(selfExplain.assert.allDifferences(ctrl, expected));
         eval(assert(!assert.allDifferences(ctrl, expected)));
         var element = ctrl.create();
-        Tedede.adaptElement(element,typeInfo);
+        TypedControls.adaptElement(element,typeInfo);
         expect(element.moreInfo[2].className).to.eql('option-more-info');
         expect(element.moreInfo['ns/nc'].getAttribute('for-value')).to.eql('ns/nc');
     });

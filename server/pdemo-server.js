@@ -42,8 +42,8 @@ function coveragePathTransformer(req) {
         var parsed = urlParse(req.url),
             pathName = parsed.pathname;
         var r = pathName;
-        if (pathName && pathName.match(/\/lib\/tedede.js/)) {
-            r = Path.resolve('./lib/tedede.js');
+        if (pathName && pathName.match(/\/lib\/typed-controls.js/)) {
+            r = Path.resolve('./lib/typed-controls.js');
         } else {
             r = Path.normalize(__dirname + r);
         }
@@ -66,7 +66,7 @@ app.get('/demo', function(req,res){
             html.link({rel:'stylesheet', type:'text/css', href:'pdemo.css'}),
         ]),
         html.body({id:'elBody'},[
-            html.h1("tedede demo for browser"),
+            html.h1("typed-controls demo for browser"),
             html.div([
                 html.input({type: "checkbox", id:"bool1"}),
                 html.label({"for": "bool1"}, "has tri-state booleans"),
@@ -75,7 +75,7 @@ app.get('/demo', function(req,res){
                 html.label({"for": "text1"}, "text with empty"),
                 html.input({type: "text", id:"text1", "accesskey": "t"}),
             ]),
-            html.div({id:'bool2', "tedede-option-group": "bool2"},[
+            html.div({id:'bool2', "typed-controls-option-group": "bool2"},[
                 html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' ,id:'label-bool2-true' },"Sí"), html.br(),
                 html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false',id:'label-bool2-false'},"No"),
             ]),
@@ -91,10 +91,10 @@ app.get('/demo', function(req,res){
             ]),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
-            html.script({src:'lib/tedede.js'}),
+            html.script({src:'lib/typed-controls.js'}),
             html.script({src:'pdemo-client.js'}),
         ])
-    ]).toHtmlDoc({title:'tedede demo'}));
+    ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));

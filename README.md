@@ -1,14 +1,14 @@
-# tedede
-TDD
+# typed-controls
+typed controls, widgets and others
 
 ![extending](https://img.shields.io/badge/stability-extending-orange.svg)
-[![npm-version](https://img.shields.io/npm/v/tedede.svg)](https://npmjs.org/package/tedede)
-[![downloads](https://img.shields.io/npm/dm/tedede.svg)](https://npmjs.org/package/tedede)
-[![build](https://img.shields.io/travis/codenautas/tedede/master.svg)](https://travis-ci.org/codenautas/tedede)
-[![coverage](https://img.shields.io/coveralls/codenautas/tedede/master.svg)](https://coveralls.io/r/codenautas/tedede)
-[![climate](https://img.shields.io/codeclimate/github/codenautas/tedede.svg)](https://codeclimate.com/github/codenautas/tedede)
-[![dependencies](https://img.shields.io/david/codenautas/tedede.svg)](https://david-dm.org/codenautas/tedede)
-[![qa-control](http://codenautas.com/github/codenautas/tedede.svg)](http://codenautas.com/github/codenautas/tedede)
+[![npm-version](https://img.shields.io/npm/v/typed-controls.svg)](https://npmjs.org/package/typed-controls)
+[![downloads](https://img.shields.io/npm/dm/typed-controls.svg)](https://npmjs.org/package/typed-controls)
+[![build](https://img.shields.io/travis/codenautas/typed-controls/master.svg)](https://travis-ci.org/codenautas/typed-controls)
+[![coverage](https://img.shields.io/coveralls/codenautas/typed-controls/master.svg)](https://coveralls.io/r/codenautas/typed-controls)
+[![climate](https://img.shields.io/codeclimate/github/codenautas/typed-controls.svg)](https://codeclimate.com/github/codenautas/typed-controls)
+[![dependencies](https://img.shields.io/david/codenautas/typed-controls.svg)](https://david-dm.org/codenautas/typed-controls)
+[![qa-control](http://codenautas.com/github/codenautas/typed-controls.svg)](http://codenautas.com/github/codenautas/typed-controls)
 
 
 
@@ -21,7 +21,7 @@ also available in:
 
 
 ```sh
-$ npm install tedede
+$ npm install typed-controls
 ```
 
 ## License
