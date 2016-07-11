@@ -18,5 +18,5 @@ after_script:
   - ls -cal
   - ls -cal ./coverage
   - ls -cal ./coverage/"Firefox 31.0.0 (Linux 0.0.0)"
-  - npm install coveralls@2.11.8
+  - npm install coveralls@2.11.9
   - cat ./coverage/lcov.info | coveralls
