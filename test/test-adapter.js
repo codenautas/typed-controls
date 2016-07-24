@@ -100,9 +100,9 @@ var toTest = {
     }],
     "boolean": [{
         validData:[
-            {value:null , display:''  , htmlDisplay:''},
-            {value:true , display:'Sí', htmlDisplay:'<span class="bool_true">Sí</span>' },
-            {value:false, display:'no', htmlDisplay:'<span class="bool_false">no</span>'},
+            {value:null , display:''   , htmlDisplay:''},
+            {value:true , display:'Yes', htmlDisplay:'<span class="bool_true">Yes</span>'},
+            {value:false, display:'No' , htmlDisplay:'<span class="bool_false">No</span>'},
         ],
         invalidData:[
             // {value:true},
