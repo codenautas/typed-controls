@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Wed Jul 22 2015 16:41:45 GMT-0300 (Hora estándar de Argentina)
 
-module.exports = function(config) {
+module.exports = function(config, preConfig) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -36,9 +36,9 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     // /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
-      'lib/typed-controls.js': !!process.env.SINGLE_RUN?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
+      'lib/typed-controls.js': !!preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
-    coverageReporter: process.env.TRAVIS?{
+    coverageReporter: process.env.TRAVIS||preConfig.singleRun?{
         type : 'json',
         dir : 'coverage/'
     }:{
@@ -83,6 +83,6 @@ module.exports = function(config) {
     
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: !!process.env.TRAVIS || !!process.env.SINGLE_RUN
+    singleRun: !!process.env.TRAVIS || !!process.env.SINGLE_RUN || preConfig.singleRun
   });
 };

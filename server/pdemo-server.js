@@ -89,6 +89,7 @@ app.get('/demo', function(req,res){
                 html.label({"for": "number2"}, "number:"),
                 html.div({id:"number2", contenteditable:true}),
             ]),
+            html.script({src:'lib4/require-bro.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
             html.script({src:'lib/typed-controls.js'}),
@@ -97,6 +98,7 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
+app.use('/lib4',extensionServeStatic('./node_modules/require-bro/lib', {staticExtensions: ['js']}));
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
@@ -127,7 +129,8 @@ var server = app.listen(PORT, function(){
          //'--fail-fast',
          Path.resolve('./server/ctest.js')
         ],
-        { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath})}
+        { stdio: 'inherit' , env: changing(process.env,{PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath},changing.options({mostlyPlain:true}))}
+        // { stdio: 'inherit' , env: {PHANTOMJS_EXECUTABLE: phantomPath, SLIMERJS_EXECUTABLE:slimerPath}}
     );
     /*
     pidBrowser = spawn(
