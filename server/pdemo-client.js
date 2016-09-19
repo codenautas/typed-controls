@@ -15,8 +15,8 @@ window.addEventListener('load', function(){
     TypedControls.adaptElement(number2, 'number');
     TypedControls.adaptElement(text1, 'text');
     TypedControls.adaptElement(bool2, 'boolean');
-    
     TypedControls.adaptElement(txtEmiter, 'text');
+    TypedControls.adaptElement(textDiv, 'text');
     if(!"show events"){
         showEvent('keydown');
         showEvent('keypress');

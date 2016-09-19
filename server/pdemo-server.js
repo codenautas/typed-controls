@@ -89,6 +89,7 @@ app.get('/demo', function(req,res){
                 html.label({"for": "number2"}, "number:"),
                 html.div({id:"number2", contenteditable:true}),
             ]),
+            html.div({style:"width:100px", contenteditable:true, id:'textDiv'},"with nl\n"),
             html.script({src:'lib4/require-bro.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),

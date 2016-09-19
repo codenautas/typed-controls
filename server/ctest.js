@@ -6,18 +6,20 @@ var testUrl = baseUrl + '/demo';
 var coverageUrl = baseUrl + '/coverage';
 var numErrors = 0;
 
-function getInfo(elemId) {
-    return JSON.parse(casper.page.evaluate(function(id) {
+function getInfo(elemId, directValue) {
+    return JSON.parse(casper.page.evaluate(function(id,directValue) {
         var theElement = document.getElementById(id);
         var rect = theElement.getBoundingClientRect();
         return JSON.stringify({
-            value: 'getTypedValue' in theElement?theElement.getTypedValue():'not adapted',
+            value: directValue?
+                ('value' in theElement?theElement.value:theElement.textContent):
+                ('getTypedValue' in theElement?theElement.getTypedValue():'not adapted'),
             cx: Math.floor((rect.left+rect.right)/2),
             cy: Math.floor((rect.top+rect.bottom)/2),
             isActive: document.activeElement === theElement,
             registeredEvents: window.myRegisterEvents
         })
-    }, elemId));
+    }, elemId,directValue));
 }
 
 function sendKey(keysOrKey){
@@ -57,10 +59,11 @@ function testSendClickToGroupAndCompare(test, groupId, elementId, expected, desc
 
 function testCompare(test, elementId, expected, description, expectedRegisteredEvents){
     var info = getInfo(elementId);
-    if(info.value != expected){
-        console.log('!========',info.value, expected, description);
+    var value = 'value' in info ? info.value : info.textContent;
+    if(value != expected){
+        console.log('!========',JSON.stringify(value), JSON.stringify(expected), description);
     }
-    test.assertEquals(info.value, expected, description);
+    test.assertEquals(value, expected, description);
     if(expectedRegisteredEvents){
         test.assertEquals(info.registeredEvents, expectedRegisteredEvents, 'Registered Events: '+description);
     }
@@ -180,6 +183,26 @@ casper.test.begin("Test Text", function(test) {
         testKey(keys.Delete, 'B', 'delete should erase one character');
         testKey(keys.Backspace, null, 'backspace should set to null');
         testKey(keys.Space, '', 'space in a null input should set to emtpy string (2)');
+        sendCoverage();
+    }).run(function() {
+        test.done();
+    });    
+});
+
+casper.test.begin("Test Text Div", function(test) {
+    casper.start(testUrl, function() {
+        test.assertExists('#textDiv', 'tengo textDiv');
+        var elementId =  'textDiv';
+        var text1 = getInfo(elementId,true);
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
+        test.assertEquals(text1.isActive,false);
+        test.assertEquals(text1.value, "with nl\n");
+        sendFocus(elementId);
+        // test.assertEquals(text1.isActive,true, "should be active if it has focus");
+        sendKey('XZ');
+        text1 = getInfo(elementId,true);
+        test.assertEquals(text1.value, "XZwith nl\n");
+        testKey('-Y ', 'XZ-Y with nl', 'should ignore last \\n');
         sendCoverage();
     }).run(function() {
         test.done();
