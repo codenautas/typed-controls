@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -68,7 +68,7 @@
     "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --coverage --hold",
     "start": "node server/server.js",
-    "all": "npm test && npm run ctest && npm run test-cov && qa-control . -v",
+    "all": "npm test && npm run ctest && qa-control . -v",
     "report": "istanbul report"
   },
   "qa-control": {
