@@ -35,6 +35,15 @@ var toTest = {
                 '<span class="number_dot">.</span>'+
                 '<span class="number_decimals">125</span>'    
             },
+            {value:812345     , display:'812345' , htmlDisplay: 
+                '<span class="number_miles">812</span>'+
+                '<span class="number_miles">345</span>'
+            },
+            {value:1812345     , display:'1812345' , htmlDisplay: 
+                '<span class="number_miles">1</span>'+
+                '<span class="number_miles">812</span>'+
+                '<span class="number_miles">345</span>'
+            },
         ],
         invalidData:[
             {value:true},
@@ -329,7 +338,7 @@ describe("adapter",function(){
                     when: def.attributes.type==='date' || theElementErr,
                     must: theElement && theElement.type==='date',
                     description: 'input of type date',
-                    excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0, Firefox 47.0, PhantomJS 2.1.1, IE 11.0'.split(', '),
+                    excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0, Firefox 47.0, Firefox 49.0, Firefox 50.0, PhantomJS 2.1.1, IE 11.0'.split(', '),
                     context: theElementErr
                 });
                 if(!skip){
