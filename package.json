@@ -69,6 +69,7 @@
     "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --coverage --hold",
     "start": "node server/server.js",
+    "all": "npm test && npm run ctest && qa-control . -v",
     "report": "istanbul report"
   },
   "qa-control": {
