@@ -209,7 +209,7 @@ casper.test.begin("Test Text Div", function(test) {
     });    
 });
 
-['number1'/*,'number2'*/].forEach(function(elementId){
+['number1','number2'].forEach(function(elementId){
     casper.test.begin("Test Number in div "+elementId, function(test) {
         casper.start(testUrl, function() {
             var element = getInfo(elementId);
