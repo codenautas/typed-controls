@@ -90,7 +90,9 @@ app.get('/demo', function(req,res){
                 html.div({id:"number2", "typed-controls-direct-input":true}),
             ]),
             html.div({style:"width:100px", "typed-controls-direct-input":true, id:'textDiv'},"with nl\n"),
+            html.script({src:'lib6/big.js'}),
             html.script({src:'lib4/require-bro.js'}),
+            html.script({src:'lib5/type-store.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib2/js-to-html.js'}),
             html.script({src:'lib/typed-controls.js'}),
@@ -99,6 +101,8 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
+app.use('/lib6',extensionServeStatic('./node_modules/big.js', {staticExtensions: ['js']}));
+app.use('/lib5',extensionServeStatic('./node_modules/type-store', {staticExtensions: ['js']}));
 app.use('/lib4',extensionServeStatic('./node_modules/require-bro/lib', {staticExtensions: ['js']}));
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
 app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
