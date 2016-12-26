@@ -13,6 +13,7 @@ module.exports = function(config, preConfig) {
 
     // list of files / patterns to load in the browser
     files: [
+      'node_modules/big.js/big.js',
       'node_modules/es6-promise/dist/es6-promise.auto.min.js',
       'node_modules/require-bro/lib/require-bro.js',
       'node_modules/best-globals/best-globals.js',
@@ -22,6 +23,7 @@ module.exports = function(config, preConfig) {
       'node_modules/esprima/dist/esprima.js',
       'node_modules/self-explain/dist/escodegen.browser.js',
       'node_modules/self-explain/lib/self-explain.js',
+      'node_modules/type-store/type-store.js',
       'lib/*.js',
       'test/*.js'
     ],

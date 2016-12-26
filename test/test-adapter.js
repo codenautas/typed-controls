@@ -44,6 +44,16 @@ var toTest = {
                 '<span class="number_miles">812</span>'+
                 '<span class="number_miles">345</span>'
             },
+            {value:TypeStore.bigint.fromString('-102345678901133557') 
+                , display:'-102345678901133557' , htmlDisplay: 
+                '<span class="number_sign">-</span>'+
+                '<span class="number_miles">102</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_miles">678</span>'+
+                '<span class="number_miles">901</span>'+
+                '<span class="number_miles">133</span>'+
+                '<span class="number_miles">557</span>'
+            },
         ],
         invalidData:[
             {value:true},
