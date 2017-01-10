@@ -172,6 +172,10 @@ toTest["text_no_empty"][0] = changing(toTest["text"][0],{});
 toTest["text_no_empty"][0].validData = toTest["text"][0].validData.filter(function(data){ return data.value !=='' && !data.multiline; });
 toTest["text_no_empty"][0].invalidData = toTest["text"][0].invalidData.concat({value:'', errRegexp:/text cannot be empty/});
 
+toTest.hugeint = toTest.number;
+toTest.integer = toTest.number;
+toTest.bigint = toTest.number;
+
 describe("adapter",function(){
     describe("for text without empty strings",function(){
         var inputElement;
