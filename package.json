@@ -30,10 +30,10 @@
     "express": "~4.14.0",
     "express-session": "~1.14.2",
     "express-useragent": "~1.0.6",
-    "fs-extra": "~1.0.0",
+    "fs-extra": "~2.0.0",
     "fs-promise": "~1.0.0",
     "istanbul": "~0.4.5",
-    "karma": "~1.3.0",
+    "karma": "~1.4.0",
     "karma-chrome-launcher": "~2.0.0",
     "karma-coverage": "~1.1.1",
     "karma-coverage-html-index-reporter": "~1.0.2",
@@ -45,7 +45,6 @@
     "karma-safari-launcher": "~1.0.0",
     "karma-slimerjs-launcher": "~1.1.0",
     "istanbul-middleware": "~0.2.2",
-    "lodash": "~4.17.4",
     "mocha": "~3.2.0",
     "phantomjs-prebuilt": "~2.1.14",
     "pug": "~2.0.0-beta6",
@@ -53,11 +52,12 @@
     "slimerjs": "~0.906.2",
     
     "ajax-best-promise": "~0.2.1",
-    "best-promise": "~0.2.4",
+    "best-globals": "~0.7.1",
     "extension-serve-static": "~0.1.6",
     "json4all": "~0.3.0",
     "require-bro": "~0.1.4",
-    "self-explain": "~0.10.11"
+    "self-explain": "~0.10.11",
+    "type-store": "~0.0.7"
   },
   "engines": {
     "node": ">= 0.12.0"

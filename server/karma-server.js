@@ -1,12 +1,11 @@
 "use strict";
 
-var _ = require('lodash');
+// var _ = require('lodash');
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var Promises = require('best-promise');
 var fs = require('fs-promise');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
