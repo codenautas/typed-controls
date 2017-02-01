@@ -165,6 +165,29 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
+    "FROM:type-store":[
+    ],
+    "ARRAY:text":[{
+        typeInfo:{
+            typeName:"ARRAY:text",
+        },
+        validData:[
+            {value:null        , display:''         , },
+            //TODO: decide this: {value:[]          , display:''         , },
+            {value:['a']       , display:'a'        , },
+            {value:['b','c']   , display:'b;c'      , },
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:'sarasa'},
+            {value:'0'},
+            {value:0},
+            {value:32},
+            {value:{}},
+            {value:/regexp/},
+        ]
+    }]
 };
 
 toTest["text_no_empty"] = []
@@ -448,7 +471,8 @@ describe("adapter",function(){
                         thisElement.setTypedValue(UNTOUCH);
                         expect(function(){
                             thisElement.setTypedValue(def.value);
-                        }).to.throwError(def.errRegexp||/Not a .* in input/);
+                        }).to.throwError(def.errRegexp||/No(t|n) an? .* in (input|type-store)/);
+                        // }).to.throwError(def.errRegexp||/Not an? .* in/);
                         expect(thisElement.getTypedValue()).to.eql(UNTOUCH);
                     });
                 });
