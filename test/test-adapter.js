@@ -187,6 +187,22 @@ var toTest = {
             {value:{}},
             {value:/regexp/},
         ]
+    }],
+    jsonb:[{ // TODO add test for jsonb
+        typeInfo:{
+            typeName:"jsonb",
+        },
+        validData:[
+            {value:null        , display:''         , },
+            {value:['a']       , display:'["a"]'    , },
+            {value:{a:'a'}     , display:'{"a":"a"}', },
+            /*
+            {value:['a']       , display:'a'        , },
+            {value:{a:'a'}     , display:'b;c'      , },
+            */
+        ],
+        invalidData:[
+        ]
     }]
 };
 
@@ -355,7 +371,11 @@ describe("adapter",function(){
             expect(document.getElementById('bool9-false').disabled).to.be(false);
         });
     });
-    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def){ toTest[typeName].forEach(function(testFixture){
+    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def, i){
+      if(!toTest[typeName] || !(toTest[typeName] instanceof Array)){
+          throw new Error("Lack tests for "+typeName);
+      }
+      toTest[typeName].forEach(function(testFixture){
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
             var theBestElement;
@@ -375,7 +395,7 @@ describe("adapter",function(){
                     when: def.attributes.type==='date' || theElementErr,
                     must: theElement && theElement.type==='date',
                     description: 'input of type date',
-                    excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0, Firefox 47.0, Firefox 49.0, Firefox 50.0, PhantomJS 2.1.1, IE 11.0'.split(', '),
+                    excluding: 'Firefox 31.0, Firefox 39.0, Firefox 43.0, Firefox 44.0, Firefox 45.0, Firefox 47.0, Firefox 49.0, Firefox 50.0, Firefox 52.0, PhantomJS 2.1.1, IE 11.0'.split(', '),
                     context: theElementErr
                 });
                 if(!skip){
@@ -464,7 +484,7 @@ describe("adapter",function(){
             });
             testFixture.invalidData.forEach(function(def){
                 ['normal', 'best'].forEach(function(mode){
-                    it("reject invalid value "+def.value+" mode "+mode,function(){
+                    it("reject invalid value "+JSON.stringify(def.value)+" mode "+mode,function(){
                         if(skip) return;
                         var UNTOUCH = testFixture.validData[1].value;
                         var thisElement = mode=='normal' ? theElement : theBestElement;
@@ -478,5 +498,6 @@ describe("adapter",function(){
                 });
             });
         });
-    }); }); });
+      }); 
+    }); });
 });

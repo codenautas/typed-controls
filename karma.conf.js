@@ -16,6 +16,7 @@ module.exports = function(config, preConfig) {
       'node_modules/big.js/big.js',
       'node_modules/es6-promise/dist/es6-promise.auto.min.js',
       'node_modules/require-bro/lib/require-bro.js',
+      'node_modules/like-ar/like-ar.js',
       'node_modules/best-globals/best-globals.js',
       'node_modules/json4all/json4all.js',
       'node_modules/js-to-html/js-to-html.js',
@@ -39,7 +40,7 @@ module.exports = function(config, preConfig) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     // /* ESPERANDO QUE ARREGLEN: https://github.com/karma-runner/karma/issues/1768
     preprocessors: {
-      'lib/typed-controls.js': !!preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
+      /* 'lib/typed-controls.js': !!preConfig.singleRun?['coverage']:[] /* COMENTAR PARA VER MÁS LIMPIO EL CÓDIGO */
     },
     coverageReporter: process.env.TRAVIS||preConfig.singleRun?{
         type : 'json',
