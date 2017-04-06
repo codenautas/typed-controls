@@ -203,6 +203,21 @@ var toTest = {
         ],
         invalidData:[
         ]
+    }],
+    interval:[{ // TODO add test for jsonb
+        typeInfo:{
+            typeName:"interval",
+        },
+        validData:[
+            {value:null        , display:''         , },
+            {value:{days:1}    , display:'1D'       , },
+            /*
+            {value:['a']       , display:'a'        , },
+            {value:{a:'a'}     , display:'b;c'      , },
+            */
+        ],
+        invalidData:[
+        ]
     }]
 };
 
