@@ -84,16 +84,19 @@ app.get('/demo', function(req,res){
             html.div({style:"width:100px", "typed-controls-direct-input":true, id:'textDiv'},"with nl\n"),
             html.script({src:'lib6/big.js'}),
             html.script({src:'lib4/require-bro.js'}),
+            html.script({src:'lib8/like-ar.js'}),
             html.script({src:'lib3/best-globals.js'}),
             html.script({src:'lib7/json4all.js'}),
-            html.script({src:'lib5/type-store.js'}),
+            html.script({src:'lib5/postgres-interval4client.js'}),
             html.script({src:'lib2/js-to-html.js'}),
+            html.script({src:'lib5/type-store.js'}),
             html.script({src:'lib/typed-controls.js'}),
             html.script({src:'pdemo-client.js'}),
         ])
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
+app.use('/lib8',extensionServeStatic('./node_modules/like-ar', {staticExtensions: ['js']}));
 app.use('/lib7',extensionServeStatic('./node_modules/json4all', {staticExtensions: ['js']}));
 app.use('/lib6',extensionServeStatic('./node_modules/big.js', {staticExtensions: ['js']}));
 app.use('/lib5',extensionServeStatic('./node_modules/type-store', {staticExtensions: ['js']}));

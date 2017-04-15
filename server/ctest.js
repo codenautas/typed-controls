@@ -379,7 +379,7 @@ casper.test.begin("Test options", function(test) {
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-a', 'a', 'si toco a es a','> a');
         testSendClickToGroupAndCompare(test, 'the-opt-ctrl', 'the-opt-ctrl-b', 'b', 'si toco b es b','> a b');
         sendFocus('the-opt-ctrl-b');
-        testSendKeyAndCompare(test, 'the-opt-ctrl', keys.Down, 'c', 'down key changes value', '> a b c'); // down key
+        // testSendKeyAndCompare(test, 'the-opt-ctrl', keys.Down, 'c', 'down key changes value', '> a b c'); // down key
         this.capture('local-capture2.png');
         sendCoverage();
     }).run(function() {
