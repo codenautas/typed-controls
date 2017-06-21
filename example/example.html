@@ -1,0 +1,44 @@
+<html>
+<head>
+<link href='../node_modules/dialog-promise/lib/dialog-promise.css' rel="stylesheet" type="text/css">
+</head>
+<body>
+  <h1>Ejemplo Typed Controls</h1>
+  <table>
+    <tr><th><th>ingrese la opción
+    <tr><td><label for=the_bool>¿se ve?</label><td type-name=boolean id=the_bool contenteditable nullable=1></td>
+    <tr><td><label for=nombre  >nombre </label><td type-name=text    id=nombre   contenteditable></td>
+    <tr><td><label for=espejo  >espejo </label><td type-name=boolean id=espejo   contenteditable></td>
+  </table>
+  <pre id=obtenidos>
+  </pre>
+  <script src='../node_modules/big.js/big.js'></script>
+  <script src='../node_modules/require-bro/lib/require-bro.js'></script>
+  <script src='../node_modules/require-bro/lib/polyfills-bro.js'></script>
+  <script src='../node_modules/best-globals/best-globals.js'></script>
+  <script src='../node_modules/js-to-html/js-to-html.js'></script>
+  <script src='../node_modules/like-ar/like-ar.js'></script>
+  <script src='../node_modules/json4all/json4all.js'></script>
+  <script src='../node_modules/type-store/postgres-interval4client.js'></script>
+  <script src='../node_modules/type-store/type-store.js'></script>
+  <script src='../node_modules/dialog-promise/lib/dialog-promise.js'></script>
+  <script src='../lib/typed-controls.js'></script>
+  <script src='../node_modules/castellano/lib/cliente-en-castellano.js'></script>
+  <script>
+  window.addEventListener('load', function(){
+    var controls = document.querySelectorAll('[type-name]');
+    var result={};
+    Array.prototype.forEach.call(controls,function(control){
+        TypedControls.adaptElement(control, {typeName: control.getAttribute('type-name'), nullable:control.getAttribute('nullable')});
+        control.addEventListener('update', function(){
+            result[this.id]=this.getTypedValue();
+            obtenidos.textContent=JSON.stringify(result);
+        });
+    });
+    the_bool.addEventListener('update', function(){
+        espejo.setTypedValue(the_bool.getTypedValue());
+    });
+  });
+  </script>
+</body>
+</html>

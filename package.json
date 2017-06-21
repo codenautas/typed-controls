@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.5.12",
+  "version": "0.6.0",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -59,6 +59,10 @@
     "require-bro": "~0.1.5",
     "self-explain": "~0.10.12",
     "type-store": "~0.1.5"
+  },
+  "optionalDependencies": {
+    "dialog-promise": "~0.6.1",
+    "castellano": "~0.0.3"
   },
   "engines": {
     "node": ">= 0.12.0"
