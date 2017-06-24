@@ -9,9 +9,10 @@
   <h1>Ejemplo Typed Controls</h1>
   <table>
     <tr><th><th>ingrese la opción
-    <tr><td><label for=the_bool>¿se ve?</label><td type-name=boolean id=the_bool contenteditable nullable=1></td>
-    <tr><td><label for=nombre  >nombre </label><td type-name=text    id=nombre   contenteditable></td>
-    <tr><td><label for=espejo  >espejo </label><td type-name=boolean id=espejo   contenteditable></td>
+    <tr><td><label for=the_bool>¿se ve?</label><td type-id=boolean3 id=the_bool contenteditable></td>
+    <tr><td><label for=nombre  >nombre </label><td type-id=nombre   id=nombre   contenteditable></td>
+    <tr><td><label for=texto   >texto  </label><td type-id=text     id=texto    contenteditable></td>
+    <tr><td><label for=espejo  >espejo </label><td type-id=boolean  id=espejo   contenteditable></td>
   </table>
   <pre id=obtenidos>
   </pre>
@@ -27,12 +28,22 @@
   <script src='../node_modules/dialog-promise/lib/dialog-promise.js'></script>
   <script src='../lib/typed-controls.js'></script>
   <script src='../node_modules/castellano/lib/cliente-en-castellano.js'></script>
+  <script src='nombres.js'></script>
   <script>
   window.addEventListener('load', function(){
-    var controls = document.querySelectorAll('[type-name]');
+    var controls = document.querySelectorAll('[type-id]');
     var result={};
+    var typeId={
+        boolean3:{typeName: 'boolean', nullable:true},
+        boolean:{typeName: 'boolean'},
+        nombre :{typeName: 'text'    ,options:nombresPropios.map(function(nombre, i){ return {
+            option: nombre[0]+i%10+nombre.length%10, 
+            label: nombre
+        };})},
+        text   :{typeName: 'text'},
+    };
     Array.prototype.forEach.call(controls,function(control){
-        TypedControls.adaptElement(control, {typeName: control.getAttribute('type-name'), nullable:control.getAttribute('nullable')});
+        TypedControls.adaptElement(control, typeId[control.getAttribute('type-id')]);
         control.addEventListener('update', function(){
             result[this.id]=this.getTypedValue();
             obtenidos.textContent=JSON.stringify(result);
