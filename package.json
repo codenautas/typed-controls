@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -25,7 +25,7 @@
     "body-parser": "~1.17.2",
     "casperjs": "~1.1.4",
     "cookie-parser": "~1.4.3",
-    "es6-promise": "~4.1.0",
+    "es6-promise": "~4.1.1",
     "esprima": "~4.0.0",
     "expect.js": "~0.3.1",
     "express": "~4.15.3",
@@ -61,7 +61,7 @@
     "type-store": "~0.1.5"
   },
   "optionalDependencies": {
-    "dialog-promise": "~0.6.2",
+    "dialog-promise": "~0.7.1",
     "castellano": "~0.0.3"
   },
   "engines": {
