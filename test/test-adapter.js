@@ -4,13 +4,18 @@ window.changing=bestGlobals.changing;
 window.BestTypes=TypedControls.BestTypes;
 window.html=jsToHtml.html;
 
+var testTypes={};
+['bigint'].forEach(function(typeName){
+    testTypes[typeName] = new TypeStore.type[typeName]();
+});
+
 var toTest = {
     "text": [{
         validData:[
             {value:null        , display:''          , valueEmpty:false, htmlDisplay: ''         },
             {value:'hello'     , display:'hello'     , valueEmpty:false, htmlDisplay: 'hello'    },
             {value:'hi\nWorld' , display:'hi\nWorld' , valueEmpty:false, htmlDisplay: 'hi\nWorld', multiline:true},
-            {value:''          , display:''          , valueEmpty:true , htmlDisplay: ''         }
+            // FUTURE {value:''          , display:''          , valueEmpty:true , htmlDisplay: ''         }
         ],
         invalidData:[
             {value:true},
@@ -30,30 +35,14 @@ var toTest = {
             {value:42          , display:'42'        , },
             {value:0           , display:'0'         , },
             {value:12345.125   , display:'12345.125' , htmlDisplay: 
-                '<span class="number_miles">12</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_dot">.</span>'+
-                '<span class="number_decimals">125</span>'    
+                "<span class='number-miles'>12</span>"+
+                "<span class='number-separator'></span>"+
+                "<span class='number-miles'>345</span>"+
+                "<span class='number-dot'>.</span>"+
+                "<span class='number-decimals'>125</span>"
             },
-            {value:812345     , display:'812345' , htmlDisplay: 
-                '<span class="number_miles">812</span>'+
-                '<span class="number_miles">345</span>'
-            },
-            {value:1812345     , display:'1812345' , htmlDisplay: 
-                '<span class="number_miles">1</span>'+
-                '<span class="number_miles">812</span>'+
-                '<span class="number_miles">345</span>'
-            },
-            {value:TypeStore.type.bigint.fromString('-102345678901133557') 
-                , display:'-102345678901133557' , htmlDisplay: 
-                '<span class="number_sign">-</span>'+
-                '<span class="number_miles">102</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_miles">678</span>'+
-                '<span class="number_miles">901</span>'+
-                '<span class="number_miles">133</span>'+
-                '<span class="number_miles">557</span>'
-            },
+            {value:812345     , display:'812345' },
+            {value:1812345     , display:'1812345'},
         ],
         invalidData:[
             {value:true},
@@ -218,7 +207,65 @@ var toTest = {
         ],
         invalidData:[
         ]
-    }]
+    }],
+    timestamp:[{ // TODO add test for jsonb
+        typeInfo:{
+            typeName:"timestamp",
+        },
+        validData:[
+            {value:null        , display:''         , },
+            {value:{days:1}    , display:'1D'       , },
+            /*
+            {value:['a']       , display:'a'        , },
+            {value:{a:'a'}     , display:'b;c'      , },
+            */
+        ],
+        invalidData:[
+        ]
+    }],
+    "decimal": [{
+        validData:[
+            {value:null        , display:''          , },
+            {value:42          , display:'42'        , },
+            {value:0           , display:'0'         , },
+            {value:new Big('12345.1259876543219876543210101010101010101')   , display:'12345.1259876543219876543210101010101010101' , htmlDisplay: 
+                '<span class="number_miles">12</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_dot">.</span>'+
+                '<span class="number_decimals">1259876543219876543210101010101010101</span>'    
+            },
+            {value:812345     , display:'812345' , htmlDisplay: 
+                '<span class="number_miles">812</span>'+
+                '<span class="number_miles">345</span>'
+            },
+            {value:1812345     , display:'1812345' , htmlDisplay: 
+                '<span class="number_miles">1</span>'+
+                '<span class="number_miles">812</span>'+
+                '<span class="number_miles">345</span>'
+            },
+            {value:testTypes.bigint.fromString('-102345678901133557') 
+                , display:'-102345678901133557' , htmlDisplay: 
+                '<span class="number_sign">-</span>'+
+                '<span class="number_miles">102</span>'+
+                '<span class="number_miles">345</span>'+
+                '<span class="number_miles">678</span>'+
+                '<span class="number_miles">901</span>'+
+                '<span class="number_miles">133</span>'+
+                '<span class="number_miles">557</span>'
+            },
+        ],
+        invalidData:[
+            {value:true},
+            {value:new Date()},
+            {value:'sarasa'},
+            {value:'0'},
+            // {value:0},
+            // {value:32},
+            {value:{}},
+            {value:[]},
+            {value:/regexp/},
+        ]
+    }], 
 };
 
 toTest["text_no_empty"] = []
@@ -391,6 +438,7 @@ describe("adapter",function(){
           throw new Error("Lack tests for "+typeName);
       }
       toTest[typeName].forEach(function(testFixture){
+        if(testFixture.tagName==='input') return;
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
             var theBestElement;
@@ -419,8 +467,10 @@ describe("adapter",function(){
                         console.log(testFixture);
                         console.log('---------------------');
                     }
-                    TypedControls.adaptElement(theElement,testFixture.typeInfo||typeName);
-                    TypedControls.adaptElement(theBestElement,testFixture.typeInfo||typeName);
+                    console.log('typeStore',testFixture.typeInfo||typeName,testFixture.typeInfo,typeName,TypeStore.type[(testFixture.typeInfo||{}).typeName])
+                    var typeObject=new TypeStore.type[(testFixture.typeInfo||{}).typeName](testFixture.typeInfo);
+                    TypedControls.adaptElement(theElement,typeObject);
+                    TypedControls.adaptElement(theBestElement,typeObject);
                     document.body.appendChild(theElement);
                 }
                 done();
@@ -445,7 +495,9 @@ describe("adapter",function(){
                             expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
                         }
                     }
-                    expect(theElement.getTypedValue()).to.eql(data.value);
+                    if(data.value==null || ! data.value.sameValue || !data.value.sameValue(theElement.getTypedValue())){
+                        expect(theElement.getTypedValue()).to.eql(data.value);
+                    }
                     if(typeName==='text'){
                         expect(theElement.valueEmpty).to.eql(data.valueEmpty);
                     }

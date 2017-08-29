@@ -18,7 +18,6 @@ module.exports = function(config, preConfig) {
       'node_modules/require-bro/lib/require-bro.js',
       'node_modules/like-ar/like-ar.js',
       'node_modules/best-globals/best-globals.js',
-      'node_modules/type-store/postgres-interval4client.js',
       'node_modules/json4all/json4all.js',
       'node_modules/js-to-html/js-to-html.js',
       'node_modules/ajax-best-promise/bin/ajax-best-promise.js',
@@ -68,8 +67,8 @@ module.exports = function(config, preConfig) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    // logLevel: config.LOG_INFO,
-    logLevel: config.LOG_ERROR,
+    logLevel: config.LOG_INFO,
+    // logLevel: config.LOG_ERROR,
 
 
     // enable / disable watching file and executing tests whenever any file changes
