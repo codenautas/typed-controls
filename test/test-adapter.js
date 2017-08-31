@@ -199,7 +199,7 @@ var toTest = {
         },
         validData:[
             {value:null        , display:''         , },
-            {value:{days:1}    , display:'1D'       , },
+            {value:new bestGlobals.TimeInterval({days:1})    , display:'1D'       , },
             /*
             {value:['a']       , display:'a'        , },
             {value:{a:'a'}     , display:'b;c'      , },
@@ -214,11 +214,7 @@ var toTest = {
         },
         validData:[
             {value:null        , display:''         , },
-            {value:{days:1}    , display:'1D'       , },
-            /*
-            {value:['a']       , display:'a'        , },
-            {value:{a:'a'}     , display:'b;c'      , },
-            */
+            {value:bestGlobals.datetime.iso('2019-10-20 10:20:30'), display:'2019-10-20 10:20:30.000'},
         ],
         invalidData:[
         ]
@@ -447,9 +443,7 @@ describe("adapter",function(){
             beforeEach(function(done){
                 try{
                     theElement = TypedControls.createFromFixture(def, testFixture.typeInfo).create();
-                    theBestElement = TypedControls.bestCtrl(testFixture.typeInfo||typeName).create();
                     document.body.appendChild(theElement);
-                    document.body.appendChild(theBestElement);
                 }catch(err){
                     theElementErr = err;
                     theElement = null;
@@ -470,7 +464,6 @@ describe("adapter",function(){
                     console.log('typeStore',testFixture.typeInfo||typeName,testFixture.typeInfo,typeName,TypeStore.type[(testFixture.typeInfo||{}).typeName])
                     var typeObject=new TypeStore.type[(testFixture.typeInfo||{}).typeName](testFixture.typeInfo);
                     TypedControls.adaptElement(theElement,typeObject);
-                    TypedControls.adaptElement(theBestElement,typeObject);
                     document.body.appendChild(theElement);
                 }
                 done();
@@ -492,40 +485,16 @@ describe("adapter",function(){
                         }else if(def.attributes.type==='date' && data.value!=null){
                             expect(theElement.value).to.eql(data.valueISO);
                         }else if(!def.creatorFunction){
+                            console.log('xxxxxxxxxx',theElement.tagName,theElement.value,theElement.innerHTML);
                             expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
                         }
                     }
+                    console.log('xxxxxxxxxx*---',data,theElement.getTypedValue)
                     if(data.value==null || ! data.value.sameValue || !data.value.sameValue(theElement.getTypedValue())){
                         expect(theElement.getTypedValue()).to.eql(data.value);
                     }
                     if(typeName==='text'){
                         expect(theElement.valueEmpty).to.eql(data.valueEmpty);
-                    }
-                });
-                it("sets and get "+data.value+" for best ctrl",function(){
-                    if(skip) return;
-                    //console.log("data",data,"data.value",data.value);
-                    theBestElement.setTypedValue(data.value);
-                    if(!data.multiline){
-                        var inspect = def.tagName==='input' || def.tagName==='textarea'?'value':'textContent';
-                        if(theBestElement.type==='checkbox'){
-                            expect(theBestElement.indeterminate).to.be(data.value===null);
-                            expect(theBestElement.checked).to.be(data.value===true);
-                        }
-                        if('value' in theBestElement && !('textContent' in theBestElement)){
-                            inspect = 'value';
-                        }else if(!('value' in theBestElement) && 'textContent' in theBestElement && theBestElement.childElementCount==0){
-                            inspect = 'textContent';
-                        }else{
-                            inspect = null;
-                        }
-                        if(inspect){
-                            expect(theBestElement[inspect]).to.eql('display' in data?data.display:data.value);
-                        }
-                    }
-                    expect(theBestElement.getTypedValue()).to.eql(data.value);
-                    if(typeName==='text'){
-                        expect(theBestElement.valueEmpty).to.eql(data.valueEmpty);
                     }
                 });
                 it("send the right event "+data.value+" in "+def.tagName,function(done){
@@ -550,18 +519,16 @@ describe("adapter",function(){
                 });
             });
             testFixture.invalidData.forEach(function(def){
-                ['normal', 'best'].forEach(function(mode){
-                    it("reject invalid value "+JSON.stringify(def.value)+" mode "+mode,function(){
-                        if(skip) return;
-                        var UNTOUCH = testFixture.validData[1].value;
-                        var thisElement = mode=='normal' ? theElement : theBestElement;
-                        thisElement.setTypedValue(UNTOUCH);
-                        expect(function(){
-                            thisElement.setTypedValue(def.value);
-                        }).to.throwError(def.errRegexp||/No(t|n) an? .* in (input|type-store)/);
-                        // }).to.throwError(def.errRegexp||/Not an? .* in/);
-                        expect(thisElement.getTypedValue()).to.eql(UNTOUCH);
-                    });
+                it("reject invalid value "+JSON.stringify(def.value),function(){
+                    if(skip) return;
+                    var UNTOUCH = testFixture.validData[1].value;
+                    var thisElement = theElement ;
+                    thisElement.setTypedValue(UNTOUCH);
+                    expect(function(){
+                        thisElement.setTypedValue(def.value);
+                    }).to.throwError(def.errRegexp||/No(t|n) an? .* in (input|type-store)/);
+                    // }).to.throwError(def.errRegexp||/Not an? .* in/);
+                    expect(thisElement.getTypedValue()).to.eql(UNTOUCH);
                 });
             });
         });
