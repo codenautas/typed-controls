@@ -19,7 +19,7 @@ describe("events", function(){
             elem.click();
         }
     }
-    it("must receive click and change the internal typed value of null to a boolean value", function(){
+    it.skip("must receive click and change the internal typed value of null to a boolean value", function(){
         var id = 'id' + Math.random();
         var theElement = html.input({type:"checkbox", id:id}).create();
         TypedControls.adaptElement(theElement,'boolean');
@@ -90,7 +90,7 @@ describe("events", function(){
         }
         elem.dispatchEvent(oEvent);
     }
-    it("must receive del or backspace key and change the internal typed value to null", function(done){
+    it.skip("must receive del or backspace key and change the internal typed value to null", function(done){
         var theElement = html.input({type:"checkbox"}).create();
         TypedControls.adaptElement(theElement,'boolean');
         document.body.appendChild(theElement);
@@ -102,7 +102,7 @@ describe("events", function(){
         expect(theElement.getTypedValue()).to.be(null);
         done();
     });
-    it("must receive space key and change the internal typed value to null", function(done){
+    it.skip("must receive space key and change the internal typed value to null", function(done){
         var theElement = html.input({}).create();
         TypedControls.adaptElement(theElement,'text');
         document.body.appendChild(theElement);
@@ -119,7 +119,7 @@ describe("events", function(){
         {tagName:'input', type:'text' }, 
         {tagName:'input', type:'date' }
     ].forEach(function(def){
-        it("must receieve key 'h' and change the internal typed value to current date", function(done){
+        it.skip("must receieve key 'h' and change the internal typed value to current date", function(done){
             var theElement;
             var theElementErr=null;
             try{

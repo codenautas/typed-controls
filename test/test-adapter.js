@@ -30,16 +30,27 @@ var toTest = {
         ]
     }], 
     "number": [{
+        typeInfo:{
+            typeName:"number",
+        },
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
             {value:0           , display:'0'         , },
             {value:12345.125   , display:'12345.125' , htmlDisplay: 
-                "<span class='number-miles'>12</span>"+
-                "<span class='number-separator'></span>"+
-                "<span class='number-miles'>345</span>"+
-                "<span class='number-dot'>.</span>"+
-                "<span class='number-decimals'>125</span>"
+                '<span class="number">'+
+                    '<span class="number-miles">12</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">345</span>'+
+                    '<span class="number-dot">.</span>'+
+                    '<span class="number-decimals">125</span>'+
+                '</span>'
+
+                //"<span class='number-miles'>12</span>"+
+                //"<span class='number-separator'></span>"+
+                //"<span class='number-miles'>345</span>"+
+                //"<span class='number-dot'>.</span>"+
+                //"<span class='number-decimals'>125</span>"
             },
             {value:812345     , display:'812345' },
             {value:1812345     , display:'1812345'},
@@ -220,34 +231,71 @@ var toTest = {
         ]
     }],
     "decimal": [{
+        typeInfo:{
+            typeName:"decimal",
+        },
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
             {value:0           , display:'0'         , },
             {value:new Big('12345.1259876543219876543210101010101010101')   , display:'12345.1259876543219876543210101010101010101' , htmlDisplay: 
-                '<span class="number_miles">12</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_dot">.</span>'+
-                '<span class="number_decimals">1259876543219876543210101010101010101</span>'    
+                
+                '<span class="number">'+
+                    '<span class="number-miles">12</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">345</span>'+
+                    '<span class="number-dot">.</span>'+
+                    '<span class="number-decimals">1259876543219876543210101010101010101</span>'+
+                '</span>'
+                //'<span class="number_miles">12</span>'+
+                //'<span class="number_miles">345</span>'+
+                //'<span class="number_dot">.</span>'+
+                //'<span class="number_decimals">1259876543219876543210101010101010101</span>'    
             },
             {value:812345     , display:'812345' , htmlDisplay: 
-                '<span class="number_miles">812</span>'+
-                '<span class="number_miles">345</span>'
+                '<span class="number">'+
+                    '<span class="number-miles">812</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">345</span>'+
+                '</span>'
+                //'<span class="number_miles">812</span>'+
+                //'<span class="number_miles">345</span>'
             },
             {value:1812345     , display:'1812345' , htmlDisplay: 
-                '<span class="number_miles">1</span>'+
-                '<span class="number_miles">812</span>'+
-                '<span class="number_miles">345</span>'
+                '<span class="number">'+
+                    '<span class="number-miles">1</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">812</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">345</span>'+
+                '</span>'
+                //'<span class="number_miles">1</span>'+
+                //'<span class="number_miles">812</span>'+
+                //'<span class="number_miles">345</span>'
             },
             {value:testTypes.bigint.fromString('-102345678901133557') 
                 , display:'-102345678901133557' , htmlDisplay: 
-                '<span class="number_sign">-</span>'+
-                '<span class="number_miles">102</span>'+
-                '<span class="number_miles">345</span>'+
-                '<span class="number_miles">678</span>'+
-                '<span class="number_miles">901</span>'+
-                '<span class="number_miles">133</span>'+
-                '<span class="number_miles">557</span>'
+                '<span class="number">'+
+                    '<span class="number-sign">-</span>'+
+                    '<span class="number-miles">102</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">345</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">678</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">901</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">133</span>'+
+                    '<span class="number-separator"></span>'+
+                    '<span class="number-miles">557</span>'+
+                '</span>'
+                //'<span class="number_sign">-</span>'+
+                //'<span class="number_miles">102</span>'+
+                //'<span class="number_miles">345</span>'+
+                //'<span class="number_miles">678</span>'+
+                //'<span class="number_miles">901</span>'+
+                //'<span class="number_miles">133</span>'+
+                //'<span class="number_miles">557</span>'
             },
         ],
         invalidData:[
@@ -461,8 +509,7 @@ describe("adapter",function(){
                         console.log(testFixture);
                         console.log('---------------------');
                     }
-                    console.log('typeStore',testFixture.typeInfo||typeName,testFixture.typeInfo,typeName,TypeStore.type[(testFixture.typeInfo||{}).typeName])
-                    var typeObject=new TypeStore.type[(testFixture.typeInfo||{}).typeName](testFixture.typeInfo);
+                    var typeObject=new TypeStore.type[((testFixture.typeInfo||{}).typeName||testFixture.typeName)](testFixture.typeInfo);
                     TypedControls.adaptElement(theElement,typeObject);
                     document.body.appendChild(theElement);
                 }
@@ -485,11 +532,9 @@ describe("adapter",function(){
                         }else if(def.attributes.type==='date' && data.value!=null){
                             expect(theElement.value).to.eql(data.valueISO);
                         }else if(!def.creatorFunction){
-                            console.log('xxxxxxxxxx',theElement.tagName,theElement.value,theElement.innerHTML);
                             expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
                         }
                     }
-                    console.log('xxxxxxxxxx*---',data,theElement.getTypedValue)
                     if(data.value==null || ! data.value.sameValue || !data.value.sameValue(theElement.getTypedValue())){
                         expect(theElement.getTypedValue()).to.eql(data.value);
                     }
