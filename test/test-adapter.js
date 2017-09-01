@@ -30,9 +30,6 @@ var toTest = {
         ]
     }], 
     "number": [{
-        typeInfo:{
-            typeName:"number",
-        },
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
@@ -168,9 +165,6 @@ var toTest = {
     "FROM:type-store":[
     ],
     "ARRAY:text":[{
-        typeInfo:{
-            typeName:"ARRAY:text",
-        },
         validData:[
             {value:null        , display:''         , },
             //TODO: decide this: {value:[]          , display:''         , },
@@ -189,9 +183,6 @@ var toTest = {
         ]
     }],
     jsonb:[{ // TODO add test for jsonb
-        typeInfo:{
-            typeName:"jsonb",
-        },
         validData:[
             {value:null        , display:''         , },
             {value:['a']       , display:'["a"]'    , },
@@ -205,9 +196,6 @@ var toTest = {
         ]
     }],
     interval:[{ // TODO add test for jsonb
-        typeInfo:{
-            typeName:"interval",
-        },
         validData:[
             {value:null        , display:''         , },
             {value:new bestGlobals.TimeInterval({days:1})    , display:'1D'       , },
@@ -220,9 +208,6 @@ var toTest = {
         ]
     }],
     timestamp:[{ // TODO add test for jsonb
-        typeInfo:{
-            typeName:"timestamp",
-        },
         validData:[
             {value:null        , display:''         , },
             {value:bestGlobals.datetime.iso('2019-10-20 10:20:30'), display:'2019-10-20 10:20:30.000'},
@@ -231,9 +216,6 @@ var toTest = {
         ]
     }],
     "decimal": [{
-        typeInfo:{
-            typeName:"decimal",
-        },
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
@@ -483,6 +465,10 @@ describe("adapter",function(){
       }
       toTest[typeName].forEach(function(testFixture){
         if(testFixture.tagName==='input') return;
+        if(!testFixture.typeInfo){
+            console.log('xxxxxxxxXXXXX sin type info',typeName)
+        }
+        testFixture.typeInfo=testFixture.typeInfo||{typeName:typeName};
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
             var theBestElement;
@@ -509,9 +495,8 @@ describe("adapter",function(){
                         console.log(testFixture);
                         console.log('---------------------');
                     }
-                    var typeObject=new TypeStore.type[((testFixture.typeInfo||{}).typeName||testFixture.typeName)](testFixture.typeInfo);
-                    TypedControls.adaptElement(theElement,typeObject);
-                    document.body.appendChild(theElement);
+                    var typer=new TypeStore.type[testFixture.typeInfo.typeName](testFixture.typeInfo);
+                    TypedControls.adaptElement(theElement,typer);
                 }
                 done();
             });
@@ -571,7 +556,7 @@ describe("adapter",function(){
                     thisElement.setTypedValue(UNTOUCH);
                     expect(function(){
                         thisElement.setTypedValue(def.value);
-                    }).to.throwError(def.errRegexp||/No(t|n) an? .* in (input|type-store)/);
+                    }).to.throwError(def.errRegexp||/[Nn]o[tn] an? .* in (input|type-store)/);
                     // }).to.throwError(def.errRegexp||/Not an? .* in/);
                     expect(thisElement.getTypedValue()).to.eql(UNTOUCH);
                 });
