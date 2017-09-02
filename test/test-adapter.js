@@ -29,7 +29,7 @@ var toTest = {
             {value:/regexp/},
         ]
     }], 
-    "number": [{
+    "double": [{
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
@@ -63,9 +63,10 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    },{
+    }],
+    "integer": [,{
         typeInfo:{
-            typeName:"number",
+            typeName:"integer",
             maxValue:9,
             minValue:0,
             onlyInt:true
@@ -89,10 +90,11 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
+    "number": [],
     "date": [{
         validData:[
             {value:null                   , display:'' },
-            {value:new Date(2015,12-1,31) , display:'31/12/2015'  , htmlDisplay:
+            {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
                 '<span class="date_day">31</span>'+
                 '<span class="date_sep">/</span>'+
                 '<span class="date_month">12</span>'+
@@ -108,7 +110,7 @@ var toTest = {
             {value:'0'},
             {value:0},
             {value:32},
-            {value:new Date(), errRegexp:/date must be an absolute date without time/},
+            {value:new Date()},
             {value:{}},
             {value:[]},
             {value:/regexp/},
@@ -132,6 +134,7 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
+    /*
     "enum": [{
         typeInfo:{
             typeName:"enum",
@@ -162,6 +165,7 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
+    */
     "FROM:type-store":[
     ],
     "ARRAY:text":[{
@@ -364,7 +368,7 @@ describe("adapter",function(){
         it("have disable function inputElement",function(){ testDisable(inputElement);});
         it("have disable function divElement"  ,function(){ testDisable(divElement);  });
     });
-    describe("when addapt element with options must control the structure",function(){
+    describe.skip("when addapt element with options must control the structure",function(){
         it("must control options no less options",function(){
             var theElement=html.div({"typed-controls-option-group": "simple-option"},[
                 html.input({type:'radio', value:'true' }), html.label({"for-value":'true' },"Sí"), html.br(),
@@ -494,6 +498,13 @@ describe("adapter",function(){
                         console.log('*****************************');
                         console.log(testFixture);
                         console.log('---------------------');
+                    }
+                    try{
+                        if(!TypeStore.type[testFixture.typeInfo.typeName]){
+                            console.log('xxxxxxxxxxx=-',testFixture.typeInfo.typeName);
+                        }
+                    }catch(err){
+                        console.log('xxxxxxxxxxx=E',testFixture.typeInfo);
                     }
                     var typer=new TypeStore.type[testFixture.typeInfo.typeName](testFixture.typeInfo);
                     TypedControls.adaptElement(theElement,typer);
