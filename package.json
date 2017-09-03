@@ -15,7 +15,7 @@
   "main": "lib/typed-controls.js",
   "dependencies": {
 
-    "best-globals": "~0.10.0",
+    "best-globals": "~0.10.1",
     "js-to-html": "~0.9.3",
     "like-ar": "~0.2.2",
     "type-store": "~0.2.0"
@@ -34,7 +34,7 @@
     "fs-extra": "~4.0.1",
     "fs-promise": "~2.0.3",
     "istanbul": "~0.4.5",
-    "karma": "~1.7.0",
+    "karma": "~1.7.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage": "~1.1.1",
     "karma-coverage-html-index-reporter": "~1.0.2",
@@ -53,12 +53,11 @@
     "slimerjs": "~0.906.2",
     
     "ajax-best-promise": "~0.3.3",
-    "best-globals": "~0.10.0",
+    "discrepances": "~0.2.2",
     "extension-serve-static": "~0.1.6",
-    "json4all": "~0.3.6",
+    "json4all": "~0.3.7",
     "require-bro": "~0.1.5",
-    "self-explain": "~0.10.15",
-    "type-store": "~0.2.0"
+    "self-explain": "~0.10.15"
   },
   "optionalDependencies": {
     "dialog-promise": "~0.8.0",
@@ -76,7 +75,7 @@
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --coverage --hold",
-    "start": "node server/server.js",
+    "start": "node server/pdemo-server.js",
     "all": "npm test && npm run ctest && qa-control . -v",
     "report": "istanbul report"
   },

@@ -89,6 +89,7 @@ app.get('/demo', function(req,res){
             html.script({src:'lib7/json4all.js'}),
             html.script({src:'lib5/postgres-interval4client.js'}),
             html.script({src:'lib2/js-to-html.js'}),
+            html.script({src:'lib9/discrepances.js'}),
             html.script({src:'lib5/type-store.js'}),
             html.script({src:'lib/typed-controls.js'}),
             html.script({src:'pdemo-client.js'}),
@@ -96,6 +97,7 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
+app.use('/lib9',extensionServeStatic('./node_modules/discrepances/lib', {staticExtensions: ['js']}));
 app.use('/lib8',extensionServeStatic('./node_modules/like-ar', {staticExtensions: ['js']}));
 app.use('/lib7',extensionServeStatic('./node_modules/json4all', {staticExtensions: ['js']}));
 app.use('/lib6',extensionServeStatic('./node_modules/big.js', {staticExtensions: ['js']}));

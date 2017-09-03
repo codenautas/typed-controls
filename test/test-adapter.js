@@ -1,13 +1,22 @@
 "use strict";
 
-window.changing=bestGlobals.changing;
-window.BestTypes=TypedControls.BestTypes;
-window.html=jsToHtml.html;
+var changing=require('best-globals').changing;
+var likeAR=require('like-ar');
+var html=require('js-to-html').html;
+var BestTypes=TypedControls.BestTypes;
+var discrepances = require('discrepances');
 
 var testTypes={};
 ['bigint'].forEach(function(typeName){
     testTypes[typeName] = new TypeStore.type[typeName]();
 });
+
+TypeStore.locale.en=TypeStore.locale.en||TypeStore.locale;
+TypeStore.locale=TypeStore.locale.es;
+
+var localDefinitions={
+    decimalSeparator:'.'
+};
 
 var toTest = {
     "text": [{
@@ -119,8 +128,8 @@ var toTest = {
     "boolean": [{
         validData:[
             {value:null , display:''   , htmlDisplay:''},
-            {value:true , display:'Yes', htmlDisplay:'<span class="bool_true">Yes</span>'},
-            {value:false, display:'No' , htmlDisplay:'<span class="bool_false">No</span>'},
+            {value:true , display:'sí' , htmlDisplay:'<span class="boolean"><span class="boolean-true">sí</span></span>'},
+            {value:false, display:'no' , htmlDisplay:'<span class="boolean"><span class="boolean-false">no</span></span>'},
         ],
         invalidData:[
             // {value:true},
@@ -224,13 +233,16 @@ var toTest = {
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
             {value:0           , display:'0'         , },
-            {value:new Big('12345.1259876543219876543210101010101010101')   , display:'12345.1259876543219876543210101010101010101' , htmlDisplay: 
+            {value:new Big('12345.1259876543219876543210101010101010101'), 
+                display:'12345,1259876543219876543210101010101010101', 
+                display_number:'12345'+localDefinitions.decimalSeparator+'1259876543219876543210101010101010101', 
+                htmlDisplay: 
                 
                 '<span class="number">'+
                     '<span class="number-miles">12</span>'+
                     '<span class="number-separator"></span>'+
                     '<span class="number-miles">345</span>'+
-                    '<span class="number-dot">.</span>'+
+                    '<span class="number-dot">,</span>'+
                     '<span class="number-decimals">1259876543219876543210101010101010101</span>'+
                 '</span>'
                 //'<span class="number_miles">12</span>'+
@@ -463,15 +475,10 @@ describe("adapter",function(){
             expect(document.getElementById('bool9-false').disabled).to.be(false);
         });
     });
-    Object.keys(BestTypes).forEach(function(typeName){ BestTypes[typeName].domFixtures.forEach(function(def, i){
-      if(!toTest[typeName] || !(toTest[typeName] instanceof Array)){
-          throw new Error("Lack tests for "+typeName);
-      }
-      toTest[typeName].forEach(function(testFixture){
+    likeAr(toTest).forEach(function(testFixtures, typeName){ testFixtures.forEach(function(testFixture){
+      var typer = new TypeStore.type[typeName]()
+      typer.getDomFixtures().forEach(function(def,i){
         if(testFixture.tagName==='input') return;
-        if(!testFixture.typeInfo){
-            console.log('xxxxxxxxXXXXX sin type info',typeName)
-        }
         testFixture.typeInfo=testFixture.typeInfo||{typeName:typeName};
         describe("for type '"+typeName+"' and fixture "+JSON.stringify(def), function(){
             var theElement;
@@ -515,8 +522,8 @@ describe("adapter",function(){
             testFixture.validData.map(function(data){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
-                    //console.log("data",data,"data.value",data.value);
                     theElement.setTypedValue(data.value);
+                    console.log("xxxxxxxxx-data.value",data.value,theElement.value);
                     if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea' && !def.creatorFunction)){
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
@@ -528,7 +535,12 @@ describe("adapter",function(){
                         }else if(def.attributes.type==='date' && data.value!=null){
                             expect(theElement.value).to.eql(data.valueISO);
                         }else if(!def.creatorFunction){
-                            expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
+                            if(theElement.type && theElement.type!='text'){
+                                var attrDisplay='display_'+theElement.type;
+                                expect(theElement[inspect]).to.eql(attrDisplay in data?data[attrDisplay]:('display' in data?data.display:data.value));
+                            }else{
+                                expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
+                            }
                         }
                     }
                     if(data.value==null || ! data.value.sameValue || !data.value.sameValue(theElement.getTypedValue())){
@@ -573,6 +585,6 @@ describe("adapter",function(){
                 });
             });
         });
-      }); 
-    }); });
+      });
+    }); }); 
 });

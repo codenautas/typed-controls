@@ -20,6 +20,7 @@ module.exports = function(config, preConfig) {
       'node_modules/best-globals/best-globals.js',
       'node_modules/json4all/json4all.js',
       'node_modules/js-to-html/js-to-html.js',
+      'node_modules/discrepances/lib/discrepances.js',
       'node_modules/ajax-best-promise/bin/ajax-best-promise.js',
       'node_modules/express-useragent/lib/express-useragent.js',
       'node_modules/esprima/dist/esprima.js',
