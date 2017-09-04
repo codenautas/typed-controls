@@ -56,7 +56,7 @@ describe("create-from-fixture",function(){
 });
 
 describe("optionsCtrl",function(){
-    it("include more info", function(){
+    it.skip("include more info", function(){
         var typeInfo={
             typeName: 'enum',
             options:[
