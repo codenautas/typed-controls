@@ -104,10 +104,10 @@ describe("events", function(){
     });
     it.skip("must receive space key and change the internal typed value to null", function(done){
         var theElement = html.input({}).create();
-        TypedControls.adaptElement(theElement,'text');
+        TypedControls.adaptElement(theElement,{typeName:'text'});
         document.body.appendChild(theElement);
         sendKeyTo(theElement, 32 , 'keypress'); // ' '
-        expect(theElement.getTypedValue()).to.be('');
+        expect(theElement.getTypedValue()).to.be('');   
         expect(theElement.valueEmpty).to.be(true);
         expect(theElement.value).to.be('');
         sendKeyTo(theElement, 32 , 'keypress');
