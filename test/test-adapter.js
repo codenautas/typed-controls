@@ -351,7 +351,7 @@ describe("adapter",function(){
         });
         it("reject invalid value",function(){
             divElement.setTypedValue('untouch');
-            divElement.controledTypeInfo.validateTypedData=function(data){
+            divElement.controledType.validateTypedData=function(data){
                 expect(data).to.be('alfa');
                 throw new Error('invalid data "alfa"');
             };

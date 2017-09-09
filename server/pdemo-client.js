@@ -9,14 +9,18 @@ function showEvent(eventName){
 }
 
 window.addEventListener('load', function(){
-    TypedControls.adaptElement(bool1, 'boolean');
-    TypedControls.adaptElement(text1, 'text');
-    TypedControls.adaptElement(number1, 'number');
-    TypedControls.adaptElement(number2, 'number');
-    TypedControls.adaptElement(text1, 'text');
-    TypedControls.adaptElement(bool2, 'boolean');
-    TypedControls.adaptElement(txtEmiter, 'text');
-    TypedControls.adaptElement(textDiv, 'text');
+    if(!'checkbox-based-controls-not-ready'){
+        TypedControls.adaptElement(bool1    , {typeName:'boolean'});
+    }
+    TypedControls.adaptElement(text1    , {typeName:'text'   });
+    TypedControls.adaptElement(number1  , {typeName:'integer'});
+    TypedControls.adaptElement(number2  , {typeName:'integer'});
+    TypedControls.adaptElement(text1    , {typeName:'text'   });
+    if(!'options-based-controls-not-ready'){
+        TypedControls.adaptElement(bool2    , {typeName:'boolean'});
+    }
+    TypedControls.adaptElement(txtEmiter, {typeName:'text'   });
+    TypedControls.adaptElement(textDiv  , {typeName:'text'   });
     if(!"show events"){
         showEvent('keydown');
         showEvent('keypress');

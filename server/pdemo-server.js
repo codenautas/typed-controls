@@ -59,18 +59,22 @@ app.get('/demo', function(req,res){
         ]),
         html.body({id:'elBody'},[
             html.h1("typed-controls demo for browser"),
-            html.div([
-                html.input({type: "checkbox", id:"bool1"}),
-                html.label({"for": "bool1"}, "has tri-state booleans"),
-            ]),
+            ('checkbox-based-controls-not-ready'?null:
+                html.div([
+                    html.input({type: "checkbox", id:"bool1"}),
+                    html.label({"for": "bool1"}, "has tri-state booleans"),
+                ])
+            ),
             html.div([
                 html.label({"for": "text1"}, "text with empty"),
                 html.input({type: "text", id:"text1", "accesskey": "t"}),
             ]),
-            html.div({id:'bool2', "typed-controls-option-group": "bool2"},[
-                html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' ,id:'label-bool2-true' },"Sí"), html.br(),
-                html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false',id:'label-bool2-false'},"No"),
-            ]),
+            ('options-based-controls-not-ready'?null:
+                html.div({id:'bool2', "typed-controls-option-group": "bool2"},[
+                    html.input({type:'radio', name:'bool2', value:'true' , id:'bool2-true' }), html.label({"for":'bool2-true' ,id:'label-bool2-true' },"Sí"), html.br(),
+                    html.input({type:'radio', name:'bool2', value:'false', id:'bool2-false'}), html.label({"for":'bool2-false',id:'label-bool2-false'},"No"),
+                ])
+            ),
             html.input({type: "text", id:"txtEmiter"}),
             html.pre({id: "messages"}),
             html.div([
