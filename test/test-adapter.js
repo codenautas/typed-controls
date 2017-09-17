@@ -5,6 +5,10 @@ var likeAR=require('like-ar');
 var html=require('js-to-html').html;
 var BestTypes=TypedControls.BestTypes;
 var discrepances = require('discrepances');
+var TypeStore = require('type-store');
+
+TypeStore.options.doNotCopyNonCopyables=true;
+TypeStore.options.doNotOutputNonCopyables=true;
 
 var testTypes={};
 ['bigint'].forEach(function(typeName){
@@ -47,7 +51,7 @@ var toTest = {
             {value:12345.125   , display:'12345,125' , htmlDisplay: 
                 '<span class="number">'+
                     '<span class="number-miles">12</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
                     '<span class="number-dot">,</span>'+
                     '<span class="number-decimals">125</span>'+
@@ -237,7 +241,7 @@ var toTest = {
                 
                 '<span class="number">'+
                     '<span class="number-miles">12</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
                     '<span class="number-dot">,</span>'+
                     '<span class="number-decimals">1259876543219876543210101010101010101</span>'+
@@ -250,7 +254,7 @@ var toTest = {
             {value:812345     , display:'812345' , htmlDisplay: 
                 '<span class="number">'+
                     '<span class="number-miles">812</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
                 '</span>'
                 //'<span class="number_miles">812</span>'+
@@ -259,9 +263,9 @@ var toTest = {
             {value:1812345     , display:'1812345' , htmlDisplay: 
                 '<span class="number">'+
                     '<span class="number-miles">1</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">812</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
                 '</span>'
                 //'<span class="number_miles">1</span>'+
@@ -273,15 +277,15 @@ var toTest = {
                 '<span class="number">'+
                     '<span class="number-sign">-</span>'+
                     '<span class="number-miles">102</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">678</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">901</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">133</span>'+
-                    '<span class="number-separator"></span>'+
+                    '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">557</span>'+
                 '</span>'
                 //'<span class="number_sign">-</span>'+
@@ -475,9 +479,6 @@ describe("adapter",function(){
     likeAr(toTest).forEach(function(testFixtures, testTypeName){ testFixtures.forEach(function(testFixture){
       testFixture.typeInfo=testFixture.typeInfo||{typeName:testTypeName};
       var typeName=testFixture.typeInfo.typeName;
-      if(!TypeStore.type[typeName]){
-          console.log('xxxxxxxxxxx-sin-typer',typeName);
-      }
       var typer = new TypeStore.type[typeName]()
       typer.getDomFixtures().forEach(function(def,i){
         if(testFixture.tagName==='input') return;
@@ -507,13 +508,6 @@ describe("adapter",function(){
                         console.log(testFixture);
                         console.log('---------------------');
                     }
-                    try{
-                        if(!TypeStore.type[testFixture.typeInfo.typeName]){
-                            console.log('xxxxxxxxxxx=-',testFixture.typeInfo.typeName);
-                        }
-                    }catch(err){
-                        console.log('xxxxxxxxxxx=E',testFixture.typeInfo);
-                    }
                     var typer=TypeStore.typerFrom(testFixture.typeInfo);
                     TypedControls.adaptElement(theElement,typer);
                 }
@@ -524,9 +518,7 @@ describe("adapter",function(){
                 it("sets and get "+data.value+" in "+def.tagName,function(){
                     if(skip) return;
                     theElement.setTypedValue(data.value);
-                    console.log("xxxxxxxxx-data.value",data.value,theElement.value);
                     if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea' && !def.creatorFunction)){
-                        console.log('xxxxxxxxxxxxxx-def',def, typer, typer.typeName);
                         expect(theElement.innerHTML).to.be(data.htmlDisplay);
                     }
                     if(!data.multiline){
