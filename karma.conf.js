@@ -1,3 +1,4 @@
+"use strict";
 // Karma configuration
 // Generated on Wed Jul 22 2015 16:41:45 GMT-0300 (Hora estándar de Argentina)
 

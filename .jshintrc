@@ -5,5 +5,5 @@
     "browser": true,
     "strict": "global",
     "eqnull": true,
-    "predef": [ "module", "Promise", "exports", "require" ]
+    "predef": [ "module", "Promise", "exports", "require", "process", "miniMenuPromise", "console" ]
 }

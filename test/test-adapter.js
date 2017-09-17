@@ -11,10 +11,10 @@ var testTypes={};
     testTypes[typeName] = new TypeStore.type[typeName]();
 });
 
-TypeStore.locale.en=TypeStore.locale.en||TypeStore.locale;
-TypeStore.locale=TypeStore.locale.es;
-TypeStore.messages.en=TypeStore.messages.en||TypeStore.messages;
-TypeStore.messages=TypeStore.messages.es;
+TypeStore.i18n.locale.en=TypeStore.i18n.locale.en||TypeStore.locale;
+TypeStore.locale=TypeStore.i18n.locale.es;
+TypeStore.i18n.messages.en=TypeStore.i18n.messages.en||TypeStore.messages;
+TypeStore.messages=TypeStore.i18n.messages.es;
 
 var localDefinitions={
     decimalSeparator:'.'
