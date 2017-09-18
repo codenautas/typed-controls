@@ -16,6 +16,7 @@ module.exports = function(config, preConfig) {
     files: [
       'node_modules/big.js/big.js',
       'node_modules/es6-promise/dist/es6-promise.auto.min.js',
+      'node_modules/pikaday/pikaday.js',
       'node_modules/require-bro/lib/require-bro.js',
       'node_modules/like-ar/like-ar.js',
       'node_modules/best-globals/best-globals.js',

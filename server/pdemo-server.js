@@ -86,6 +86,7 @@ app.get('/demo', function(req,res){
                 html.div({id:"number2", "typed-controls-direct-input":true}),
             ]),
             html.div({style:"width:100px", "typed-controls-direct-input":true, id:'textDiv'},"with nl\n"),
+            html.script({src:'lib10/pikaday.js'}),
             html.script({src:'lib6/big.js'}),
             html.script({src:'lib4/require-bro.js'}),
             html.script({src:'lib8/like-ar.js'}),
@@ -101,6 +102,7 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
+app.use('/lib10',extensionServeStatic('./node_modules/pikaday', {staticExtensions: ['js']}));
 app.use('/lib9',extensionServeStatic('./node_modules/discrepances/lib', {staticExtensions: ['js']}));
 app.use('/lib8',extensionServeStatic('./node_modules/like-ar', {staticExtensions: ['js']}));
 app.use('/lib7',extensionServeStatic('./node_modules/json4all', {staticExtensions: ['js']}));
