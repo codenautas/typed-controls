@@ -53,12 +53,11 @@
     "karma-safari-launcher": "~1.0.0",
     "karma-slimerjs-launcher": "~1.1.0",
     "istanbul-middleware": "~0.2.2",
-    "mocha": "~4.0.1",
+    "mocha": "^3",
     "phantomjs-prebuilt": "~2.1.16",
     "pug": "~2.0.0-rc.4",
     "read-yaml-promise": "~1.0.2",
     "slimerjs": "~0.906.2",
-    
     "ajax-best-promise": "~0.3.4",
     "discrepances": "~0.2.2",
     "extension-serve-static": "~0.1.6",
