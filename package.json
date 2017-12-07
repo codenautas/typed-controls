@@ -22,7 +22,7 @@
   "main": "lib/typed-controls.js",
   "dependencies": {
     "pikaday": "~1.6.1",
-    "best-globals": "~0.10.2",
+    "best-globals": "~0.10.3",
     "js-to-html": "~0.9.3",
     "like-ar": "~0.2.2",
     "type-store": "~0.2.11"
@@ -38,8 +38,7 @@
     "express": "~4.16.2",
     "express-session": "~1.15.6",
     "express-useragent": "~1.0.8",
-    "fs-extra": "~4.0.2",
-    "fs-promise": "~2.0.3",
+    "fs-extra": "~4.0.3",
     "istanbul": "~0.4.5",
     "karma": "~1.7.1",
     "karma-chrome-launcher": "~2.2.0",
