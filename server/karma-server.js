@@ -6,7 +6,6 @@ var app = express();
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var fs = require('fs-promise');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
 var extensionServeStatic = require('extension-serve-static');
