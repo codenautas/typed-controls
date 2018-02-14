@@ -32,12 +32,12 @@
     "body-parser": "~1.18.2",
     "casperjs": "~1.1.4",
     "cookie-parser": "~1.4.3",
-    "es6-promise": "~4.2.2",
+    "es6-promise": "~4.2.4",
     "esprima": "~4.0.0",
     "expect.js": "~0.3.1",
     "express": "~4.16.2",
     "express-session": "~1.15.6",
-    "express-useragent": "~1.0.8",
+    "express-useragent": "~1.0.12",
     "fs-extra": "~5.0.0",
     "istanbul": "~0.4.5",
     "karma": "~2.0.0",
@@ -52,7 +52,7 @@
     "karma-safari-launcher": "~1.0.0",
     "karma-slimerjs-launcher": "~1.1.0",
     "istanbul-middleware": "~0.2.2",
-    "mocha": "~5.0.0",
+    "mocha": "~5.0.1",
     "phantomjs-prebuilt": "~2.1.16",
     "pug": "~2.0.0-rc.4",
     "read-yaml-promise": "~1.0.2",
@@ -61,11 +61,11 @@
     "discrepances": "~0.2.2",
     "extension-serve-static": "~0.1.6",
     "json4all": "~0.3.10",
-    "require-bro": "~0.1.6",
+    "require-bro": "~0.1.8",
     "self-explain": "~0.10.16"
   },
   "optionalDependencies": {
-    "dialog-promise": "~0.8.4",
+    "dialog-promise": "~0.8.6",
     "castellano": "~0.1.3"
   },
   "engines": {

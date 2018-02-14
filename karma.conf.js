@@ -17,6 +17,7 @@ module.exports = function(config, preConfig) {
       'node_modules/big.js/big.js',
       'node_modules/es6-promise/dist/es6-promise.auto.min.js',
       'node_modules/pikaday/pikaday.js',
+      'node_modules/require-bro/lib/polyfills-bro.js',
       'node_modules/require-bro/lib/require-bro.js',
       'node_modules/like-ar/like-ar.js',
       'node_modules/best-globals/best-globals.js',
@@ -70,7 +71,8 @@ module.exports = function(config, preConfig) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    // logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
     // logLevel: config.LOG_ERROR,
 
 
