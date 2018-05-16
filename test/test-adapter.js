@@ -108,7 +108,7 @@ var toTest = {
                 '<span class="date-sep">/</span>'+
                 '<span class="date-month">12</span>'+
                 '<span class="date-sep">/</span>'+
-                '<span class="date-year">2015</span>'+
+                '<span class="date-year"><span class="date-century">20</span>15</span>'+
                 '</span>',
                 valueISO: '2015-12-31'
             },
