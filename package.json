@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.7.34",
+  "version": "0.7.35",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -25,7 +25,7 @@
     "best-globals": "~0.10.4",
     "js-to-html": "~1.0.3",
     "like-ar": "~0.2.2",
-    "type-store": "~0.2.19"
+    "type-store": "~0.2.23"
   },
   "devDependencies": {
     "big.js": "~5.0.3",
@@ -52,7 +52,7 @@
     "karma-safari-launcher": "~1.0.0",
     "karma-slimerjs-launcher": "~1.1.0",
     "istanbul-middleware": "~0.2.2",
-    "mocha": "~5.1.1",
+    "mocha": "~5.2.0",
     "phantomjs-prebuilt": "~2.1.16",
     "pug": "~2.0.3",
     "read-yaml-promise": "~1.0.2",
