@@ -110,7 +110,7 @@ app.use('/lib6',extensionServeStatic('./node_modules/big.js', {staticExtensions:
 app.use('/lib5',extensionServeStatic('./node_modules/type-store', {staticExtensions: ['js']}));
 app.use('/lib4',extensionServeStatic('./node_modules/require-bro/lib', {staticExtensions: ['js']}));
 app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
-app.use('/lib2',extensionServeStatic('./node_modules/js-to-html', {staticExtensions: ['js']}));
+app.use('/lib2',extensionServeStatic('./node_modules/js-to-html/lib', {staticExtensions: ['js']}));
 app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
 
 app.use('/',extensionServeStatic('./server', {
