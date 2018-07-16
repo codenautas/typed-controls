@@ -103,7 +103,7 @@ var toTest = {
         validData:[
             {value:null                   , display:'' },
             {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
-                '<span class="date">'+
+                '<span class="date" actual-century>'+
                 '<span class="date-day">31</span>'+
                 '<span class="date-sep">/</span>'+
                 '<span class="date-month">12</span>'+
