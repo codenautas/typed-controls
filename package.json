@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.7.40",
+  "version": "0.7.41",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -22,10 +22,10 @@
   "main": "lib/typed-controls.js",
   "dependencies": {
     "pikaday": "~1.7.0",
-    "best-globals": "~0.10.4",
+    "best-globals": "~0.10.5",
     "js-to-html": "~1.0.3",
-    "like-ar": "~0.2.2",
-    "type-store": "~0.2.24"
+    "like-ar": "~0.2.7",
+    "type-store": "~0.2.25"
   },
   "devDependencies": {
     "big.js": "~5.1.2",
@@ -33,14 +33,14 @@
     "casperjs": "~1.1.4",
     "cookie-parser": "~1.4.3",
     "es6-promise": "~4.2.4",
-    "esprima": "~4.0.0",
+    "esprima": "~4.0.1",
     "expect.js": "~0.3.1",
     "express": "~4.16.3",
     "express-session": "~1.15.6",
     "express-useragent": "~1.0.12",
-    "fs-extra": "~6.0.1",
+    "fs-extra": "~7.0.0",
     "istanbul": "~0.4.5",
-    "karma": "~2.0.2",
+    "karma": "~2.0.5",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage": "~1.1.2",
     "karma-coverage-html-index-reporter": "~1.0.2",
@@ -58,11 +58,11 @@
     "read-yaml-promise": "~1.0.2",
     "slimerjs": "~1.0.0",
     "ajax-best-promise": "~0.3.4",
-    "discrepances": "~0.2.2",
+    "discrepances": "~0.2.3",
     "extension-serve-static": "~0.1.6",
     "json4all": "~0.3.10",
     "require-bro": "~0.1.11",
-    "self-explain": "~0.10.17"
+    "self-explain": "~0.10.18"
   },
   "optionalDependencies": {
     "dialog-promise": "~0.9.1",
