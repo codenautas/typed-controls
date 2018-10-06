@@ -17,6 +17,7 @@ module.exports = function(config, preConfig) {
       'node_modules/big.js/big.js',
       'node_modules/es6-promise/dist/es6-promise.auto.min.js',
       'node_modules/pikaday/pikaday.js',
+      'node_modules/dialog-promise/lib/dialog-promise.js',
       'node_modules/require-bro/lib/polyfills-bro.js',
       'node_modules/require-bro/lib/require-bro.js',
       'node_modules/like-ar/like-ar.js',
@@ -82,7 +83,7 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome','Safari','IE'])),
+    browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome'/*,'Safari'*/,'IE'])),
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
     npm run infinito -- --browsers Chrome,PhantomJS
     npm run infinito -- --browsers Chrome

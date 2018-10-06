@@ -104,7 +104,8 @@ var toTest = {
             {value:null                   , display:'' },
             // ATENCIÓN IE 11.0 ordena los atributos alfabéticamente, los otros ponen class después.
             {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
-                '<span current-century="true" class="date">'+
+                (agentInfo.browser=='IE'?'<span class="date" current-century="true">':
+                '<span current-century="true" class="date">')+
                 '<span class="date-day">31</span>'+
                 '<span class="date-sep">/</span>'+
                 '<span class="date-month">12</span>'+
