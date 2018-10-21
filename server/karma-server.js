@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var path = require('path');
 var readYaml = require('read-yaml-promise');
-var extensionServeStatic = require('extension-serve-static');
 
 var karma;
 var karmaIndex=process.argv.indexOf('--karma');

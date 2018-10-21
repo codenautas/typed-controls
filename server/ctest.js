@@ -95,7 +95,10 @@ function sendToCoverage(covUrl, method, headers) {
     return sentCover;
 };
 
-function sendCoverage() { sendToCoverage('client', 'POST', {contentType: 'application/json'}); };
+function sendCoverage() { 
+    return "not collecting coverage";
+    sendToCoverage('client', 'POST', {contentType: 'application/json'}); 
+};
 
 
 casper.test.on("fail", function () {
@@ -444,6 +447,7 @@ casper.test.begin("Finish", function(test) {
 });
 
 casper.test.begin("save coverage", function suite(test) {
+    return "not collecting coverage";
     casper.start(testUrl, function() {
         var sentCover = sendToCoverage('object', 'GET');
         fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4)); 

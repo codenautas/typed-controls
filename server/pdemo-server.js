@@ -9,7 +9,7 @@ var winOS = Path.sep==='\\';
 var express = require('express');
 var app = express();
 
-var coverageON = process.argv.indexOf('--coverage') !== -1;
+var coverageON = process.argv.indexOf('--coverage') !== -1 && !"no more coverage collect";
 
 if(coverageON) {
     var urlParse = require('url').parse;
@@ -17,7 +17,7 @@ if(coverageON) {
 }
 
 var bodyParser = require('body-parser');
-var extensionServeStatic = require('extension-serve-static');
+var serveContent = require('serve-content');
        
 var html = require('js-to-html').html;
 var changing = require('best-globals').changing;
@@ -103,22 +103,22 @@ app.get('/demo', function(req,res){
     ]).toHtmlDoc({title:'typed-controls demo'}));
 });
 
-app.use('/lib11',extensionServeStatic('./node_modules/dialog-promise/lib', {staticExtensions: ['js']}));
-app.use('/lib10',extensionServeStatic('./node_modules/pikaday', {staticExtensions: ['js']}));
-app.use('/lib9',extensionServeStatic('./node_modules/discrepances/lib', {staticExtensions: ['js']}));
-app.use('/lib8',extensionServeStatic('./node_modules/like-ar', {staticExtensions: ['js']}));
-app.use('/lib7',extensionServeStatic('./node_modules/json4all', {staticExtensions: ['js']}));
-app.use('/lib6',extensionServeStatic('./node_modules/big.js', {staticExtensions: ['js']}));
-app.use('/lib5',extensionServeStatic('./node_modules/type-store', {staticExtensions: ['js']}));
-app.use('/lib4',extensionServeStatic('./node_modules/require-bro/lib', {staticExtensions: ['js']}));
-app.use('/lib3',extensionServeStatic('./node_modules/best-globals', {staticExtensions: ['js']}));
-app.use('/lib2',extensionServeStatic('./node_modules/js-to-html/lib', {staticExtensions: ['js']}));
-app.use('/lib',extensionServeStatic('./lib', {staticExtensions: ['js']}));
+app.use('/lib11',serveContent('./node_modules/dialog-promise/lib', {allowedExts: ['js']}));
+app.use('/lib10',serveContent('./node_modules/pikaday', {allowedExts: ['js']}));
+app.use('/lib9',serveContent('./node_modules/discrepances/lib', {allowedExts: ['js']}));
+app.use('/lib8',serveContent('./node_modules/like-ar', {allowedExts: ['js']}));
+app.use('/lib7',serveContent('./node_modules/json4all', {allowedExts: ['js']}));
+app.use('/lib6',serveContent('./node_modules/big.js', {allowedExts: ['js']}));
+app.use('/lib5',serveContent('./node_modules/type-store', {allowedExts: ['js']}));
+app.use('/lib4',serveContent('./node_modules/require-bro/lib', {allowedExts: ['js']}));
+app.use('/lib3',serveContent('./node_modules/best-globals', {allowedExts: ['js']}));
+app.use('/lib2',serveContent('./node_modules/js-to-html/lib', {allowedExts: ['js']}));
+app.use('/lib',serveContent('./lib', {allowedExts: ['js']}));
 
-app.use('/',extensionServeStatic('./server', {
+app.use('/',serveContent('./server', {
     extensions: ['html', 'htm'], 
     index: 'index.html', 
-    staticExtensions: ['', 'html', 'htm', 'png', 'jpg', 'jpeg', 'gif', 'js', 'css']
+    allowedExts: ['', 'html', 'htm', 'png', 'jpg', 'jpeg', 'gif', 'js', 'css']
 })); 
 
 var pidBrowser;
