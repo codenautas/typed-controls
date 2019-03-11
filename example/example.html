@@ -13,14 +13,22 @@
     <tr><td><label for=nombre  >nombre </label><td type-id=nombre   id=nombre   contenteditable></td>
     <tr><td><label for=texto   >texto  </label><td type-id=text     id=texto    contenteditable></td>
     <tr><td><label for=espejo  >espejo </label><td type-id=boolean  id=espejo   contenteditable></td>
+    <tr><Td><label for=numero1 >numero1 </label><td><input type-id=decimal id=numero1 type=number></td>
+    <tr><Td><label for=numero2 >numero2 </label><td><input type-id=decimal id=numero2 type=number step='0.01'></td>
+    <tr><Td><label for=numero3 >numero3 </label><td><input type-id=decimal id=numero3 type=number step='0.01' lang='es'></td>
+    <tr><Td><label for=numero4 >numero4 </label><td><input type-id=decimal id=numero4 type=number step='0.01' lang='es' pattern='[0-9,.]*'></td>
   </table>
   <pre id=obtenidos>
+  </pre>
+  <pre id=obtenidos2>
   </pre>
   <script src='../node_modules/big.js/big.js'></script>
   <script src='../node_modules/require-bro/lib/require-bro.js'></script>
   <script src='../node_modules/require-bro/lib/polyfills-bro.js'></script>
   <script src='../node_modules/best-globals/best-globals.js'></script>
-  <script src='../node_modules/js-to-html/js-to-html.js'></script>
+  <script src='../node_modules/js-to-html/lib/js-to-html.js'></script>
+  <script src='../node_modules/moment/moment.js'></script>
+  <script src='../node_modules/pikaday/pikaday.js'></script>
   <script src='../node_modules/like-ar/like-ar.js'></script>
   <script src='../node_modules/json4all/json4all.js'></script>
   <script src='../node_modules/type-store/postgres-interval4client.js'></script>
@@ -41,12 +49,21 @@
             label: nombre
         };})},
         text   :{typeName: 'text'},
+        decimal:{typeName: 'decimal'}
     };
     Array.prototype.forEach.call(controls,function(control){
         TypedControls.adaptElement(control, typeId[control.getAttribute('type-id')]);
         control.addEventListener('update', function(){
             result[this.id]=this.getTypedValue();
             obtenidos.textContent=JSON.stringify(result);
+        });
+    });
+    var controls = document.querySelectorAll('[type="number"]');
+    Array.prototype.forEach.call(controls,function(control){
+        control.addEventListener('blur', function(){
+            result[this.id]=this.valueAsNumber;
+            this.setTypedValue(this.getTypedValue()*2);
+            obtenidos2.textContent=JSON.stringify(result);
         });
     });
     the_bool.addEventListener('update', function(){
