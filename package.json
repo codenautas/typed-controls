@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.8.11",
+  "version": "0.8.12",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -17,6 +17,10 @@
     {
       "name": "Diego Florio",
       "email": "diegoefe@gmail.com"
+    },
+    {
+      "name": "Manuel De la Penna",
+      "email": "manueldelapenna@gmail.com"
     }
   ],
   "main": "lib/typed-controls.js",
