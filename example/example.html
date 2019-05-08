@@ -6,6 +6,9 @@
   [typed-controls-signal-no-data]{
       background-color:#F8F;
   }
+  [typed-controls-signal-unknown-data]{
+      background-color:#F8F;
+  }
   </style>
 </head>
 <body>
@@ -44,12 +47,13 @@
   <script>
   window.addEventListener('load', function(){
     TypedControls.VALUE_NO_DATA='-1';
+    TypedControls.VALUE_UNKNOWN_DATA='-9';
     var controls = document.querySelectorAll('[type-id]');
     var result={};
     var typeId={
         boolean3:{typeName: 'boolean', nullable:true},
         boolean:{typeName: 'boolean'},
-        nombre :{typeName: 'text'    ,valueNoData:'sin/dato', options:nombresPropios.map(function(nombre, i){ return {
+        nombre :{typeName: 'text'    ,valueNoData:'sin/dato', valueUnknownData:'ns/nc', options:nombresPropios.map(function(nombre, i){ return {
             option: nombre[0]+i%10+nombre.length%10, 
             label: nombre
         };})},
