@@ -3,6 +3,9 @@
   <link href='../node_modules/dialog-promise/lib/dialog-promise.css' rel="stylesheet" type="text/css">
   <style>
   .lupa-typed-controls{ max-height:16px }
+  [typed-controls-signal-no-data]{
+      background-color:#F8F;
+  }
   </style>
 </head>
 <body>
@@ -13,6 +16,7 @@
     <tr><td><label for=nombre  >nombre </label><td type-id=nombre   id=nombre   contenteditable></td>
     <tr><td><label for=texto   >texto  </label><td type-id=text     id=texto    contenteditable></td>
     <tr><td><label for=espejo  >espejo </label><td type-id=boolean  id=espejo   contenteditable></td>
+    <tr><Td><label for=numero0 >numero0 </label><td><input type-id=decimal id=numero0 type=tel></td>
     <tr><Td><label for=numero1 >numero1 </label><td><input type-id=decimal id=numero1 type=number></td>
     <tr><Td><label for=numero2 >numero2 </label><td><input type-id=decimal id=numero2 type=number step='0.01'></td>
     <tr><Td><label for=numero3 >numero3 </label><td><input type-id=decimal id=numero3 type=number step='0.01' lang='es'></td>
@@ -39,12 +43,13 @@
   <script src='nombres.js'></script>
   <script>
   window.addEventListener('load', function(){
+    TypedControls.VALUE_NO_DATA='-1';
     var controls = document.querySelectorAll('[type-id]');
     var result={};
     var typeId={
         boolean3:{typeName: 'boolean', nullable:true},
         boolean:{typeName: 'boolean'},
-        nombre :{typeName: 'text'    ,options:nombresPropios.map(function(nombre, i){ return {
+        nombre :{typeName: 'text'    ,valueNoData:'sin/dato', options:nombresPropios.map(function(nombre, i){ return {
             option: nombre[0]+i%10+nombre.length%10, 
             label: nombre
         };})},
@@ -60,11 +65,11 @@
     });
     var controls = document.querySelectorAll('[type="number"]');
     Array.prototype.forEach.call(controls,function(control){
-        control.addEventListener('blur', function(){
-            result[this.id]=this.valueAsNumber;
-            this.setTypedValue(this.getTypedValue()*2);
-            obtenidos2.textContent=JSON.stringify(result);
-        });
+        // control.addEventListener('blur', function(){
+        //     result[this.id]=this.valueAsNumber;
+        //     this.setTypedValue(this.getTypedValue()*2);
+        //     obtenidos2.textContent=JSON.stringify(result);
+        // });
     });
     the_bool.addEventListener('update', function(){
         espejo.setTypedValue(the_bool.getTypedValue());
