@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.8.23",
+  "version": "0.8.24",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -26,7 +26,7 @@
   "main": "lib/typed-controls.js",
   "dependencies": {
     "pikaday": "^1.8.2",
-    "best-globals": "~0.10.27",
+    "best-globals": "~0.10.30",
     "js-to-html": "^1.0.11",
     "like-ar": "~0.2.19",
     "type-store": "~0.2.38",
