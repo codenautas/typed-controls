@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.8.24",
+  "version": "0.8.25",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -29,7 +29,7 @@
     "best-globals": "~0.10.30",
     "js-to-html": "^1.0.11",
     "like-ar": "~0.2.19",
-    "type-store": "~0.2.38",
+    "type-store": "~0.2.39",
     "dialog-promise": "~0.9.4"
   },
   "devDependencies": {
