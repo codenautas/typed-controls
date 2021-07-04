@@ -83,12 +83,11 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox', 'PhantomJS'].concat((process.env.TRAVIS?[]:['Chrome'/*,'Safari'*/,'IE'])),
+    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome'])),
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
-    npm run infinito -- --browsers Chrome,PhantomJS
     npm run infinito -- --browsers Chrome
     npm run infinito -- --browsers Firefox,Safari,Chrome
-    npm run infinito -- --browsers Firefox,Safari,Chrome,IE,PhantomJS
+    npm run infinito -- --browsers Firefox,Safari,Chrome,IE
     */
     
     // Continuous Integration mode
