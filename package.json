@@ -1,7 +1,7 @@
 {
   "name": "typed-controls",
   "description": "typed controls, widgets and others",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/typed-controls",
@@ -61,6 +61,7 @@
     "json4all": "~1.1.0",
     "require-bro": "~0.2.2",
     "self-explain": "~0.10.22",
+    "server4test": "^0.8.3",
     "serve-content": "~0.3.16"
   },
   "optionalDependencies": {
@@ -79,7 +80,8 @@
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --coverage --hold",
-    "start": "node server/pdemo-server.js",
+    "x-start": "node server/pdemo-server.js",
+    "start": "server4test",
     "all": "npm test && npm run ctest && qa-control . -v",
     "report": "istanbul report"
   },
