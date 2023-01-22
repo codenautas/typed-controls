@@ -23,13 +23,18 @@ if(karmaIndex>0){
         }
     }},{singleRun:process.argv.indexOf('--single-run')>0 || process.env.SINGLE_RUN});
     console.log('karma starting');
-    var karmaServer = new karma.Server(options, function(exitCode) {
-        console.log('Karma has exited with ' + exitCode);
-        process.exit(exitCode);
+    karma.config.parseConfig(
+        null,
+        options,
+        { promiseConfig: true, throwErrors: true }
+    ).then(function(karmaConfig){
+        var karmaServer = new karma.Server(karmaConfig, function(exitCode) {
+            console.log('Karma has exited with ' + exitCode);
+            process.exit(exitCode);
+        });
+        karmaServer.start();
+        console.log('karma starting',options.port);
     })
-    karmaServer.start();
-    console.log('karma starting',options.port);
 }
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:true}));
