@@ -47,9 +47,13 @@ var toTest = {
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
-            {value:0           , display:'0'         , },
+            {value:0           , display:'0'         , htmlDisplay: 
+                '<span class="number" number-sign="zero">'+
+                    '<span class="number-miles">0</span>'+
+                '</span>'
+            },
             {value:12345.125   , display:'12345,125' , htmlDisplay: 
-                '<span class="number">'+
+                '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">12</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
@@ -105,7 +109,7 @@ var toTest = {
             // ATENCIÓN IE 11.0 ordena los atributos alfabéticamente, los otros ponen class después.
             {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
                 (agentInfo.browser=='IE'?'<span class="date" current-century="true">':
-                '<span current-century="true" class="date">')+
+                '<span class="date" current-century="true">')+
                 '<span class="date-day">31</span>'+
                 '<span class="date-sep">/</span>'+
                 '<span class="date-month">12</span>'+
@@ -241,7 +245,7 @@ var toTest = {
                 display_number:'12345'+localDefinitions.decimalSeparator+'1259876543219876543210101010101010101', 
                 htmlDisplay: 
                 
-                '<span class="number">'+
+                '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">12</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
@@ -254,7 +258,7 @@ var toTest = {
                 //'<span class="number_decimals">1259876543219876543210101010101010101</span>'    
             },
             {value:812345     , display:'812345' , htmlDisplay: 
-                '<span class="number">'+
+                '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">812</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">345</span>'+
@@ -263,7 +267,7 @@ var toTest = {
                 //'<span class="number_miles">345</span>'
             },
             {value:1812345     , display:'1812345' , htmlDisplay: 
-                '<span class="number">'+
+                '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">1</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
                     '<span class="number-miles">812</span>'+
@@ -276,7 +280,7 @@ var toTest = {
             },
             {value:testTypes.bigint.fromString('-102345678901133557') 
                 , display:'-102345678901133557' , htmlDisplay: 
-                '<span class="number">'+
+                '<span class="number" number-sign="negative">'+
                     '<span class="number-sign">-</span>'+
                     '<span class="number-miles">102</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
