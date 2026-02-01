@@ -2,6 +2,8 @@
 // Karma configuration
 // Generated on Wed Jul 22 2015 16:41:45 GMT-0300 (Hora estándar de Argentina)
 
+const headless = !!process.env.TRAVIS || !!process.env.GITHUB_ACTIONS
+
 module.exports = function(config, preConfig) {
   config.set({
 
@@ -83,7 +85,7 @@ module.exports = function(config, preConfig) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Firefox'].concat((process.env.TRAVIS?[]:['Chrome'])),
+    browsers: headless ? ['ChromeHeadless'] : ['Firefox','Chrome'],
     /* NO CAMBIAR MÁS BROWSERS DIRECTO DESDE ACÁ, INVOCAR DESDE LA LÍNEA DE PARÁMETROS ASÍ:
     npm run infinito -- --browsers Chrome
     npm run infinito -- --browsers Firefox,Safari,Chrome
@@ -92,6 +94,6 @@ module.exports = function(config, preConfig) {
     
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: !!process.env.TRAVIS || !!process.env.SINGLE_RUN || preConfig.singleRun
+    singleRun: headless || !!process.env.SINGLE_RUN || preConfig.singleRun
   });
 };
