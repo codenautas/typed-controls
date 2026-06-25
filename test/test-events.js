@@ -26,11 +26,11 @@ describe("events", function(){
         var theLabel = html.label({"for": id}, "the text for this tri-state checkbox").create();
         document.body.appendChild(theElement);
         document.body.appendChild(theLabel);
-        theElement.setTypedValue(null); 
-        expect(theElement.indeterminate).to.be(true); 
-        expect(theElement.getTypedValue()).to.be(null); 
+        theElement.setTypedValue(null);
+        expect(theElement.indeterminate).to.be(true);
+        expect(theElement.getTypedValue()).to.be(null);
         sendClickTo(theElement);
-        expect(theElement.indeterminate).to.be(false); 
+        expect(theElement.indeterminate).to.be(false);
         expect(document.activeElement).to.be(theElement);
         var firstValue=theElement.getTypedValue();
         expect(firstValue===true || firstValue==false).to.ok();
@@ -61,7 +61,7 @@ describe("events", function(){
                 get : function() {
                     return this.keyCodeVal;
                 }
-            });     
+            });
             Object.defineProperty(oEvent, 'which', {
                 get : function() {
                     return this.keyCodeVal;
@@ -107,7 +107,7 @@ describe("events", function(){
         TypedControls.adaptElement(theElement,{typeName:'text'});
         document.body.appendChild(theElement);
         sendKeyTo(theElement, 32 , 'keypress'); // ' '
-        expect(theElement.getTypedValue()).to.be('');   
+        expect(theElement.getTypedValue()).to.be('');
         expect(theElement.valueEmpty).to.be(true);
         expect(theElement.value).to.be('');
         sendKeyTo(theElement, 32 , 'keypress');
@@ -116,7 +116,7 @@ describe("events", function(){
     });
     [
         {tagName:'div'  },
-        {tagName:'input', type:'text' }, 
+        {tagName:'input', type:'text' },
         {tagName:'input', type:'date' }
     ].forEach(function(def){
         it.skip("must receieve key 'h' and change the internal typed value to current date", function(done){
@@ -160,4 +160,3 @@ describe("events", function(){
         });
     });
 });
- 

@@ -42,17 +42,17 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }], 
+    }],
     "double": [{
         validData:[
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
-            {value:0           , display:'0'         , htmlDisplay: 
+            {value:0           , display:'0'         , htmlDisplay:
                 '<span class="number" number-sign="zero">'+
                     '<span class="number-miles">0</span>'+
                 '</span>'
             },
-            {value:12345.125   , display:'12345,125' , htmlDisplay: 
+            {value:12345.125   , display:'12345,125' , htmlDisplay:
                 '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">12</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
@@ -240,11 +240,11 @@ var toTest = {
             {value:null        , display:''          , },
             {value:42          , display:'42'        , },
             {value:0           , display:'0'         , },
-            {value:new Big('12345.1259876543219876543210101010101010101'), 
-                display:'12345,1259876543219876543210101010101010101', 
-                display_number:'12345'+localDefinitions.decimalSeparator+'1259876543219876543210101010101010101', 
-                htmlDisplay: 
-                
+            {value:new Big('12345.1259876543219876543210101010101010101'),
+                display:'12345,1259876543219876543210101010101010101',
+                display_number:'12345'+localDefinitions.decimalSeparator+'1259876543219876543210101010101010101',
+                htmlDisplay:
+
                 '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">12</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
@@ -255,9 +255,9 @@ var toTest = {
                 //'<span class="number_miles">12</span>'+
                 //'<span class="number_miles">345</span>'+
                 //'<span class="number_dot">.</span>'+
-                //'<span class="number_decimals">1259876543219876543210101010101010101</span>'    
+                //'<span class="number_decimals">1259876543219876543210101010101010101</span>'
             },
-            {value:812345     , display:'812345' , htmlDisplay: 
+            {value:812345     , display:'812345' , htmlDisplay:
                 '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">812</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
@@ -266,7 +266,7 @@ var toTest = {
                 //'<span class="number_miles">812</span>'+
                 //'<span class="number_miles">345</span>'
             },
-            {value:1812345     , display:'1812345' , htmlDisplay: 
+            {value:1812345     , display:'1812345' , htmlDisplay:
                 '<span class="number" number-sign="positive">'+
                     '<span class="number-miles">1</span>'+
                     '<span class="number-separator" non-copyable="."></span>'+
@@ -278,8 +278,8 @@ var toTest = {
                 //'<span class="number_miles">812</span>'+
                 //'<span class="number_miles">345</span>'
             },
-            {value:testTypes.bigint.fromString('-102345678901133557') 
-                , display:'-102345678901133557' , htmlDisplay: 
+            {value:testTypes.bigint.fromString('-102345678901133557')
+                , display:'-102345678901133557' , htmlDisplay:
                 '<span class="number" number-sign="negative">'+
                     '<span class="number-sign">-</span>'+
                     '<span class="number-miles">102</span>'+
@@ -314,7 +314,7 @@ var toTest = {
             {value:[]},
             {value:/regexp/},
         ]
-    }], 
+    }],
 };
 
 var text_empty_allowed = {typeName:'text', allowEmptyText:true};
@@ -588,5 +588,5 @@ describe("adapter",function(){
             });
         });
       });
-    }); }); 
+    }); });
 });

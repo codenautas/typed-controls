@@ -95,9 +95,9 @@ function sendToCoverage(covUrl, method, headers) {
     return sentCover;
 };
 
-function sendCoverage() { 
+function sendCoverage() {
     return "not collecting coverage";
-    sendToCoverage('client', 'POST', {contentType: 'application/json'}); 
+    sendToCoverage('client', 'POST', {contentType: 'application/json'});
 };
 
 
@@ -147,7 +147,7 @@ casper.test.begin("Test checkbox", function suite(test) {
         testClick(true, "one click sets it to true");
         testClick(false, "one click sets it to false");
         testClick(true, "one click sets it back to true");
-        
+
         var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.Space, false, "space sets to false");
         testKey(keys.Delete, null, "delete sets null");
@@ -159,10 +159,10 @@ casper.test.begin("Test checkbox", function suite(test) {
         testKey(keys.Space, postNull, "space sets to post null (4)");
         testKey(keys.Space, !postNull, "space sets to not post null (4)");
         testKey(keys.Period, null, "period sets null");
-        sendCoverage();    
+        sendCoverage();
     }).run(function() {
         test.done();
-    });    
+    });
 });
 }
 
@@ -195,7 +195,7 @@ casper.test.begin("Test Text", function(test) {
         sendCoverage();
     }).run(function() {
         test.done();
-    });    
+    });
 });
 
 casper.test.begin("Test Text Div", function(test) {
@@ -217,7 +217,7 @@ casper.test.begin("Test Text Div", function(test) {
         sendCoverage();
     }).run(function() {
         test.done();
-    });    
+    });
 });
 
 ['number1','number2'].forEach(function(elementId){
@@ -242,7 +242,7 @@ casper.test.begin("Test Text Div", function(test) {
             sendCoverage();
         }).run(function() {
             test.done();
-        });    
+        });
     });
 });
 
@@ -273,7 +273,7 @@ casper.test.begin("Test text with custom event", function(test) {
         sendCoverage();
     }).run(function() {
         this.test.done();
-    });    
+    });
 });
 
 if(!'checkbox-based-controls-not-ready'){
@@ -282,7 +282,7 @@ casper.test.begin("Test checkbox with custom event", function(test) {
         var elementId =  'bool1';
         test.assertExists('#'+elementId, 'tengo bool1');
         sendFocus(elementId);
-        
+
         casper.page.evaluate(function() {
             window.myCounter=0;
             window.mySourceElement = null;
@@ -291,37 +291,37 @@ casper.test.begin("Test checkbox with custom event", function(test) {
                 window.mySourceElement = e.target;
             }, false);
         });
-        
+
         var testClick = testSendClickAndCompare.bind(null, test, elementId);
         var compareSender = testCompareSender.bind(null, test, 'mySourceElement');
         var compareVar = testCompareUpdatedVar.bind(null, test, 'myCounter');
-        
+
         testClick(true, "click should change value to TRUE and fire update");
         compareVar(1, 'should set to 1');
-        
+
         testClick(false, "another click should change value to FALSE and fire update");
         compareVar(2, 'should set to 2');
-        
+
         testClick(true, "another click should change value BACK TO TRUE and fire update");
         compareVar(3, 'should set to 3');
-        
+
         compareSender(elementId, "sender should be '"+elementId+"'");
-        
-        var testKey = testSendKeyAndCompare.bind(null, test, elementId);        
+
+        var testKey = testSendKeyAndCompare.bind(null, test, elementId);
         testKey(keys.Space, false, 'SPACE should change value to FALSE and fire update');
         compareVar(4, 'should set to 4');
-        
+
         testKey(keys.Space, true, 'SPACE should change value BACK to TRUE and fire update');
         compareVar(5, 'should set to 5');
-        
+
         testKey(keys.Space, false, 'SPACE should change value BACK to FALSE and fire update');
         compareVar(6, 'should set to 6');
-        
+
         // compareSender(elementId, "sender should be '"+elementId+"'");
-        sendCoverage();        
+        sendCoverage();
     }).run(function() {
         this.test.done();
-    });    
+    });
 });
 }
 
@@ -344,30 +344,30 @@ casper.test.begin("Test bool with options", function(test) {
         test.assertExists('#'+boolF, 'tengo bool2-false');
         var clickTrue = testSendClickToGroupAndCompare.bind(null, test, boolG, boolT);
         var clickFalse = testSendClickToGroupAndCompare.bind(null, test, boolG, boolF);
-        
+
         clickTrue(true, 'click on true sets to true', '> true');
         clickFalse(false, 'click on FALSE sets to FALSE', '> true false');
         clickFalse(false, 'click on FALSE mantains FALSE', '> true false');
         clickTrue(true, 'click on true sets to true', '> true false true');
-        
+
         casper.page.evaluate(function() {
             bool2.disable(true);
         });
 
         clickFalse(true, 'click on FALSE mantains FALSE', '> true false true');
         clickTrue(true, 'click on true sets to true', '> true false true');
-        
+
         casper.page.evaluate(function() {
             bool2.disable(false);
         });
 
         clickFalse(false, 'click on FALSE mantains FALSE', '> true false true false');
         clickTrue(true, 'click on true sets to true', '> true false true false true');
-        
+
         sendCoverage();
     }).run(function() {
         test.done();
-    });    
+    });
 });
 }
 
@@ -400,7 +400,7 @@ casper.test.begin("Test options", function(test) {
         sendCoverage();
     }).run(function() {
         test.done();
-    });    
+    });
 });
 }
 
@@ -410,7 +410,7 @@ casper.test.begin("Test bool with options with custom event", function(test) {
         var boolG =  'bool2';
         var boolT = 'bool2-true';
         var boolF = 'bool2-false';
-        
+
         casper.page.evaluate(function() {
             window.myCounter=10;
             window.mySourceElement = null;
@@ -419,21 +419,21 @@ casper.test.begin("Test bool with options with custom event", function(test) {
                 window.mySourceElement = e.target;
             }, false);
         });
-        
+
         sendFocus(boolG);
-        
+
         // var testKey = testSendKeyAndCompare.bind(null, test, boolG);
         // var compareSender = testCompareSender.bind(null, test, 'mySourceElement');
         // var compareVar = testCompareUpdatedVar.bind(null, test, 'myCounter');
-        
+
         // testKey(keys.Tab, null, 'Should trigger update event');
         // compareVar(17, 'should set to 17');
-        // compareSender(boolG, "sender should be '"+boolG+"'");        
-        
+        // compareSender(boolG, "sender should be '"+boolG+"'");
+
         sendCoverage();
     }).run(function() {
         this.test.done();
-    });    
+    });
 });
 */
 
@@ -443,15 +443,15 @@ casper.test.begin("Finish", function(test) {
         this.echo("# errores: "+numErrors);
     }).run(function() {
         this.test.done(numErrors === 0);
-    });    
+    });
 });
 
 casper.test.begin("save coverage", function suite(test) {
     return "not collecting coverage";
     casper.start(testUrl, function() {
         var sentCover = sendToCoverage('object', 'GET');
-        fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4)); 
+        fs.write('coverage/Casper/coverage-final.json', JSON.stringify(sentCover, undefined, 4));
     }).run(function() {
         test.done();
-    });    
+    });
 });

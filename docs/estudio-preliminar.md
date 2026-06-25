@@ -2,12 +2,12 @@
 
 ## pantalla de edición
 
-En el DOM se ponen los elementos que permiten **editar** los datos. Los datos están en otro lado 
+En el DOM se ponen los elementos que permiten **editar** los datos. Los datos están en otro lado
 (no residen en los "values" de los elementos del DOM)
 
 ### a largo plazo
 
-A largo plazo estas características son deseables. Llamamos **almacén** al lugar donde residen los datos. 
+A largo plazo estas características son deseables. Llamamos **almacén** al lugar donde residen los datos.
 
 característica      | descripción
 --------------------|--------------
@@ -32,7 +32,7 @@ opciones a la vista | debe mostrar las opciones (para los conjuntos cerrados de 
 
 ### adapter
 
-Los elementos (del DOM) van a tener un adaptador que sabe hacer get y set. 
+Los elementos (del DOM) van a tener un adaptador que sabe hacer get y set.
 Las funciones públicas de un elemento adaptado son: `setTypedValue` y `getTypedValue`. La implementación de esas funciones incluye:
 
 función                  | pub. | fijo | uso
@@ -46,7 +46,7 @@ función                  | pub. | fijo | uso
 
 
 
-**Notas:** 
+**Notas:**
   * púb: función pública, que se usa desde fuera del elemento del DOM. O sea es su interface con el mundo exterior al elemento
   * fijo: función que siempre es igual
   * dep: función que su implementación depende del tipo (son las que hay que programar o revisar en cada tipo)

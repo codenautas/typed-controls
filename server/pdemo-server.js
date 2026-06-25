@@ -18,7 +18,7 @@ if(coverageON) {
 
 var bodyParser = require('body-parser');
 var serveContent = require('serve-content');
-       
+
 var html = require('js-to-html').html;
 var changing = require('best-globals').changing;
 
@@ -116,10 +116,10 @@ app.use('/lib2',serveContent('./node_modules/js-to-html/lib', {allowedExts: ['js
 app.use('/lib',serveContent('./lib', {allowedExts: ['js']}));
 
 app.use('/',serveContent('./server', {
-    extensions: ['html', 'htm'], 
-    index: 'index.html', 
+    extensions: ['html', 'htm'],
+    index: 'index.html',
     allowedExts: ['', 'html', 'htm', 'png', 'jpg', 'jpeg', 'gif', 'js', 'css']
-})); 
+}));
 
 var pidBrowser;
 
@@ -130,7 +130,7 @@ var server = app.listen(PORT, function(){
     var args = process.argv;
     var phantomPath=process.env.TRAVIS && process.env.TRAVIS_NODE_VERSION<'4'?'phantomjs':'./node_modules/phantomjs-prebuilt/lib/phantom/'+(winOS?'bin/phantomjs.exe':'bin/phantomjs');
     var slimerPath=process.env.TRAVIS?'slimerjs':'./node_modules/slimerjs/lib/slimer/'+(winOS?'slimerjs.bat':'bin/slimerjs');
-    
+
     pidBrowser = spawn(
         (process.env.TRAVIS && false?'casperjs':'./node_modules/casperjs/bin/'+(winOS?'casperjs.exe':'casperjs')),
         ['test',
@@ -177,4 +177,3 @@ process.on('uncaughtException', function(err){
     console.log(err.stack);
     process.exit(1);
 });
-

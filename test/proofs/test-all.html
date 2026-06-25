@@ -24,7 +24,7 @@
                         var result = fn();
                         var inList = expectFailIn.split(', ').indexOf(browserName)>=0;
                         addLine(
-                            testName + ': ' + 
+                            testName + ': ' +
                             (result?'\u2713 ok':'\u2717 fail')+
                             ' '+(result?(inList?'\u2603 NOW WORKS!':''):(inList?'\u263a but contempled':'\u2639 UNEXPECTED'))
                         );
