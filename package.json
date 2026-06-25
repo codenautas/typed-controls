@@ -63,6 +63,7 @@
     "pug": "^3.0.4",
     "read-yaml-promise": "^1.0.2",
     "require-bro": "^0.3.6",
+    "qa-control": "^0.7.0",
     "self-explain": "^0.11.0",
     "serve-content": "^1.0.4",
     "server4test": "^1.0.0",
@@ -81,6 +82,7 @@
   "scripts": {
     "infinito": "node server/karma-server.js --karma karma.conf.js",
     "test": "node server/karma-server.js --karma karma.conf.js --single-run",
+    "test-ci": "npm test",
     "test-cov": "node server/karma-server.js --karma karma.conf.js --single-run",
     "ctest": "node server/pdemo-server.js --use-casper --coverage",
     "ctest-h": "node server/pdemo-server.js --use-casper --coverage --hold",
@@ -94,6 +96,7 @@
     "coverage": 100,
     "run-in": "both",
     "stability": "extending",
-    "type": "lib"
+    "type": "lib",
+    "gha": "all"
   }
 }
