@@ -34,7 +34,7 @@
     "js-to-html": "^1.3.6",
     "like-ar": "^0.5.3",
     "pikaday": "^1.8.2",
-    "type-store": "^0.4.12"
+    "type-store": "^0.5.1"
   },
   "devDependencies": {
     "ajax-best-promise": "~0.4.3",
@@ -71,7 +71,7 @@
   },
   "optionalDependencies": {
     "castellano": "~0.1.5",
-    "dialog-promise": "~0.10.5"
+    "dialog-promise": "~0.10.7"
   },
   "engines": {
     "node": ">= 14"
