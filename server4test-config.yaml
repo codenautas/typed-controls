@@ -1,2 +1,27 @@
 server4test:
   server4test-directory: true
+  browser-test:
+    files:
+      - node_modules/big.js/big.js
+      - node_modules/pikaday/pikaday.js
+      - node_modules/require-bro/lib/polyfills-bro.js
+      - node_modules/require-bro/lib/require-bro.js
+      - node_modules/expect.js/index.js
+      - node_modules/best-globals/best-globals.js
+      - node_modules/dialog-promise/lib/dialog-promise.js
+      - node_modules/like-ar/like-ar.js
+      - node_modules/json4all/json4all.js
+      - node_modules/js-to-html/lib/js-to-html.js
+      - node_modules/discrepances/lib/discrepances.js
+      - node_modules/express-useragent/dist/browser/express-useragent.global.js
+      - node_modules/esprima/dist/esprima.js
+      - node_modules/self-explain/dist/escodegen.browser.js
+      - node_modules/self-explain/lib/self-explain.js
+      - node_modules/type-store/type-store.js
+      - lib/detect-browser.js
+      - local-instrumented/lib/typed-controls.js
+      - test/test-adapter.js
+      - test/test-connector.js
+      - test/test-create-from-fixture.js
+      - test/test-events.js
+      - test/test-form.js
