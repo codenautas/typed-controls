@@ -35,27 +35,25 @@
   "dependencies": {
     "best-globals": "^2.2.3",
     "js-to-html": "^1.5.1",
-    "like-ar": "^0.5.5",
+    "like-ar": "^0.5.6",
     "pikaday": "^1.8.2",
-    "type-store": "^0.6.4"
+    "type-store": "^0.6.5"
   },
   "devDependencies": {
     "big.js": "^7.0.1",
     "discrepances": "^0.3.3",
-    "esprima": "^4.0.1",
     "expect.js": "^0.3.1",
     "express-useragent": "^2.2.3",
     "json4all": "^1.4.7",
     "mocha": "^12.0.3",
     "moment": "^2.31.0",
     "nyc": "^18.0.0",
-    "require-bro": "^0.4.1",
-    "qa-control": "^0.14.0",
-    "self-explain": "^0.11.0",
-    "server4test": "^2.0.4"
+    "require-bro": "^0.4.2",
+    "qa-control": "^0.14.2",
+    "server4test": "^2.1.2"
   },
   "optionalDependencies": {
-    "castellano": "~0.1.7",
+    "castellano": "~0.1.8",
     "dialog-promise": "~0.11.1"
   },
   "engines": {

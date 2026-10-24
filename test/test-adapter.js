@@ -76,7 +76,7 @@ var toTest = {
             {value:/regexp/},
         ]
     }],
-    "integer": [,{
+    "integer": [{
         typeInfo:{
             typeName:"integer",
             maxValue:9,
@@ -108,7 +108,7 @@ var toTest = {
             {value:null                   , display:'' },
             // ATENCIÓN IE 11.0 ordena los atributos alfabéticamente, los otros ponen class después.
             {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
-                (agentInfo.browser=='IE'?'<span class="date" current-century="true">':
+                (agentInfo.browser === 'IE' ? '<span class="date" current-century="true">' :
                 '<span class="date" current-century="true">')+
                 '<span class="date-day">31</span>'+
                 '<span class="date-sep">/</span>'+
@@ -521,7 +521,7 @@ describe("adapter",function(){
             });
             //if(typeName=='enum'){console.log("#############3",def)};
             testFixture.validData.map(function(data){
-                it("sets and get "+data.value+" in "+def.tagName,function(){
+                it("sets and get "+data.value+" in "+def.tagName,function(){ // eslint-disable-line complexity
                     if(skip) return;
                     theElement.setTypedValue(data.value);
                     if('htmlDisplay' in data && (def.tagName!=='input' && def.tagName!=='textarea' && !def.creatorFunction)){
@@ -535,10 +535,10 @@ describe("adapter",function(){
                         }else if(def.attributes.type==='date' && data.value!=null){
                             expect(theElement.value).to.eql(data.valueISO);
                         }else if(!def.creatorFunction){
-                            if(theElement.type && theElement.type!='text'){
+                            if (theElement.type && theElement.type !== 'text') {
                                 var attrDisplay='display_'+theElement.type;
                                 expect(theElement[inspect]).to.eql(attrDisplay in data?data[attrDisplay]:('display' in data?data.display:data.value));
-                            }else{
+                            } else {
                                 expect(theElement[inspect]).to.eql('display' in data?data.display:data.value);
                             }
                         }
@@ -547,7 +547,7 @@ describe("adapter",function(){
                         expect(theElement.getTypedValue()).to.eql(data.value);
                     }
                     if(typeName==='text'){
-                        if(!"skip"){
+                        if(!"skip"){ // eslint-disable-line no-constant-condition
                             expect(theElement.valueEmpty).to.eql(data.valueEmpty);
                         }
                     }

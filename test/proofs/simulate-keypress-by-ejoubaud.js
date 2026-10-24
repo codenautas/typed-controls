@@ -1,8 +1,10 @@
-// obtenido y modificado según: https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
+"use strict";
+
+// obtenido y modificado segï¿½n: https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
 
 // Based on http://stackoverflow.com/a/10520017/1307721 and http://stackoverflow.com/a/16022728/1307721
 
-Podium = {};
+var Podium = {};
 
 Podium.key = function(eventName, keyCode, input) {
     var oEvent = document.createEvent('KeyboardEvent');
@@ -13,25 +15,25 @@ Podium.key = function(eventName, keyCode, input) {
                 get : function() {
                     return this.keyCodeVal;
                 }
-    });     
+    });
     Object.defineProperty(oEvent, 'which', {
                 get : function() {
                     return this.keyCodeVal;
                 }
-    });     
+    });
     // */
-    
+
     if (oEvent.initKeyboardEvent) {
         oEvent.initKeyboardEvent(eventName, true, true, document.defaultView, keyCode, keyCode, "", "", false, "");
     } else {
         oEvent.initKeyEvent(eventName, true, true, document.defaultView, false, false, false, false, 0, keyCode);
     }
-    
+
     // /*
     oEvent.keyCodeVal = keyCode;
 
     if (oEvent.keyCode !== keyCode) {
-        alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")");
+        alert("keyCode mismatch " + oEvent.keyCode + "(" + oEvent.which + ")"); // eslint-disable-line no-alert
     }
     // */
 

@@ -1,3 +1,5 @@
+"use strict";
+
 function supportNewKeyboardEvent(){
     var newElement = document.createElement('input');
     try{

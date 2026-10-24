@@ -1,7 +1,5 @@
 "use strict";
 
-var assert = selfExplain.assert;
-
 describe("create-from-fixture",function(){
     it("create simple element", function(){
         var element = TypedControls.createFromFixture({tagName:'span', attributes:{}});
@@ -50,8 +48,7 @@ describe("create-from-fixture",function(){
                 html.label({"for-value": 'b'},'es una consonante')
             ])
         ]);
-        eval(assert(!assert.allDifferences(element, esperado)));
-        // expect(element).to.eql(esperado)
+        expect(element).to.eql(esperado);
     })
 });
 
@@ -71,9 +68,7 @@ describe("optionsCtrl",function(){
             html.div([html.input({"type":"radio","value":2}), html.label({"for-value":2}, "two"),html.span({"for-value":2,"class":"option-more-info"})]),
             html.div([html.input({"type":"radio","value":'ns/nc'}), html.label({"for-value":'ns/nc'}, "ns/nc"),html.span({"for-value":'ns/nc',"class":"option-more-info"})]),
         ]);
-        // console.log('---------------');
-        // console.log(selfExplain.assert.allDifferences(ctrl, expected));
-        eval(assert(!assert.allDifferences(ctrl, expected)));
+        expect(ctrl).to.eql(expected);
         var element = ctrl.create();
         TypedControls.adaptElement(element,typeInfo);
         expect(element.moreInfo[2].className).to.eql('option-more-info');

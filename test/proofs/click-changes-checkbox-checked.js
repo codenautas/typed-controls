@@ -1,3 +1,5 @@
+"use strict";
+
 function clickChangesCheckboxChecked(){
     var elem = document.createElement('input');
     elem.type = 'checkbox';

@@ -1,3 +1,5 @@
+"use strict";
+
 function supportInputTypeDate(){
     var newElement = document.createElement('input');
     try{

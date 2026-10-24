@@ -1,3 +1,5 @@
+"use strict";
+
 function supportInputTypeUnsoportable(){
     var newElement = document.createElement('input');
     try{

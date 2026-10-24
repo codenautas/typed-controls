@@ -33,7 +33,7 @@ describe("events", function(){
         expect(theElement.indeterminate).to.be(false);
         expect(document.activeElement).to.be(theElement);
         var firstValue=theElement.getTypedValue();
-        expect(firstValue===true || firstValue==false).to.ok();
+        expect(firstValue===true || firstValue===false).to.ok(); // check!
         sendClickTo(theElement);
         expect(theElement.getTypedValue()).to.be(!firstValue);
         var elementToClick;
@@ -49,7 +49,7 @@ describe("events", function(){
         sendClickTo(elementToClick);
         expect(theElement.getTypedValue()).to.be(!!firstValue);
         sendClickTo(elementToClick);
-        expect(theElement.getTypedValue()).to.be(!!!firstValue);
+        expect(theElement.getTypedValue()).to.be(!firstValue);
         // done();
     });
     function sendKeyTo(elem, keyCode, eventName) {
