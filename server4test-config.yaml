@@ -22,3 +22,4 @@ server4test:
       - test/test-create-from-fixture.js
       - test/test-events.js
       - test/test-form.js
+      - test/test-td-direct-input.js

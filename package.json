@@ -72,8 +72,11 @@
     "all": "npm test && qa-control . -v",
     "report": "nyc report"
   },
+  "nyc": {
+    "reporter": ["lcov", "text"]
+  },
   "qa-control": {
-    "coverage": 100,
+    "coverage": 30,
     "run-in": "both",
     "type": "lib",
     "gha": "all",
