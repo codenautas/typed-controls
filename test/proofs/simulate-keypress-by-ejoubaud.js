@@ -1,6 +1,6 @@
 "use strict";
 
-// obtenido y modificado seg�n: https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
+// obtenido y modificado según: https://gist.github.com/ejoubaud/7d7c57cda1c10a4fae8c#file-simulate_keypress-js
 
 // Based on http://stackoverflow.com/a/10520017/1307721 and http://stackoverflow.com/a/16022728/1307721
 

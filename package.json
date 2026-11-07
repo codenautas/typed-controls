@@ -34,10 +34,10 @@
   },
   "dependencies": {
     "best-globals": "^2.2.3",
-    "js-to-html": "^1.5.1",
+    "js-to-html": "^1.5.2",
     "like-ar": "^0.5.6",
     "pikaday": "^1.8.2",
-    "type-store": "^0.6.5"
+    "type-store": "^0.6.7"
   },
   "devDependencies": {
     "big.js": "^7.0.1",
@@ -50,7 +50,9 @@
     "nyc": "^18.0.0",
     "require-bro": "^0.4.2",
     "qa-control": "^0.14.2",
-    "server4test": "^2.1.2"
+    "server4test": "^2.1.2",
+    "eslint-plugin-sonarjs": "^4.2.2",
+    "eslint-plugin-unicorn": "^79.0.0"
   },
   "optionalDependencies": {
     "castellano": "~0.1.8",
