@@ -9,8 +9,8 @@ module.exports = [
         ignores: ["dist/**", "coverage/**", "local-*/**"]
     },
     {
-        // SonarQube rules (the ones silenced in the code of the library; the tests are not reviewed yet)
-        files: ["lib/**/*.js"],
+        // SonarQube rules (the ones silenced in the code)
+        files: ["lib/**/*.js", "test/*.js"],
         plugins: { sonarjs, unicorn },
         rules: {
             "unicorn/prefer-code-point": 2,

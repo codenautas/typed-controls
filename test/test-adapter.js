@@ -106,10 +106,8 @@ var toTest = {
     "date": [{
         validData:[
             {value:null                   , display:'' },
-            // ATENCIÓN IE 11.0 ordena los atributos alfabéticamente, los otros ponen class después.
             {value:bestGlobals.date.iso('2015-12-31') , display:'31/12/2015'  , htmlDisplay:
-                (agentInfo.browser === 'IE' ? '<span class="date" current-century="true">' :
-                '<span class="date" current-century="true">')+
+                '<span class="date" current-century="true">'+
                 '<span class="date-day">31</span>'+
                 '<span class="date-sep">/</span>'+
                 '<span class="date-month">12</span>'+

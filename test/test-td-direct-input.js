@@ -27,7 +27,7 @@ function userTypes(td, text){
 // and the clipboardData of a ClipboardEvent arrived empty), so the data that the listeners read is defined on the event itself.
 function keypressEvent(char){
     var event = new Event('keypress', {cancelable:true});
-    Object.defineProperty(event, 'which', {value:char.charCodeAt(0)});
+    Object.defineProperty(event, 'which', {value:char.charCodeAt(0)}); // eslint-disable-line unicorn/prefer-code-point -- it must be the inverse of String.fromCharCode(event.which) used in the library
     return event;
 }
 
